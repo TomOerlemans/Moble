@@ -2,7 +2,9 @@ package com.example.tom.moble;
 
 import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -21,16 +23,28 @@ public class MainActivity extends AppCompatActivity {
     TextView bottomText;
     Button previousButton;
     int page = 0;
+    int firstLaunch;
 
 
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.startscreen1);
+        SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
+        firstLaunch = sharedPref.getInt("First Launch", 0);
+        if(firstLaunch == 0) {
+            SharedPreferences.Editor editor = sharedPref.edit();
+            editor.putInt("First Launch", 1);
+            editor.commit();
+            setContentView(R.layout.startscreen1);
+        }else{
+            setContentView(R.layout.menu);
+        }
+
+
+
         topText = (TextView) findViewById(R.id.topText);
         bottomText = (TextView) findViewById(R.id.bottomText);
         previousButton = (Button) findViewById(R.id.previousButton);
-
     }
 
     public void nextButtonClick(View view) {

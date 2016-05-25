@@ -59,8 +59,7 @@
             android:text="A"
             android:id="@+id/multipleChoiceAnswer1Button"
             android:layout_gravity="right"
-            android:onClick="quizAnswerButtonClick"
-            />
+            android:onClick="quizAnswerButtonClick" />
         <Button
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
