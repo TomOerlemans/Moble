@@ -16,43 +16,25 @@ public class MainActivity extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.startscreen1);
         topText = (TextView) findViewById(R.id.topText);
         bottomText = (TextView) findViewById(R.id.bottomText);
         previousButton = (Button) findViewById(R.id.previousButton);
     }
 
     public void nextButtonClick(View view) {
-        if (page == 1) {
-            setContentView(R.layout.start_layout2);
-            page = 2;
-        }
-
-        if (page == 0) {
-            topText.setText(getResources().getString(R.string.explanation_text1));
-            bottomText.setText(getResources().getString(R.string.explanation_text2));
-            previousButton.setVisibility(View.VISIBLE);
-            page = 1;
+        switch(page){
+            case 0: setContentView(R.layout.startscreen2); page = 1; break;
+            case 1: setContentView(R.layout.startscreen3); page = 2; break;
         }
 
     }
 
     public void previousButtonClick(View view) {
-        if (page == 1) {
-            topText.setText(getResources().getString(R.string.welcome_text1));
-            bottomText.setText(getResources().getString(R.string.welcome_text2));
-            previousButton.setVisibility(View.INVISIBLE);
-            page = 0;
+        switch(page){
+            case 1: setContentView(R.layout.startscreen1); page = 0;break;
+            case 2: setContentView(R.layout.startscreen2); page = 1; break;
         }
-
-        if (page == 2){
-            setContentView(R.layout.activity_main);
-            topText.setText(getResources().getString(R.string.explanation_text1));
-            bottomText.setText(getResources().getString(R.string.explanation_text2));
-            previousButton.setVisibility(View.VISIBLE);
-            page = 1;
-        }
-
     }
 
 }
