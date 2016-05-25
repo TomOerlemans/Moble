@@ -48,7 +48,8 @@
             android:text="Previous"
             android:id="@+id/previousButton"
             android:layout_gravity="left"
-            android:layout_marginRight="70dp"
+            android:layout_marginRight="55dp"
+            android:layout_marginLeft="30dp"
             android:onClick="previousButtonClick"
             android:visibility="invisible"/>
 
