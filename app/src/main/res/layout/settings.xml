@@ -44,6 +44,7 @@
             android:text="Change start time"
             android:id="@+id/startTimeButton"
             android:layout_gravity="center_horizontal"
+            android:onClick="startTimeButtonClick"
             />
 
     </LinearLayout>
@@ -62,7 +63,7 @@
             android:layout_height="match_parent"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="21:00 AM"
-            android:id="@+id/textView3"
+            android:id="@+id/endTimeTextView"
             android:layout_gravity="right"
             android:gravity="center_vertical"
             android:layout_marginRight="20sp"/>
@@ -71,19 +72,21 @@
             android:layout_width="180sp"
             android:layout_height="wrap_content"
             android:text="Change stop time"
-            android:id="@+id/button8"
+            android:id="@+id/endTimeButton"
             android:layout_gravity="center_horizontal"
+            android:onClick="endTimeButtonClick"
             />
 
     </LinearLayout>
 
 
     <Button
-        android:layout_width="120sp"
+        android:layout_width="140sp"
         android:layout_height="wrap_content"
         android:text="Done"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="80sp"
+        android:layout_marginTop="120sp"
+        android:onClick="doneButtonClick"
         />
 
 

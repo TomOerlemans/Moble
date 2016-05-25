@@ -11,7 +11,7 @@
         android:text="Start the entry test"
         android:id="@+id/textView"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="40sp"
+        android:layout_marginTop="110sp"
         android:layout_marginBottom="20sp"/>
 
     <Button
@@ -43,7 +43,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="255sp"
+        android:layout_marginTop="185sp"
         android:layout_marginLeft="17sp"
         >
 
