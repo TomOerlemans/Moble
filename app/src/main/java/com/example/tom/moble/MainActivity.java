@@ -28,6 +28,17 @@ public class MainActivity extends AppCompatActivity {
             topText.setText(getResources().getString(R.string.explanation_text1));
             bottomText.setText(getResources().getString(R.string.explanation_text2));
             previousButton.setVisibility(View.VISIBLE);
+            page = 1;
+        }
+
+    }
+
+    public void previousButtonClick(View view){
+        if(page == 1) {
+            topText.setText(getResources().getString(R.string.welcome_text1));
+            bottomText.setText(getResources().getString(R.string.welcome_text2));
+            previousButton.setVisibility(View.INVISIBLE);
+            page = 0;
         }
 
     }

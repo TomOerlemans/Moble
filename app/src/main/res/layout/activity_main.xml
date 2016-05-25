@@ -49,7 +49,7 @@
             android:id="@+id/previousButton"
             android:layout_gravity="left"
             android:layout_marginRight="55dp"
-            android:layout_marginLeft="30dp"
+            android:layout_marginLeft="20dp"
             android:onClick="previousButtonClick"
             android:visibility="invisible"/>
 
