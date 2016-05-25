@@ -97,3 +97,6 @@ public class MainActivity extends AppCompatActivity {
         client.disconnect();
     }
 }
+
+
+//dit is een test comment
