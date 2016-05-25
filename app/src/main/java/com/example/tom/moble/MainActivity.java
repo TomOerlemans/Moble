@@ -106,7 +106,42 @@ public class MainActivity extends AppCompatActivity {
         tpd.show();
     }
 
+    public void entryTestButtonClick(View view){
+        setContentView(R.layout.quiz_layout);
+    }
 
+    public void quizAnswerButtonClick(View view){
+
+        switch(view.getId()){
+            case R.id.multipleChoiceAnswer1Button:
+                findViewById(R.id.multipleChoiceFeedback1Button).setVisibility(View.VISIBLE);
+
+                break;
+            case R.id.multipleChoiceAnswer2Button:
+                findViewById(R.id.multipleChoiceFeedback2Button).setVisibility(View.VISIBLE);
+                break;
+            case R.id.multipleChoiceAnswer3Button:
+                findViewById(R.id.multipleChoiceFeedback3Button).setVisibility(View.VISIBLE);
+                break;
+            case R.id.multipleChoiceAnswer4Button:
+                findViewById(R.id.multipleChoiceFeedback4Button).setVisibility(View.VISIBLE);
+                break;
+            case R.id.multipleChoiceAnswer5Button:
+                findViewById(R.id.multipleChoiceFeedback5Button).setVisibility(View.VISIBLE);
+                break;
+            case R.id.multipleChoiceAnswer6Button:
+                findViewById(R.id.multipleChoiceFeedback6Button).setVisibility(View.VISIBLE);
+                break;
+            default:
+                break;
+        }
+
+        //Button b = (Button)view;
+        //String givenAns = b.getText().toString();
+        //String buttonId = b.;
+
+        //v.setVisibility(View.VISIBLE);
+    }
 
 }
 
