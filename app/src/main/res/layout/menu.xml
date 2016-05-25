@@ -48,6 +48,7 @@
         android:id="@+id/button7"
         android:layout_gravity="center_horizontal"
         android:width="180sp"
-        android:layout_marginTop="20sp"/>
+        android:layout_marginTop="20sp"
+        android:onClick="settingsButtonClick"/>
 
 </LinearLayout>

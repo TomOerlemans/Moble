@@ -47,6 +47,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.startscreen1);
     }
 
+    public void settingsButtonClick(View view){
+        setContentView(R.layout.settings);
+    }
+
 
 }
 
