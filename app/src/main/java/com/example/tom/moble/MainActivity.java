@@ -1,5 +1,6 @@
 package com.example.tom.moble;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -36,6 +37,16 @@ public class MainActivity extends AppCompatActivity {
             case 2: setContentView(R.layout.startscreen2); page = 1; break;
         }
     }
+
+    public void menuButtonClick(View view){
+        setContentView(R.layout.menu);
+        page = 0;
+    }
+
+    public void infoButtonClick(View view){
+        setContentView(R.layout.startscreen1);
+    }
+
 
 }
 
