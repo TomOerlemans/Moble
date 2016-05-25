@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Moble</string>
+    <string name="welcome_text1">Welcome to the Moble learning app!</string>
+    <string name="welcome_text2">With this app you will start learning the Portuguese language.</string>
+    <string name="explanation_text1">This app consists out of three parts:</string>
+    <string name="explanation_text2">(1) An entry test, to evaluate your current level of understanding of the Portuese language. \n
+                                     (2) A learning period of 7 days. During which you will receive reminders throughout the day of Portuguese words, and will be asked to take a short quize at the end of the day. \n
+                                     (3) A final test, to evaluate how much you\' ve learned.</string>
+
+
+</resources>
