@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-
 import org.w3c.dom.Text;
 
 public class MainActivity extends AppCompatActivity {
@@ -24,12 +23,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void nextButtonClick(View view) {
+        if (page == 1) {
+            setContentView(R.layout.start_layout2);
+            page = 2;
+        }
+
         if (page == 0) {
             topText.setText(getResources().getString(R.string.explanation_text1));
             bottomText.setText(getResources().getString(R.string.explanation_text2));
             previousButton.setVisibility(View.VISIBLE);
             page = 1;
         }
+
     }
 
     public void previousButtonClick(View view) {
@@ -40,9 +45,15 @@ public class MainActivity extends AppCompatActivity {
             page = 0;
         }
 
+        if (page == 2){
+            setContentView(R.layout.activity_main);
+            topText.setText(getResources().getString(R.string.explanation_text1));
+            bottomText.setText(getResources().getString(R.string.explanation_text2));
+            previousButton.setVisibility(View.VISIBLE);
+            page = 1;
+        }
+
     }
 
 }
 
-
-//dit is een test comment
