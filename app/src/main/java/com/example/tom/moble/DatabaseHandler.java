@@ -30,6 +30,7 @@ public class DatabaseHandler  extends SQLiteOpenHelper {
     private static final String KEY_ENGLISH = "english_translation";
     private static final String KEY_PORTUGUESE= "portuguese_translation";
     private static final String KEY_DAYTIME = "daytime_key";
+    private final ArrayList<DatabaseEntry> word_list = new ArrayList<DatabaseEntry>();
 
     public DatabaseHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -62,40 +63,40 @@ public class DatabaseHandler  extends SQLiteOpenHelper {
     public void Add_Contact(DatabaseEntry databaseEntry) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(KEY_NAME, databaseEntry.getName()); // Contact Name
-        values.put(KEY_PH_NO, databaseEntry.getPhoneNumber()); // Contact Phone
-        values.put(KEY_EMAIL, databaseEntry.getEmail()); // Contact Email
+        values.put(KEY_ENGLISH, databaseEntry.getName()); // Contact Name
+        values.put(KEY_PORTUGUESE, databaseEntry.getPhoneNumber()); // Contact Phone
+        values.put(KEY_DAYTIME, databaseEntry.getEmail()); // Contact Email
         // Inserting Row
         db.insert(TABLE_WORDS, null, values);
         db.close(); // Closing database connection
     }
 
     // Getting single contact
-    Contact Get_Contact(int id) {
+    DatabaseEntry Get_Contact(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
 
-        Cursor cursor = db.query(TABLE_CONTACTS, new String[] { KEY_ID,
-                        KEY_NAME, KEY_PH_NO, KEY_EMAIL }, KEY_ID + "=?",
+        Cursor cursor = db.query(TABLE_WORDS, new String[] { KEY_ID,
+                        KEY_ENGLISH, KEY_PORTUGUESE, KEY_DAYTIME }, KEY_ID + "=?",
                 new String[] { String.valueOf(id) }, null, null, null, null);
         if (cursor != null)
             cursor.moveToFirst();
 
-        Contact contact = new Contact(Integer.parseInt(cursor.getString(0)),
+        DatabaseEntry databaseEntry = new DatabaseEntry(Integer.parseInt(cursor.getString(0)),
                 cursor.getString(1), cursor.getString(2), cursor.getString(3));
         // return contact
         cursor.close();
         db.close();
 
-        return contact;
+        return databaseEntry;
     }
 
     // Getting All Contacts
-    public ArrayList<Contact> Get_Contacts() {
+    public ArrayList<DatabaseEntry> Get_Contacts() {
         try {
-            contact_list.clear();
+            word_list.clear();
 
             // Select All Query
-            String selectQuery = "SELECT  * FROM " + TABLE_CONTACTS;
+            String selectQuery = "SELECT  * FROM " + TABLE_WORDS;
 
             SQLiteDatabase db = this.getWritableDatabase();
             Cursor cursor = db.rawQuery(selectQuery, null);
@@ -103,53 +104,53 @@ public class DatabaseHandler  extends SQLiteOpenHelper {
             // looping through all rows and adding to list
             if (cursor.moveToFirst()) {
                 do {
-                    Contact contact = new Contact();
-                    contact.setID(Integer.parseInt(cursor.getString(0)));
-                    contact.setName(cursor.getString(1));
-                    contact.setPhoneNumber(cursor.getString(2));
-                    contact.setEmail(cursor.getString(3));
+                    DatabaseEntry databaseEntry = new DatabaseEntry();
+                    databaseEntry.setID(Integer.parseInt(cursor.getString(0)));
+                    databaseEntry.setName(cursor.getString(1));
+                    databaseEntry.setPhoneNumber(cursor.getString(2));
+                    databaseEntry.setEmail(cursor.getString(3));
                     // Adding contact to list
-                    contact_list.add(contact);
+                    word_list.add(databaseEntry);
                 } while (cursor.moveToNext());
             }
 
             // return contact list
             cursor.close();
             db.close();
-            return contact_list;
+            return word_list;
         } catch (Exception e) {
             // TODO: handle exception
             Log.e("all_contact", "" + e);
         }
 
-        return contact_list;
+        return word_list;
     }
 
     // Updating single contact
-    public int Update_Contact(Contact contact) {
+    public int Update_Contact(DatabaseEntry databaseEntry) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(KEY_NAME, contact.getName());
-        values.put(KEY_PH_NO, contact.getPhoneNumber());
-        values.put(KEY_EMAIL, contact.getEmail());
+        values.put(KEY_ENGLISH, databaseEntry.getName());
+        values.put(KEY_PORTUGUESE, databaseEntry.getPhoneNumber());
+        values.put(KEY_DAYTIME, databaseEntry.getEmail());
 
         // updating row
-        return db.update(TABLE_CONTACTS, values, KEY_ID + " = ?",
-                new String[] { String.valueOf(contact.getID()) });
+        return db.update(TABLE_WORDS, values, KEY_ID + " = ?",
+                new String[] { String.valueOf(databaseEntry.getID()) });
     }
 
     // Deleting single contact
     public void Delete_Contact(int id) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_CONTACTS, KEY_ID + " = ?",
+        db.delete(TABLE_WORDS, KEY_ID + " = ?",
                 new String[] { String.valueOf(id) });
         db.close();
     }
 
     // Getting contacts Count
     public int Get_Total_Contacts() {
-        String countQuery = "SELECT  * FROM " + TABLE_CONTACTS;
+        String countQuery = "SELECT  * FROM " + TABLE_WORDS;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(countQuery, null);
         cursor.close();
