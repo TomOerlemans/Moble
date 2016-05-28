@@ -59,20 +59,20 @@ public class DatabaseHandler  extends SQLiteOpenHelper {
      * All CRUD(Create, Read, Update, Delete) Operations
      */
 
-    // Adding new contact
-    public void Add_Contact(DatabaseEntry databaseEntry) {
+    // Adding new entry
+    public void Add_Entry(DatabaseEntry databaseEntry) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(KEY_ENGLISH, databaseEntry.getName()); // Contact Name
-        values.put(KEY_PORTUGUESE, databaseEntry.getPhoneNumber()); // Contact Phone
-        values.put(KEY_DAYTIME, databaseEntry.getEmail()); // Contact Email
+        values.put(KEY_PORTUGUESE, databaseEntry.getPortuguese()); // Contact Phone
+        values.put(KEY_DAYTIME, databaseEntry.getDaytime()); // Contact Email
         // Inserting Row
         db.insert(TABLE_WORDS, null, values);
         db.close(); // Closing database connection
     }
 
-    // Getting single contact
-    DatabaseEntry Get_Contact(int id) {
+    // Getting single entry
+    public DatabaseEntry Get_Entry(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.query(TABLE_WORDS, new String[] { KEY_ID,
@@ -83,14 +83,14 @@ public class DatabaseHandler  extends SQLiteOpenHelper {
 
         DatabaseEntry databaseEntry = new DatabaseEntry(Integer.parseInt(cursor.getString(0)),
                 cursor.getString(1), cursor.getString(2), cursor.getString(3));
-        // return contact
+        // return entry
         cursor.close();
         db.close();
 
         return databaseEntry;
     }
 
-    // Getting All Contacts
+    // Getting All Entry
     public ArrayList<DatabaseEntry> Get_Contacts() {
         try {
             word_list.clear();
@@ -107,8 +107,8 @@ public class DatabaseHandler  extends SQLiteOpenHelper {
                     DatabaseEntry databaseEntry = new DatabaseEntry();
                     databaseEntry.setID(Integer.parseInt(cursor.getString(0)));
                     databaseEntry.setName(cursor.getString(1));
-                    databaseEntry.setPhoneNumber(cursor.getString(2));
-                    databaseEntry.setEmail(cursor.getString(3));
+                    databaseEntry.setPortuguese(cursor.getString(2));
+                    databaseEntry.setDaytime(cursor.getString(3));
                     // Adding contact to list
                     word_list.add(databaseEntry);
                 } while (cursor.moveToNext());
@@ -126,30 +126,30 @@ public class DatabaseHandler  extends SQLiteOpenHelper {
         return word_list;
     }
 
-    // Updating single contact
-    public int Update_Contact(DatabaseEntry databaseEntry) {
+    // Updating single entry
+    public int Update_Entry(DatabaseEntry databaseEntry) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
         values.put(KEY_ENGLISH, databaseEntry.getName());
-        values.put(KEY_PORTUGUESE, databaseEntry.getPhoneNumber());
-        values.put(KEY_DAYTIME, databaseEntry.getEmail());
+        values.put(KEY_PORTUGUESE, databaseEntry.getPortuguese());
+        values.put(KEY_DAYTIME, databaseEntry.getDaytime());
 
         // updating row
         return db.update(TABLE_WORDS, values, KEY_ID + " = ?",
                 new String[] { String.valueOf(databaseEntry.getID()) });
     }
 
-    // Deleting single contact
-    public void Delete_Contact(int id) {
+    // Deleting single entry
+    public void Delete_Entry(int id) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_WORDS, KEY_ID + " = ?",
                 new String[] { String.valueOf(id) });
         db.close();
     }
 
-    // Getting contacts Count
-    public int Get_Total_Contacts() {
+    // Getting entries Count
+    public int Get_Total_Entry() {
         String countQuery = "SELECT  * FROM " + TABLE_WORDS;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(countQuery, null);

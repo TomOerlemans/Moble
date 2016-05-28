@@ -5,6 +5,8 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -24,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     Button previousButton;
     int page = 0;
     int firstLaunch;
+    DatabaseHandler db;
 
 
 
@@ -40,11 +43,19 @@ public class MainActivity extends AppCompatActivity {
             setContentView(R.layout.menu);
         }
 
-
-
         topText = (TextView) findViewById(R.id.topText);
         bottomText = (TextView) findViewById(R.id.bottomText);
         previousButton = (Button) findViewById(R.id.previousButton);
+
+        db = new DatabaseHandler(this);
+
+        DatabaseEntry test = new DatabaseEntry(1, "one", "two", "three");
+        db.Add_Entry(test);
+
+        String temp = db.Get_Entry(1).getName();
+
+        Toast.makeText(this, temp , Toast.LENGTH_LONG).show();
+
     }
 
     public void nextButtonClick(View view) {
@@ -126,6 +137,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void quizAnswerButtonClick(View view){
 
+        Button test = (Button) findViewById(R.id.multipleChoiceAnswer2Button);
+        test.getBackground().setColorFilter(0xFFFF0000, PorterDuff.Mode.MULTIPLY);
+
+
+        /*
         switch(view.getId()){
             case R.id.multipleChoiceAnswer1Button:
                 //String a  = findViewById(R.color.stdButton).toString();
@@ -135,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
                 //findViewById(R.id.multipleChoiceAnswer1Button).setFi(getResources().getColor(R.color.rightAnswer));
                 break;
             case R.id.multipleChoiceAnswer2Button:
-                findViewById(R.id.multipleChoiceAnswer2Button).setBackgroundColor(getResources().getColor(R.color.rightAnswer));
+
                 break;
             case R.id.multipleChoiceAnswer3Button:
                 findViewById(R.id.multipleChoiceAnswer3Button).setBackgroundColor(getResources().getColor(R.color.rightAnswer));
@@ -151,7 +167,10 @@ public class MainActivity extends AppCompatActivity {
                 break;
             default:
                 break;
+
         }
+
+        */
 
         //Button b = (Button)view;
         //String givenAns = b.getText().toString();
