@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="rightAnswer">#89d771</color>
+    <color name="wrongAnswer">#d77176</color>
+    <color name="stdButton">#6AB344</color>
+    <color name="grijs">#BAC2C6</color>
+    <color name="donkerGrijs">#546e7a</color>
+    <color name="lichGrijs">#CFD8DC</color>
+
+    <color name="colorPrimary">#6ab344</color>
+    <color name="colorPrimaryDark">#4c8030</color>
     <color name="colorAccent">#FF4081</color>
 </resources>

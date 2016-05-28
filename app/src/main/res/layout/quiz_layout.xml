@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingBottom="@dimen/activity_vertical_margin"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin"
-        tools:context="com.example.tom.moble.MainActivity"
-        android:background="#fff"
-        android:weightSum="1"
-        android:orientation="vertical">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.example.tom.moble.MainActivity"
+    android:background="#fff"
+    android:weightSum="1"
+    android:orientation="vertical">
 
     <TextView
         android:layout_width="320dp"
@@ -37,19 +37,14 @@
         android:textAlignment="center"/>
 
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_weight="0.2"
-        >
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_weight="0.8"
-        android:layout_marginLeft="20dp">
+        android:layout_weight="0.4"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp">
 
 
 
@@ -59,110 +54,57 @@
             android:text="A"
             android:id="@+id/multipleChoiceAnswer1Button"
             android:layout_gravity="right"
-            android:onClick="quizAnswerButtonClick" />
+            android:onClick="quizAnswerButtonClick"
+            android:allowUndo="false"
+            android:backgroundTint="@color/stdButton"
+            android:focusable="false"
+            android:ellipsize="marquee" />
         <Button
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="B"
             android:id="@+id/multipleChoiceAnswer2Button"
             android:layout_gravity="right"
-            android:onClick="quizAnswerButtonClick"/>
+            android:onClick="quizAnswerButtonClick"
+            android:backgroundTint="@color/stdButton" />
         <Button
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="C"
             android:id="@+id/multipleChoiceAnswer3Button"
             android:layout_gravity="right"
-            android:onClick="quizAnswerButtonClick"/>
+            android:onClick="quizAnswerButtonClick"
+            android:backgroundTint="@color/stdButton" />
         <Button
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="D"
             android:id="@+id/multipleChoiceAnswer4Button"
             android:layout_gravity="right"
-            android:onClick="quizAnswerButtonClick"/>
+            android:onClick="quizAnswerButtonClick"
+            android:backgroundTint="@color/stdButton" />
         <Button
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="E"
             android:id="@+id/multipleChoiceAnswer5Button"
             android:layout_gravity="right"
-            android:onClick="quizAnswerButtonClick"/>
+            android:onClick="quizAnswerButtonClick"
+            android:backgroundTint="@color/stdButton" />
         <Button
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="F"
             android:id="@+id/multipleChoiceAnswer6Button"
             android:layout_gravity="right"
-            android:onClick="quizAnswerButtonClick"/>
+            android:onClick="quizAnswerButtonClick"
+            android:backgroundTint="@color/stdButton" />
 
 
     </LinearLayout>
 
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_weight="0.20"
-            android:layout_marginRight="20dp">
 
-
-
-            <Button
-                android:layout_width="50sp"
-                android:layout_height="wrap_content"
-                android:text="A"
-                android:id="@+id/multipleChoiceFeedback1Button"
-                android:layout_gravity="right"
-                android:onClick="nextButtonClick"
-                android:visibility="invisible"
-                />
-            <Button
-                android:layout_width="50sp"
-                android:layout_height="wrap_content"
-                android:text="B"
-                android:id="@+id/multipleChoiceFeedback2Button"
-                android:layout_gravity="right"
-                android:onClick="nextButtonClick"
-                android:visibility="invisible"/>
-            <Button
-                android:layout_width="50sp"
-                android:layout_height="wrap_content"
-                android:text="C"
-                android:id="@+id/multipleChoiceFeedback3Button"
-                android:layout_gravity="right"
-                android:onClick="nextButtonClick"
-                android:visibility="invisible"/>
-            <Button
-                android:layout_width="50sp"
-                android:layout_height="wrap_content"
-                android:text="D"
-                android:id="@+id/multipleChoiceFeedback4Button"
-                android:layout_gravity="right"
-                android:onClick="nextButtonClick"
-                android:visibility="invisible"/>
-            <Button
-                android:layout_width="50sp"
-                android:layout_height="wrap_content"
-                android:text="E"
-                android:id="@+id/multipleChoiceFeedback5Button"
-                android:layout_gravity="right"
-                android:onClick="nextButtonClick"
-                android:visibility="invisible"/>
-            <Button
-                android:layout_width="50sp"
-                android:layout_height="wrap_content"
-                android:text="F"
-                android:id="@+id/multipleChoiceFeedback6Button"
-                android:layout_gravity="right"
-                android:onClick="nextButtonClick"
-                android:visibility="invisible"
-                />
-
-
-        </LinearLayout>
-</LinearLayout>
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -188,7 +130,8 @@
             android:text="Next"
             android:id="@+id/nextButton"
             android:layout_gravity="right"
-            android:onClick="nextButtonClick"/>
+            android:onClick="nextButtonClick"
+            android:backgroundTint="@color/stdButton" />
 
     </LinearLayout>
 

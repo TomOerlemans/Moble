@@ -12,7 +12,8 @@
         android:id="@+id/textView"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="110sp"
-        android:layout_marginBottom="20sp"/>
+        android:layout_marginBottom="20sp"
+        android:textColor="@android:color/black"/>
 
     <Button
         android:layout_width="wrap_content"
@@ -20,7 +21,11 @@
         android:text="Quize"
         android:id="@+id/button"
         android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="60sp"/>
+        android:layout_marginBottom="60sp"
+        android:backgroundTint="@color/colorPrimary"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        android:textAllCaps="false"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -29,7 +34,8 @@
         android:text="Start the entry test later"
         android:id="@+id/textView2"
         android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="20sp"/>
+        android:layout_marginBottom="20sp"
+        android:textColor="@android:color/black"/>
 
     <Button
         android:layout_width="wrap_content"
@@ -37,7 +43,11 @@
         android:text="Menu"
         android:id="@+id/button2"
         android:layout_gravity="center_horizontal"
-        android:onClick="menuButtonClick"/>
+        android:onClick="menuButtonClick"
+        android:backgroundTint="@color/colorPrimary"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        android:textAllCaps="false"/>
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -55,7 +65,11 @@
             android:layout_gravity="left"
             android:layout_marginRight="55sp"
             android:layout_marginLeft="20sp"
-            android:onClick="previousButtonClick"/>
+            android:onClick="previousButtonClick"
+            android:backgroundTint="@color/colorPrimary"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:textAllCaps="false"/>
 
 
 

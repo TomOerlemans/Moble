@@ -51,7 +51,11 @@
             android:layout_gravity="left"
             android:layout_marginRight="55dp"
             android:layout_marginLeft="20dp"
-            android:onClick="previousButtonClick"/>
+            android:onClick="previousButtonClick"
+            android:backgroundTint="@color/colorPrimary"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:textAllCaps="false"/>
 
 
         <Button
@@ -60,7 +64,11 @@
             android:text="Next"
             android:id="@+id/nextButton"
             android:layout_gravity="right"
-            android:onClick="nextButtonClick"/>
+            android:onClick="nextButtonClick"
+            android:backgroundTint="@color/colorPrimary"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:textAllCaps="false"/>
 
     </LinearLayout>
 

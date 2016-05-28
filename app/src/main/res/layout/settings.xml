@@ -17,7 +17,8 @@
         android:textAlignment="center"
         android:id="@+id/settingExplanation"
         android:layout_marginRight="20sp"
-        android:layout_marginTop="20sp"/>
+        android:layout_marginTop="20sp"
+        android:textColor="@android:color/black"/>
 
 
 
@@ -25,7 +26,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="100sp"
+        android:layout_marginTop="130sp"
         android:layout_marginLeft="30sp">
 
         <TextView
@@ -36,7 +37,8 @@
             android:id="@+id/startTimeTextView"
             android:layout_gravity="right"
             android:gravity="center_vertical"
-            android:layout_marginRight="20sp"/>
+            android:layout_marginRight="20sp"
+            android:textColor="@android:color/black"/>
 
         <Button
             android:layout_width="180sp"
@@ -45,6 +47,10 @@
             android:id="@+id/startTimeButton"
             android:layout_gravity="center_horizontal"
             android:onClick="startTimeButtonClick"
+            android:backgroundTint="@color/colorPrimary"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:textAllCaps="false"
             />
 
     </LinearLayout>
@@ -66,7 +72,8 @@
             android:id="@+id/endTimeTextView"
             android:layout_gravity="right"
             android:gravity="center_vertical"
-            android:layout_marginRight="20sp"/>
+            android:layout_marginRight="20sp"
+            android:textColor="@android:color/black"/>
 
         <Button
             android:layout_width="180sp"
@@ -75,18 +82,27 @@
             android:id="@+id/endTimeButton"
             android:layout_gravity="center_horizontal"
             android:onClick="endTimeButtonClick"
+            android:backgroundTint="@color/colorPrimary"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:textAllCaps="false"
             />
 
     </LinearLayout>
 
 
     <Button
-        android:layout_width="140sp"
+        android:layout_width="160sp"
         android:layout_height="wrap_content"
         android:text="Done"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="120sp"
+        android:layout_marginTop="170sp"
         android:onClick="doneButtonClick"
+        android:backgroundTint="@color/colorPrimary"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        android:textAllCaps="false"
+
         />
 
 

@@ -128,23 +128,26 @@ public class MainActivity extends AppCompatActivity {
 
         switch(view.getId()){
             case R.id.multipleChoiceAnswer1Button:
-                findViewById(R.id.multipleChoiceFeedback1Button).setVisibility(View.VISIBLE);
-
+                //String a  = findViewById(R.color.stdButton).toString();
+                //  getResources().getColor(R.color.stdButton);
+                // view.getBackground().setColorFilter(getResources().getColor(R.color.wrongAnswer), android.graphics.PorterDuff.Mode.MULTIPLY);
+                //((ImageView) view).setColorFilter(getResources().getColor(R.color.rightAnswer), android.graphics.PorterDuff.Mode.MULTIPLY);
+                //findViewById(R.id.multipleChoiceAnswer1Button).setFi(getResources().getColor(R.color.rightAnswer));
                 break;
             case R.id.multipleChoiceAnswer2Button:
-                findViewById(R.id.multipleChoiceFeedback2Button).setVisibility(View.VISIBLE);
+                findViewById(R.id.multipleChoiceAnswer2Button).setBackgroundColor(getResources().getColor(R.color.rightAnswer));
                 break;
             case R.id.multipleChoiceAnswer3Button:
-                findViewById(R.id.multipleChoiceFeedback3Button).setVisibility(View.VISIBLE);
+                findViewById(R.id.multipleChoiceAnswer3Button).setBackgroundColor(getResources().getColor(R.color.rightAnswer));
                 break;
             case R.id.multipleChoiceAnswer4Button:
-                findViewById(R.id.multipleChoiceFeedback4Button).setVisibility(View.VISIBLE);
+                findViewById(R.id.multipleChoiceAnswer4Button).setBackgroundColor(getResources().getColor(R.color.rightAnswer));
                 break;
             case R.id.multipleChoiceAnswer5Button:
-                findViewById(R.id.multipleChoiceFeedback5Button).setVisibility(View.VISIBLE);
+                findViewById(R.id.multipleChoiceAnswer5Button).setBackgroundColor(getResources().getColor(R.color.rightAnswer));
                 break;
             case R.id.multipleChoiceAnswer6Button:
-                findViewById(R.id.multipleChoiceFeedback6Button).setVisibility(View.VISIBLE);
+                findViewById(R.id.multipleChoiceAnswer6Button).setBackgroundColor(getResources().getColor(R.color.rightAnswer));
                 break;
             default:
                 break;
@@ -158,4 +161,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 }
+
+
 
