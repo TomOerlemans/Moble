@@ -17,7 +17,7 @@ public class DatabaseHandler  extends SQLiteOpenHelper {
 
     // All Static variables
     // Database Version
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 3;
 
     // Database Name
     private static final String DATABASE_NAME = "wordDatabase";
@@ -27,9 +27,10 @@ public class DatabaseHandler  extends SQLiteOpenHelper {
 
     // Contacts Table Columns names
     private static final String KEY_ID = "id";
-    private static final String KEY_ENGLISH = "english_translation";
-    private static final String KEY_PORTUGUESE= "portuguese_translation";
-    private static final String KEY_DAYTIME = "daytime_key";
+    private static final String KEY_CATEGORY = "category";
+    private static final String KEY_ENGLISH= "english";
+    private static final String KEY_PORTUGUESE = "portuguese";
+
     private final ArrayList<DatabaseEntry> word_list = new ArrayList<DatabaseEntry>();
 
     public DatabaseHandler(Context context) {
@@ -40,8 +41,8 @@ public class DatabaseHandler  extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String CREATE_CONTACTS_TABLE = "CREATE TABLE " + TABLE_WORDS + "("
-                + KEY_ID + " INTEGER PRIMARY KEY," + KEY_ENGLISH + " TEXT,"
-                + KEY_PORTUGUESE + " TEXT," + KEY_DAYTIME + " TEXT" + ")";
+                + KEY_ID + " INTEGER PRIMARY KEY," + KEY_CATEGORY + " TEXT,"
+                + KEY_ENGLISH + " TEXT," + KEY_PORTUGUESE + " TEXT" + ")";
         db.execSQL(CREATE_CONTACTS_TABLE);
     }
 
@@ -60,23 +61,23 @@ public class DatabaseHandler  extends SQLiteOpenHelper {
      */
 
     // Adding new entry
-    public void Add_Entry(DatabaseEntry databaseEntry) {
+    public void addEntry(DatabaseEntry databaseEntry) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(KEY_ENGLISH, databaseEntry.getName()); // Contact Name
-        values.put(KEY_PORTUGUESE, databaseEntry.getPortuguese()); // Contact Phone
-        values.put(KEY_DAYTIME, databaseEntry.getDaytime()); // Contact Email
+        values.put(KEY_CATEGORY, databaseEntry.getCategory());
+        values.put(KEY_ENGLISH, databaseEntry.getEnglish());
+        values.put(KEY_PORTUGUESE, databaseEntry.getPortuguese());
         // Inserting Row
         db.insert(TABLE_WORDS, null, values);
         db.close(); // Closing database connection
     }
 
     // Getting single entry
-    public DatabaseEntry Get_Entry(int id) {
+    public DatabaseEntry getEntry(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.query(TABLE_WORDS, new String[] { KEY_ID,
-                        KEY_ENGLISH, KEY_PORTUGUESE, KEY_DAYTIME }, KEY_ID + "=?",
+                        KEY_CATEGORY, KEY_ENGLISH, KEY_PORTUGUESE }, KEY_ID + "=?",
                 new String[] { String.valueOf(id) }, null, null, null, null);
         if (cursor != null)
             cursor.moveToFirst();
@@ -86,12 +87,15 @@ public class DatabaseHandler  extends SQLiteOpenHelper {
         // return entry
         cursor.close();
         db.close();
-
         return databaseEntry;
     }
 
+
+
+
+
     // Getting All Entry
-    public ArrayList<DatabaseEntry> Get_Contacts() {
+    public ArrayList<DatabaseEntry> getAllEntries() {
         try {
             word_list.clear();
 
@@ -106,9 +110,9 @@ public class DatabaseHandler  extends SQLiteOpenHelper {
                 do {
                     DatabaseEntry databaseEntry = new DatabaseEntry();
                     databaseEntry.setID(Integer.parseInt(cursor.getString(0)));
-                    databaseEntry.setName(cursor.getString(1));
-                    databaseEntry.setPortuguese(cursor.getString(2));
-                    databaseEntry.setDaytime(cursor.getString(3));
+                    databaseEntry.setCategory(cursor.getString(1));
+                    databaseEntry.setEnglish(cursor.getString(2));
+                    databaseEntry.setPortuguese(cursor.getString(3));
                     // Adding contact to list
                     word_list.add(databaseEntry);
                 } while (cursor.moveToNext());
@@ -127,13 +131,13 @@ public class DatabaseHandler  extends SQLiteOpenHelper {
     }
 
     // Updating single entry
-    public int Update_Entry(DatabaseEntry databaseEntry) {
+    public int updateEntry(DatabaseEntry databaseEntry) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(KEY_ENGLISH, databaseEntry.getName());
+        values.put(KEY_CATEGORY, databaseEntry.getCategory());
+        values.put(KEY_ENGLISH, databaseEntry.getEnglish());
         values.put(KEY_PORTUGUESE, databaseEntry.getPortuguese());
-        values.put(KEY_DAYTIME, databaseEntry.getDaytime());
 
         // updating row
         return db.update(TABLE_WORDS, values, KEY_ID + " = ?",
@@ -141,7 +145,7 @@ public class DatabaseHandler  extends SQLiteOpenHelper {
     }
 
     // Deleting single entry
-    public void Delete_Entry(int id) {
+    public void deleteEntry(int id) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_WORDS, KEY_ID + " = ?",
                 new String[] { String.valueOf(id) });
@@ -149,14 +153,17 @@ public class DatabaseHandler  extends SQLiteOpenHelper {
     }
 
     // Getting entries Count
-    public int Get_Total_Entry() {
+    public int getEntryCount() {
         String countQuery = "SELECT  * FROM " + TABLE_WORDS;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(countQuery, null);
+        int count = cursor.getCount();
         cursor.close();
-
+        db.close();
         // return count
-        return cursor.getCount();
+        return count;
+
+
     }
 
 }

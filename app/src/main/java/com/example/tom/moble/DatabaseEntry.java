@@ -6,27 +6,27 @@ package com.example.tom.moble;
 public class DatabaseEntry {
     // private variables
     public int _id;
+    public String _category;
     public String _english;
     public String _portuguese;
-    public String _daytime;
 
     public DatabaseEntry() {
     }
 
     // constructor
-    public DatabaseEntry(int id, String name, String _portuguese, String _daytime) {
+    public DatabaseEntry(int id, String _category, String _english, String _portuguese) {
         this._id = id;
-        this._english = name;
+        this._category = _category;
+        this._english = _english;
         this._portuguese = _portuguese;
-        this._daytime = _daytime;
 
     }
 
     // constructor
-    public DatabaseEntry(String name, String _portuguese, String _daytime) {
-        this._english = name;
+    public DatabaseEntry(String _category, String _english, String _portuguese) {
+        this._category = _category;
+        this._english = _english;
         this._portuguese = _portuguese;
-        this._daytime = _daytime;
     }
 
     // getting ID
@@ -39,14 +39,24 @@ public class DatabaseEntry {
         this._id = id;
     }
 
-    // getting name
-    public String getName() {
+    // getting category
+    public String getCategory() {
+        return this._category;
+    }
+
+    // setting category
+    public void setCategory(String _category) {
+        this._category = _category;
+    }
+
+    // getting english
+    public String getEnglish() {
         return this._english;
     }
 
-    // setting name
-    public void setName(String name) {
-        this._english = name;
+    // setting english
+    public void setEnglish(String _english) {
+        this._english = _english;
     }
 
     // getting portuguese
@@ -57,16 +67,6 @@ public class DatabaseEntry {
     // setting portuguese
     public void setPortuguese(String portuguese) {
         this._portuguese = portuguese;
-    }
-
-    // getting email
-    public String getDaytime() {
-        return this._daytime;
-    }
-
-    // setting email
-    public void setDaytime(String daytime) {
-        this._daytime = daytime;
     }
 
 }
