@@ -3,75 +3,90 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Start the entry test"
-        android:id="@+id/textView"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="110sp"
-        android:layout_marginBottom="20sp"
-        android:textColor="@android:color/black"/>
+        android:orientation="vertical"
+        android:layout_weight="0.9">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Quize"
-        android:id="@+id/button"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="60sp"
-        android:backgroundTint="@color/colorPrimary"
-        android:textColor="@android:color/white"
-        android:textSize="18sp"
-        android:textAllCaps="false"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Start the entry test"
+            android:id="@+id/textView"
+            android:layout_gravity="center_horizontal"
+            android:textColor="@android:color/black"
+            android:layout_marginTop="50sp"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Start the entry test later"
-        android:id="@+id/textView2"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="20sp"
-        android:textColor="@android:color/black"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Quize"
+            android:id="@+id/button"
+            android:layout_gravity="center_horizontal"
+            android:backgroundTint="@color/colorPrimary"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:textAllCaps="false"
+            android:layout_marginTop="20sp"/>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Menu"
-        android:id="@+id/button2"
-        android:layout_gravity="center_horizontal"
-        android:onClick="menuButtonClick"
-        android:backgroundTint="@color/colorPrimary"
-        android:textColor="@android:color/white"
-        android:textSize="18sp"
-        android:textAllCaps="false"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Start the entry test later"
+            android:id="@+id/textView2"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="20sp"
+            android:textColor="@android:color/black"
+            android:layout_marginTop="50sp"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Menu"
+            android:id="@+id/button2"
+            android:layout_gravity="center_horizontal"
+            android:onClick="menuButtonClick"
+            android:backgroundTint="@color/colorPrimary"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:textAllCaps="false"
+            android:layout_marginTop="20sp"
+            />
+
+    </LinearLayout>
+
+
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="185sp"
-        android:layout_marginLeft="17sp"
-        >
+        android:layout_weight="0.05">
 
         <Button
             android:layout_width="140sp"
             android:layout_height="wrap_content"
             android:text="Previous"
             android:id="@+id/previousButton"
-            android:layout_gravity="left"
-            android:layout_marginRight="55sp"
-            android:layout_marginLeft="20sp"
-            android:onClick="previousButtonClick"
             android:backgroundTint="@color/colorPrimary"
             android:textColor="@android:color/white"
+            android:layout_weight="0.5"
             android:textSize="18sp"
-            android:textAllCaps="false"/>
+            android:textAllCaps="false"
+            android:layout_marginLeft="10sp"
+            android:onClick="previousButtonClick"/>
 
 
-
+        <Button
+            android:layout_width="140sp"
+            android:layout_height="wrap_content"
+            android:id="@+id/nextButton"
+            android:layout_weight="0.5"
+            android:visibility="invisible"/>
     </LinearLayout>
+
+
 </LinearLayout>

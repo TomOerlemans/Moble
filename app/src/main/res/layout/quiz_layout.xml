@@ -25,7 +25,6 @@
             android:text="Round: 0"
             android:textColor="#103903"
             android:id="@+id/quizRound"
-            android:textAlignment="center"
             android:layout_weight="0.3"
 
             />
@@ -36,7 +35,6 @@
             android:text="Entry test"
             android:textColor="#103903"
             android:id="@+id/quizTitle"
-            android:textAlignment="center"
             android:layout_weight="0.3"
             />
         <TextView
@@ -46,8 +44,7 @@
             android:text="Score: 0"
             android:textColor="#103903"
             android:id="@+id/quizScore"
-            android:textAlignment="center"
-            android:layout_weight="0.3"
+            android:layout_weight="0."
             />
     </LinearLayout>
 
@@ -59,7 +56,7 @@
         android:text="What is the correct translation of:"
         android:id="@+id/question"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="0dp"
+        android:layout_marginBottom="5sp"
         android:layout_weight="0.1"
         android:textAlignment="center"/>
     <TextView
@@ -70,9 +67,11 @@
         android:id="@+id/quizQuestion"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="0dp"
-        android:layout_weight="0.3"
+        android:layout_weight="0.1"
         android:textAlignment="center"
-        android:textAllCaps="true"/>
+        android:textAllCaps="true"
+        android:text="WORD"
+        android:layout_marginBottom="20sp"/>
 
 
 
@@ -80,9 +79,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_weight="0.4"
+        android:layout_weight="0.7"
         android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp">
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="10sp">
 
 
 
@@ -91,12 +91,9 @@
             android:layout_height="wrap_content"
             android:text="A"
             android:id="@+id/multipleChoiceAnswer1Button"
-            android:layout_gravity="right"
             android:onClick="quizAnswerButtonClick"
-            android:allowUndo="false"
-            android:backgroundTint="@color/stdButton"
-            android:focusable="false"
-            android:ellipsize="marquee" />
+            android:layout_weight=".16"
+            android:layout_marginBottom="15sp"/>
         <Button
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -104,7 +101,8 @@
             android:id="@+id/multipleChoiceAnswer2Button"
             android:layout_gravity="right"
             android:onClick="quizAnswerButtonClick"
-            android:backgroundTint="@color/stdButton" />
+            android:layout_weight=".16"
+            android:layout_marginBottom="15sp"/>
         <Button
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -112,7 +110,8 @@
             android:id="@+id/multipleChoiceAnswer3Button"
             android:layout_gravity="right"
             android:onClick="quizAnswerButtonClick"
-            android:backgroundTint="@color/stdButton" />
+            android:layout_weight=".16"
+            android:layout_marginBottom="15sp"/>
         <Button
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -120,7 +119,8 @@
             android:id="@+id/multipleChoiceAnswer4Button"
             android:layout_gravity="right"
             android:onClick="quizAnswerButtonClick"
-            android:backgroundTint="@color/stdButton" />
+            android:layout_weight=".16"
+            android:layout_marginBottom="15sp"/>
         <Button
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -128,7 +128,8 @@
             android:id="@+id/multipleChoiceAnswer5Button"
             android:layout_gravity="right"
             android:onClick="quizAnswerButtonClick"
-            android:backgroundTint="@color/stdButton" />
+            android:layout_weight=".16"
+            android:layout_marginBottom="15sp"/>
         <Button
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -136,7 +137,9 @@
             android:id="@+id/multipleChoiceAnswer6Button"
             android:layout_gravity="right"
             android:onClick="quizAnswerButtonClick"
-            android:backgroundTint="@color/stdButton" />
+            android:layout_weight=".16"
+            android:layout_marginBottom="15sp"
+            />
 
 
     </LinearLayout>
@@ -144,11 +147,10 @@
 
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="bottom">
-        android:layout_gravity="bottom"
 
         <Button
             android:layout_width="140dp"
@@ -156,10 +158,8 @@
             android:text="Previous"
             android:id="@+id/previousButton"
             android:layout_gravity="left"
-            android:layout_marginRight="55dp"
-            android:layout_marginLeft="20dp"
-            android:onClick="previousButtonClick"
-            android:visibility="invisible"/>
+            android:visibility="invisible"
+            android:layout_weight="0.5"/>
 
 
         <Button
@@ -169,7 +169,10 @@
             android:id="@+id/nextButton"
             android:layout_gravity="right"
             android:onClick="nextButtonClick"
-            android:backgroundTint="@color/stdButton" />
+            android:backgroundTint="@color/stdButton"
+            android:layout_weight="0.5"
+            android:textSize="18sp"
+            android:textAllCaps="false"/>
 
     </LinearLayout>
 

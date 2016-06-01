@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="rightAnswer">#89d771</color>
-    <color name="wrongAnswer">#70cc36</color>
+    <color name="wrongAnswer">#d1332e</color>
     <color name="stdButton">#6AB344</color>
     <color name="grijs">#BAC2C6</color>
     <color name="donkerGrijs">#546e7a</color>

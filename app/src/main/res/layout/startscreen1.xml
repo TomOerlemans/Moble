@@ -38,7 +38,7 @@
 
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
@@ -47,10 +47,8 @@
             android:layout_height="wrap_content"
             android:text="Previous"
             android:id="@+id/previousButton"
-            android:layout_gravity="left"
-            android:layout_marginRight="55sp"
-            android:layout_marginLeft="20sp"
-            android:visibility="invisible"/>
+            android:visibility="invisible"
+            android:layout_weight="0.5"/>
 
 
         <Button
@@ -58,13 +56,12 @@
             android:layout_height="wrap_content"
             android:text="Next"
             android:id="@+id/nextButton"
-            android:layout_gravity="right"
             android:onClick="nextButtonClick"
             android:backgroundTint="@color/colorPrimary"
             android:textColor="@android:color/white"
             android:textSize="18sp"
-            android:textAllCaps="false"/>
-
+            android:textAllCaps="false"
+            android:layout_weight="0.5"/>
     </LinearLayout>
 
 

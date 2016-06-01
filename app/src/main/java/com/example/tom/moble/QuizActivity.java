@@ -58,6 +58,14 @@ public class QuizActivity extends AppCompatActivity {
         correctAnswerButton = rgen.nextInt(5) + 1;
         quizQuestion.setText(db.getEntry(correctAnswerDB).getEnglish());
 
+        one.setBackgroundColor(Color.parseColor("#6AB344"));
+        two.setBackgroundColor(Color.parseColor("#6AB344"));
+        three.setBackgroundColor(Color.parseColor("#6AB344"));
+        four.setBackgroundColor(Color.parseColor("#6AB344"));
+        five.setBackgroundColor(Color.parseColor("#6AB344"));
+        six.setBackgroundColor(Color.parseColor("#6AB344"));
+
+
         one.setText(db.getEntry(excludeRandom(correctAnswerDB)).getPortuguese());
         two.setText(db.getEntry(excludeRandom(correctAnswerDB)).getPortuguese());
         three.setText(db.getEntry(excludeRandom(correctAnswerDB)).getPortuguese());
@@ -87,32 +95,31 @@ public class QuizActivity extends AppCompatActivity {
     public void quizAnswerButtonClick(View view){
 
             if (lock == false) {
-                one.getBackground().setColorFilter(Color.parseColor("#d77176"), PorterDuff.Mode.MULTIPLY);
-                two.getBackground().setColorFilter(Color.parseColor("#d77176"), PorterDuff.Mode.MULTIPLY);
-                three.getBackground().setColorFilter(Color.parseColor("#d77176"), PorterDuff.Mode.MULTIPLY);
-                ;
-                four.getBackground().setColorFilter(Color.parseColor("#d77176"), PorterDuff.Mode.MULTIPLY);
-                five.getBackground().setColorFilter(Color.parseColor("#d77176"), PorterDuff.Mode.MULTIPLY);
-                six.getBackground().setColorFilter(Color.parseColor("#d77176"), PorterDuff.Mode.MULTIPLY);
+                one.setBackgroundColor(Color.parseColor("#d1332e"));
+                two.setBackgroundColor(Color.parseColor("#d1332e"));
+                three.setBackgroundColor(Color.parseColor("#d1332e"));
+                four.setBackgroundColor(Color.parseColor("#d1332e"));
+                five.setBackgroundColor(Color.parseColor("#d1332e"));
+                six.setBackgroundColor(Color.parseColor("#d1332e"));
 
                 switch (correctAnswerButton) {
                     case 1:
-                        one.getBackground().setColorFilter(Color.parseColor("#89d771"), PorterDuff.Mode.MULTIPLY);
+                        one.setBackgroundColor(Color.parseColor("#89d771"));
                         break;
                     case 2:
-                        two.getBackground().setColorFilter(Color.parseColor("#89d771"), PorterDuff.Mode.MULTIPLY);
+                        two.setBackgroundColor(Color.parseColor("#89d771"));
                         break;
                     case 3:
-                        three.getBackground().setColorFilter(Color.parseColor("#89d771"), PorterDuff.Mode.MULTIPLY);
+                        three.setBackgroundColor(Color.parseColor("#89d771"));
                         break;
                     case 4:
-                        four.getBackground().setColorFilter(Color.parseColor("#89d771"), PorterDuff.Mode.MULTIPLY);
+                        four.setBackgroundColor(Color.parseColor("#89d771"));
                         break;
                     case 5:
-                        five.getBackground().setColorFilter(Color.parseColor("#89d771"), PorterDuff.Mode.MULTIPLY);
+                        five.setBackgroundColor(Color.parseColor("#89d771"));
                         break;
                     case 6:
-                        six.getBackground().setColorFilter(Color.parseColor("#89d771"), PorterDuff.Mode.MULTIPLY);
+                        six.setBackgroundColor(Color.parseColor("#89d771"));
                         break;
                     default:
                         Log.v("QUIZ ACTIVITY", "Problem at the correctAnswerButton switch!!");
@@ -162,12 +169,6 @@ public class QuizActivity extends AppCompatActivity {
 
     public void nextButtonClick(View view){
         if (lock == true) {
-            one.getBackground().setColorFilter(Color.parseColor("#6AB344"), PorterDuff.Mode.MULTIPLY);
-            two.getBackground().setColorFilter(Color.parseColor("#6AB344"), PorterDuff.Mode.MULTIPLY);
-            three.getBackground().setColorFilter(Color.parseColor("#6AB344"), PorterDuff.Mode.MULTIPLY);
-            four.getBackground().setColorFilter(Color.parseColor("#6AB344"), PorterDuff.Mode.MULTIPLY);
-            five.getBackground().setColorFilter(Color.parseColor("#6AB344"), PorterDuff.Mode.MULTIPLY);
-            six.getBackground().setColorFilter(Color.parseColor("#6AB344"), PorterDuff.Mode.MULTIPLY);
             round++;
             quizRound.setText("Round: " + Integer.toString(round));
             setNewQuestion();
