@@ -1,6 +1,7 @@
 package com.example.tom.moble;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.LightingColorFilter;
 import android.graphics.PorterDuff;
@@ -35,7 +36,7 @@ public class QuizActivity extends AppCompatActivity {
     int correctAnswerDB;
     int correctAnswerButton;
     int score;
-    int round=1;
+    int round;
     boolean lock;
     ArrayList takenIndices = new ArrayList();
 
@@ -57,6 +58,7 @@ public class QuizActivity extends AppCompatActivity {
         rgen = new Random();
         setNewQuestion();
         score = 0;
+        round =1;
     }
 
     public void setNewQuestion(){
@@ -185,13 +187,12 @@ public class QuizActivity extends AppCompatActivity {
 
     public void nextButtonClick(View view){
         if(round >= QUIZLENGTH){
-            //finish();
+
             setContentView(R.layout.post_quiz);
-            //
-            // Hier moet post quizen worden geupdate... maar dat lukt me niet -_-
-//            Activity activity = (Activity)getApplicationContext();
-//            TextView postQuizScore = (TextView) activity.findViewById(R.id.postQuizScore);
-//            postQuizScore.setText(score);
+
+
+            TextView postQuizScore = (TextView) findViewById(R.id.postQuizScore);
+            postQuizScore.setText("Score:" + String.valueOf(score));
 
             //((TextView) findViewById(R.id.postQuizScore)).setText(score);
         }else{
@@ -204,8 +205,7 @@ public class QuizActivity extends AppCompatActivity {
     }
 
     public void endQuiz(View view){
-        setContentView(R.layout.menu);
-
+        finish();
     }
 
 }
