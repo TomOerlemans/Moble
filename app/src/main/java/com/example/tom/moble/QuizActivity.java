@@ -185,10 +185,10 @@ public class QuizActivity extends AppCompatActivity {
 
     public void nextButtonClick(View view){
         if(round >= QUIZLENGTH){
-            finish();
+            //finish();
             setContentView(R.layout.post_quiz);
             //
-
+            // Hier moet post quizen worden geupdate... maar dat lukt me niet -_-
 //            Activity activity = (Activity)getApplicationContext();
 //            TextView postQuizScore = (TextView) activity.findViewById(R.id.postQuizScore);
 //            postQuizScore.setText(score);
@@ -205,7 +205,7 @@ public class QuizActivity extends AppCompatActivity {
 
     public void endQuiz(View view){
         setContentView(R.layout.menu);
-        finish();
+
     }
 
 }

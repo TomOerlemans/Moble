@@ -22,7 +22,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Round: 0"
+            android:text="Round: 1"
             android:textColor="#103903"
             android:id="@+id/quizRound"
             android:layout_weight="0.3"
