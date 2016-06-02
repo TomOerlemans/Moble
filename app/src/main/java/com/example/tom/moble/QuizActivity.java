@@ -1,10 +1,12 @@
 package com.example.tom.moble;
 
+import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.LightingColorFilter;
 import android.graphics.PorterDuff;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Layout;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -33,7 +35,7 @@ public class QuizActivity extends AppCompatActivity {
     int correctAnswerDB;
     int correctAnswerButton;
     int score;
-    int round;
+    int round=1;
     boolean lock;
     ArrayList takenIndices = new ArrayList();
 
@@ -183,10 +185,15 @@ public class QuizActivity extends AppCompatActivity {
 
     public void nextButtonClick(View view){
         if(round >= QUIZLENGTH){
+            finish();
             setContentView(R.layout.post_quiz);
-            TextView postQuizScore = (TextView) findViewById(R.id.postQuizScore);
-            postQuizScore.setText(score);
-            //this.finish();
+            //
+
+//            Activity activity = (Activity)getApplicationContext();
+//            TextView postQuizScore = (TextView) activity.findViewById(R.id.postQuizScore);
+//            postQuizScore.setText(score);
+
+            //((TextView) findViewById(R.id.postQuizScore)).setText(score);
         }else{
             if (lock == true) {
                 round++;
@@ -196,7 +203,9 @@ public class QuizActivity extends AppCompatActivity {
         }
     }
 
-    public void quizResults(View view){
-
+    public void endQuiz(View view){
+        setContentView(R.layout.menu);
+        finish();
     }
+
 }
