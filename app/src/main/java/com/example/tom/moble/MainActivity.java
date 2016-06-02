@@ -54,9 +54,12 @@ public class MainActivity extends AppCompatActivity {
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
-                //populateDataBase();  // AANZETTEN EERSTE KEER DAT JE HET DRAAIT ANDERS WERKT DIE NIET (EN DAARNA UITZETTEN ANDERS LANGSAAM EN ONNODIGE SHIT)
+               // populateDataBase();  // AANZETTEN EERSTE KEER DAT JE HET DRAAIT ANDERS WERKT DIE NIET (EN DAARNA UITZETTEN ANDERS LANGSAAM EN ONNODIGE SHIT)
             }
         });
+
+
+
     }
 
     public void nextButtonClick(View view) {

@@ -12,10 +12,13 @@ import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
 public class QuizActivity extends AppCompatActivity {
-    final int DATABASESIZE = 300;
+    final int DATABASESIZE = 7;
+    final private int QUIZLENGTH = 3;
     DatabaseHandler db;
     TextView quizQuestion;
     TextView quizRound;
@@ -32,6 +35,8 @@ public class QuizActivity extends AppCompatActivity {
     int score;
     int round;
     boolean lock;
+    ArrayList takenIndices = new ArrayList();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,13 +70,14 @@ public class QuizActivity extends AppCompatActivity {
         five.setBackgroundColor(Color.parseColor("#6AB344"));
         six.setBackgroundColor(Color.parseColor("#6AB344"));
 
-
-        one.setText(db.getEntry(excludeRandom(correctAnswerDB)).getPortuguese());
-        two.setText(db.getEntry(excludeRandom(correctAnswerDB)).getPortuguese());
-        three.setText(db.getEntry(excludeRandom(correctAnswerDB)).getPortuguese());
-        four.setText(db.getEntry(excludeRandom(correctAnswerDB)).getPortuguese());
-        five.setText(db.getEntry(excludeRandom(correctAnswerDB)).getPortuguese());
-        six.setText(db.getEntry(excludeRandom(correctAnswerDB)).getPortuguese());
+        takenIndices.clear();
+        takenIndices.add(correctAnswerDB);
+        one.setText(db.getEntry(excludeRandom()).getPortuguese());
+        two.setText(db.getEntry(excludeRandom()).getPortuguese());
+        three.setText(db.getEntry(excludeRandom()).getPortuguese());
+        four.setText(db.getEntry(excludeRandom()).getPortuguese());
+        five.setText(db.getEntry(excludeRandom()).getPortuguese());
+        six.setText(db.getEntry(excludeRandom()).getPortuguese());
 
         switch (correctAnswerButton){
             case 1: one.setText(db.getEntry(correctAnswerDB).getPortuguese()); break;
@@ -84,11 +90,13 @@ public class QuizActivity extends AppCompatActivity {
         }
     }
 
-    public int excludeRandom(int i){
+    public int excludeRandom(){
+
         int x = rgen.nextInt(DATABASESIZE) + 1;
-        while(x == i){
+        while(takenIndices.contains(x)){
             x = rgen.nextInt(DATABASESIZE) + 1;
         }
+        takenIndices.add(x);
         return x;
     }
 
@@ -163,15 +171,32 @@ public class QuizActivity extends AppCompatActivity {
                 }
                 lock = true;
                 quizScore.setText("Score: " + Integer.toString(score));
+                if(round >= QUIZLENGTH){
+                    Button nextButton = (Button) findViewById(R.id.nextButton);
+                    nextButton.setText("SEE RESULTS");
+
+                }
+
             }
 
     }
 
     public void nextButtonClick(View view){
-        if (lock == true) {
-            round++;
-            quizRound.setText("Round: " + Integer.toString(round));
-            setNewQuestion();
+        if(round >= QUIZLENGTH){
+            setContentView(R.layout.post_quiz);
+            TextView postQuizScore = (TextView) findViewById(R.id.postQuizScore);
+            postQuizScore.setText(score);
+            //this.finish();
+        }else{
+            if (lock == true) {
+                round++;
+                quizRound.setText("Round: " + Integer.toString(round));
+                setNewQuestion();
+            }
         }
+    }
+
+    public void quizResults(View view){
+
     }
 }

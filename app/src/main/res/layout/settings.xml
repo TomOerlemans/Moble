@@ -92,6 +92,14 @@
 
 
     <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="see DB"
+        android:id="@+id/seeDBbtn"
+        android:onClick="seeDBClick"
+        android:layout_gravity="center_horizontal" />
+
+    <Button
         android:layout_width="160sp"
         android:layout_height="wrap_content"
         android:text="Done"
