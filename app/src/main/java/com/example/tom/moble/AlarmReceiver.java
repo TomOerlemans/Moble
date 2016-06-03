@@ -25,11 +25,9 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         Intent service = new Intent(context, SendNotification.class);
         startWakefulService(context, service);
-        Log.v("AlarmReceiver", "3");
     }
 
     public void setAlarm(Context context){
-        Log.v("AlarmReceiver", "1");
         alarmMgr = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(context, AlarmReceiver.class);
         alarmIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
@@ -50,8 +48,6 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
         if (alarmMgr != null) {
             alarmMgr.cancel(alarmIntent);
         }
-        Log.v("AlarmReceiver", "2");
-
         // Disable {@code SampleBootReceiver} so that it doesn't automatically restart the
         // alarm when the device is rebooted.
         ComponentName receiver = new ComponentName(context, BootReceiver.class);

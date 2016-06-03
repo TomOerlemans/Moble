@@ -39,7 +39,6 @@ public class SendNotification extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        Log.v("Sendnotification", "1");
         sendNotification("Temp string");
         Log.i("Send notification: ", "Found doodle!!");
 
@@ -52,7 +51,6 @@ public class SendNotification extends IntentService {
 
     // Post a notification indicating whether a doodle was found.
     private void sendNotification(String msg) {
-        Log.v("Sendnotification", "2");
         mNotificationManager = (NotificationManager)
                 this.getSystemService(Context.NOTIFICATION_SERVICE);
 
@@ -74,42 +72,14 @@ public class SendNotification extends IntentService {
     }
 
     public void getWiFiNames(){
-        Log.v("Sendnotification", "3");
-
         wifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
         if (wifi.isWifiEnabled() == false) {
             //Toast.makeText(getApplicationContext(), "wifi is disabled..making it enabled", Toast.LENGTH_LONG).show();
             wifi.setWifiEnabled(true);
         }
-
-//        registerReceiver(new BroadcastReceiver() {
-//            @Override
-//            public void onReceive(Context c, Intent intent) {
-                results = wifi.getScanResults();
-                size = results.size();
-//            }
-//        }, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
-//
-//        arraylist.clear();
-//        wifi.startScan();
-
-//        try {
-//            size = size - 1;
-//            while (size >= 0) {
-//                HashMap<String, String> item = new HashMap<String, String>();
-//                item.put(ITEM_KEY, results.get(size).SSID + "  " + results.get(size).capabilities);
-//                arraylist.add(item);
-//                size--;
-//            }
-//        } catch (Exception e) {
-//        }
-
         for(int i = 0; i < size; i++){
             Log.v("Wifi names: ", results.get(i).SSID);
         }
-
-
-
     }
 
 
