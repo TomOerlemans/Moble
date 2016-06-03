@@ -72,14 +72,26 @@ public class SendNotification extends IntentService {
     }
 
     public void getWiFiNames(){
+        boolean wifiWasDisabled = false;
         wifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
         if (wifi.isWifiEnabled() == false) {
-            //Toast.makeText(getApplicationContext(), "wifi is disabled..making it enabled", Toast.LENGTH_LONG).show();
+            wifiWasDisabled = true;
             wifi.setWifiEnabled(true);
         }
+
+
+
+        results = wifi.getScanResults();
+        size = results.size();
+
         for(int i = 0; i < size; i++){
             Log.v("Wifi names: ", results.get(i).SSID);
         }
+
+        if (wifi.isWifiEnabled() == true && wifiWasDisabled == true) {
+            wifi.setWifiEnabled(false);
+        }
+
     }
 
 

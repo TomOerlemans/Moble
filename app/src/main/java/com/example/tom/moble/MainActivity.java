@@ -75,7 +75,8 @@ public class MainActivity extends AppCompatActivity {
                 builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
 
                     public void onDismiss(DialogInterface dialog) {
-                        requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, PERMISSION_REQUEST_COARSE_LOCATION);
+                        if (android.os.Build.VERSION.SDK_INT >= 23)
+                            requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, PERMISSION_REQUEST_COARSE_LOCATION);
                     }
                 });
                 builder.show();
