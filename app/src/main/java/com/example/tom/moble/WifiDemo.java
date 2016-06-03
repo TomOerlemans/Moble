@@ -8,15 +8,12 @@ import android.content.IntentFilter;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.example.tom.moble.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,7 +24,7 @@ import java.util.List;
  */
 
 
-public class WiFiDemo extends Activity implements View.OnClickListener {
+public class WifiDemo extends Activity implements View.OnClickListener {
     WifiManager wifi;
     ListView lv;
     TextView textStatus;
@@ -50,7 +47,7 @@ public class WiFiDemo extends Activity implements View.OnClickListener {
             Toast.makeText(getApplicationContext(), "wifi is disabled..making it enabled", Toast.LENGTH_LONG).show();
             wifi.setWifiEnabled(true);
         }
-        this.adapter = new SimpleAdapter(WiFiDemo.this, arraylist, android.R.layout.simple_list_item_1, new String[]{ITEM_KEY}, new int[]{android.R.id.text1});
+        this.adapter = new SimpleAdapter(WifiDemo.this, arraylist, android.R.layout.simple_list_item_1, new String[]{ITEM_KEY}, new int[]{android.R.id.text1});
         lv.setAdapter(this.adapter);
 
         registerReceiver(new BroadcastReceiver() {

@@ -1,29 +1,28 @@
 package com.example.tom.moble;
 
-import android.app.Activity;
-import android.content.Intent;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.graphics.LightingColorFilter;
-import android.graphics.PorterDuff;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Layout;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import org.w3c.dom.Text;
-
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Random;
 
 public class QuizActivity extends AppCompatActivity {
 
 
     final int DATABASESIZE = 7;
-    final private int QUIZLENGTH = 3;
+    final private int QUIZLENGTH = 1;
+    final private int LENGTH_TRAINING_DAYS = 3;
     DatabaseHandler db;
     TextView quizQuestion;
     TextView quizRound;
@@ -40,7 +39,9 @@ public class QuizActivity extends AppCompatActivity {
     int score;
     int round;
     boolean lock;
-    ArrayList takenIndices = new ArrayList();
+    ArrayList takenIndices;
+
+    public SharedPreferences finalTestDatePref;
 
 
     @Override
@@ -58,15 +59,23 @@ public class QuizActivity extends AppCompatActivity {
         five = (Button) findViewById(R.id.multipleChoiceAnswer5Button);
         six = (Button) findViewById(R.id.multipleChoiceAnswer6Button);
         rgen = new Random();
+        takenIndices = new ArrayList();
+
         setNewQuestion();
         score = 0;
         round =1;
+
+
     }
 
     public void setNewQuestion(){
         lock = false;
-        correctAnswerDB = rgen.nextInt(DATABASESIZE) + 1;
+
+        correctAnswerDB = rgen.nextInt(DATABASESIZE) + 1; // see above for alternative implementation
+
+
         correctAnswerButton = rgen.nextInt(5) + 1;
+
         quizQuestion.setText(db.getEntry(correctAnswerDB).getEnglish());
 
         one.setBackgroundColor(Color.parseColor("#6AB344"));
@@ -180,11 +189,8 @@ public class QuizActivity extends AppCompatActivity {
                 if(round >= QUIZLENGTH){
                     Button nextButton = (Button) findViewById(R.id.nextButton);
                     nextButton.setText("SEE RESULTS");
-
                 }
-
             }
-
     }
 
     public void nextButtonClick(View view){
@@ -192,11 +198,26 @@ public class QuizActivity extends AppCompatActivity {
 
             setContentView(R.layout.post_quiz);
 
+            TextView postQuizTextView = (TextView) findViewById(R.id.postQuizText);
+            String postQuizeString = getString(R.string.post_entry_quiz, score, round);
+            postQuizTextView.setText(postQuizeString);
 
-            TextView postQuizScore = (TextView) findViewById(R.id.postQuizScore);
-            postQuizScore.setText("Score:" + String.valueOf(score));
+            // create date when ready
+            Calendar cal = Calendar.getInstance();
+            cal.getTime();
+            cal.add(Calendar.DATE, LENGTH_TRAINING_DAYS);
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MMM/yyyy");
+            String finalTestDateString = dateFormat.format(cal.getTime());
+//            Toast.makeText(this, finalTestDateString,
+//            Toast.LENGTH_LONG).show();
 
-            //((TextView) findViewById(R.id.postQuizScore)).setText(score);
+
+
+            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString("Final Test Date", finalTestDateString);
+            editor.apply();
+
         }else{
             if (lock == true) {
                 round++;
@@ -209,5 +230,4 @@ public class QuizActivity extends AppCompatActivity {
     public void endQuiz(View view){
         finish();
     }
-
 }

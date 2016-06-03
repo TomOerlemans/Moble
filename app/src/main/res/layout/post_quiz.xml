@@ -24,7 +24,7 @@
             android:textColor="#103903"
             android:layout_weight="0.5"
             android:layout_gravity="end"
-            android:id="@+id/postQuizScore"
+            android:id="@+id/postQuizText"
             />
 
 

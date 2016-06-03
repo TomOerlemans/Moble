@@ -12,6 +12,7 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -26,8 +27,11 @@ import com.firebase.client.Firebase;
 
 import org.w3c.dom.Text;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Random;
+import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
     TextView topText;
@@ -38,7 +42,6 @@ public class MainActivity extends AppCompatActivity {
     DatabaseHandler db;
     AlarmReceiver alarm;
     private static final int PERMISSION_REQUEST_COARSE_LOCATION = 1;
-
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +55,6 @@ public class MainActivity extends AppCompatActivity {
             editor.putInt("First Launch", 1);
             editor.commit();
             setContentView(R.layout.startscreen1);
-
             AsyncTask.execute(new Runnable() {
                 @Override
                 public void run() {
@@ -161,6 +163,26 @@ public class MainActivity extends AppCompatActivity {
         page = 0;
     }
 
+    public Boolean finalTestAvailable() throws ParseException {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String finalTestDayString = sharedPreferences.getString("Final Test Date", null);
+        if( finalTestDayString!=null){
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MMM/yyyy");
+            Date strDate = sdf.parse(finalTestDayString);
+            return new Date().after(strDate);
+        }
+        else{return false;}
+    }
+    public void finalTestButtonClick(View view) throws ParseException {
+        if (finalTestAvailable()){
+            Toast.makeText(this, "final test READY",
+                    Toast.LENGTH_LONG).show();
+        }else{
+            Toast.makeText(this, "final test not ready yet",
+                    Toast.LENGTH_LONG).show();
+        }
+    }
+
     public void infoButtonClick(View view){
         setContentView(R.layout.startscreen1);
     }
@@ -215,8 +237,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void entryTestButtonClick(View view){
-        Intent intent = new Intent(this, QuizActivity.class);
-        startActivity(intent);
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        if( sharedPreferences.contains("Final Test Date")){
+            Toast.makeText(this, "Already completed entry test",
+                    Toast.LENGTH_LONG).show();
+        }
+        else {
+            Intent intent = new Intent(this, QuizActivity.class);
+            startActivity(intent);
+        }
     }
 
 
