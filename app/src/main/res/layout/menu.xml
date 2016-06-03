@@ -74,4 +74,24 @@
         android:textSize="22sp"
         android:textAllCaps="false"/>
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Start Notifications"
+            android:id="@+id/startNotifications"
+            android:onClick="startNotifications"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Stop Notifications"
+            android:id="@+id/stopNotifications"
+            android:onClick="stopNotifications"/>
+    </LinearLayout>
+
 </LinearLayout>

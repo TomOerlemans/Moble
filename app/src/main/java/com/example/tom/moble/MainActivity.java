@@ -1,14 +1,18 @@
 package com.example.tom.moble;
 
+import android.Manifest;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -29,18 +33,27 @@ public class MainActivity extends AppCompatActivity {
     int page = 0;
     int firstLaunch;
     DatabaseHandler db;
-
+    AlarmReceiver alarm;
+    private static final int PERMISSION_REQUEST_COARSE_LOCATION = 1;
 
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
         firstLaunch = sharedPref.getInt("First Launch", 0);
+
         if(firstLaunch == 0) {
             SharedPreferences.Editor editor = sharedPref.edit();
             editor.putInt("First Launch", 1);
             editor.commit();
             setContentView(R.layout.startscreen1);
+            db = new DatabaseHandler(this);
+            AsyncTask.execute(new Runnable() {
+                @Override
+                public void run() {
+                    populateDataBase();
+                }
+            });
         }else{
             setContentView(R.layout.menu);
         }
@@ -48,19 +61,55 @@ public class MainActivity extends AppCompatActivity {
         topText = (TextView) findViewById(R.id.topText);
         bottomText = (TextView) findViewById(R.id.bottomText);
         previousButton = (Button) findViewById(R.id.previousButton);
+        alarm = new AlarmReceiver();
 
-        db = new DatabaseHandler(this);
 
-        AsyncTask.execute(new Runnable() {
-            @Override
-            public void run() {
-               // populateDataBase();  // AANZETTEN EERSTE KEER DAT JE HET DRAAIT ANDERS WERKT DIE NIET (EN DAARNA UITZETTEN ANDERS LANGSAAM EN ONNODIGE SHIT)
+
+        if (android.os.Build.VERSION.SDK_INT >= 23) {
+            // Android M Permission check
+            if (this.checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("This app needs location access");
+                builder.setMessage("Please grant location access so this app can detect beacons.");
+                builder.setPositiveButton(android.R.string.ok, null);
+                builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+
+                    public void onDismiss(DialogInterface dialog) {
+                        requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, PERMISSION_REQUEST_COARSE_LOCATION);
+                    }
+                });
+                builder.show();
             }
-        });
 
-
-
+        }
     }
+
+
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSION_REQUEST_COARSE_LOCATION: {
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Log.d("TAG", "coarse location permission granted");
+                } else {
+                    final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                    builder.setTitle("Functionality limited");
+                    builder.setMessage("Since location access has not been granted, this app will not be able to discover beacons when in the background.");
+                    builder.setPositiveButton(android.R.string.ok, null);
+                    builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+
+                        @Override
+                        public void onDismiss(DialogInterface dialog) {
+                        }
+
+                    });
+                    builder.show();
+                }
+                return;
+            }
+        }
+    }
+
 
     public void nextButtonClick(View view) {
         switch(page){
@@ -138,6 +187,21 @@ public class MainActivity extends AppCompatActivity {
     public void entryTestButtonClick(View view){
         Intent intent = new Intent(this, QuizActivity.class);
         startActivity(intent);
+    }
+
+
+    public void startNotifications(View view){
+        Log.v("mainacitvity", "1");
+        alarm.setAlarm(this);
+        Toast.makeText(this, "started notifcations",
+                Toast.LENGTH_LONG).show();
+    }
+
+
+    public void stopNotifications(View view){
+        alarm.cancelAlarm(this);
+        Toast.makeText(this, "stopped notifications",
+                Toast.LENGTH_LONG).show();
     }
 
     public void populateDataBase(){
