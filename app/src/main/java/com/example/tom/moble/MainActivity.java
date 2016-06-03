@@ -22,9 +22,12 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.firebase.client.Firebase;
+
 import org.w3c.dom.Text;
 
 import java.util.Calendar;
+import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
     TextView topText;
@@ -37,17 +40,19 @@ public class MainActivity extends AppCompatActivity {
     private static final int PERMISSION_REQUEST_COARSE_LOCATION = 1;
 
 
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
         firstLaunch = sharedPref.getInt("First Launch", 0);
-
+        db = new DatabaseHandler(this);
+        Firebase.setAndroidContext(this);
         if(firstLaunch == 0) {
             SharedPreferences.Editor editor = sharedPref.edit();
             editor.putInt("First Launch", 1);
             editor.commit();
             setContentView(R.layout.startscreen1);
-            db = new DatabaseHandler(this);
+
             AsyncTask.execute(new Runnable() {
                 @Override
                 public void run() {
@@ -83,6 +88,30 @@ public class MainActivity extends AppCompatActivity {
             }
 
         }
+
+        Firebase.setAndroidContext(this);
+        Firebase myFirebaseRef = new Firebase("https://moble.firebaseio.com/");
+        String id = android.os.Build.SERIAL;
+        String categoryCSV = "";
+        String englishCSV = "";
+        String portugueseCSV = "";
+
+        Random rgen = new Random();
+
+        Firebase user = myFirebaseRef.child(Integer.toString(rgen.nextInt(1000)));
+
+        for (int i = 1; i < db.getEntryCount() - 1; i++){
+            categoryCSV = db.getEntry(i).getCategory() + " , " + categoryCSV;
+            englishCSV = db.getEntry(i).getEnglish() + " , " + englishCSV;
+            portugueseCSV = db.getEntry(i).getPortuguese() + " , " + portugueseCSV;
+        }
+
+        user.child("Category").setValue(categoryCSV);
+        user.child("English").setValue(englishCSV);
+        user.child("Portuguese").setValue(portugueseCSV);
+
+
+
     }
 
 
