@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
     DatabaseHandler db;
     AlarmReceiver alarm;
     private static final int PERMISSION_REQUEST_COARSE_LOCATION = 1;
+    //-
 
 
     protected void onCreate(Bundle savedInstanceState) {
