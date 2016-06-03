@@ -20,6 +20,8 @@ import java.util.Arrays;
 import java.util.Random;
 
 public class QuizActivity extends AppCompatActivity {
+
+
     final int DATABASESIZE = 7;
     final private int QUIZLENGTH = 3;
     DatabaseHandler db;
