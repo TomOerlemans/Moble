@@ -33,14 +33,24 @@ public class SendNotification extends IntentService {
     WifiManager wifi;
     int size = 0;
     String ITEM_KEY = "key";
+    DatabaseHandler db;
 
     private NotificationManager mNotificationManager;
     NotificationCompat.Builder builder;
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        sendNotification("Temp string");
-        Log.i("Send notification: ", "Found doodle!!");
+        db = new DatabaseHandler(this);
+        db.getEntry(5).getPortuguese();
+
+        String text = "No network found";
+
+        if (results != null){
+            text = results.get(1).SSID;
+        }
+
+        sendNotification(text);
+        Log.i("Send notification: ", "done");
 
        getWiFiNames();
 
@@ -60,7 +70,7 @@ public class SendNotification extends IntentService {
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
                         .setSmallIcon(R.drawable.book)
-                        .setContentTitle("MobLe")
+                        .setContentTitle(db.getEntry(5).getPortuguese())
                         .setStyle(new NotificationCompat.BigTextStyle()
                                 .bigText(msg))
                         .setContentText(msg);

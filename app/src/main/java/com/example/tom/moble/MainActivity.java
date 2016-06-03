@@ -42,7 +42,6 @@ public class MainActivity extends AppCompatActivity {
     DatabaseHandler db;
     AlarmReceiver alarm;
     private static final int PERMISSION_REQUEST_COARSE_LOCATION = 1;
-    //-
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +49,6 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
         firstLaunch = sharedPref.getInt("First Launch", 0);
         db = new DatabaseHandler(this);
-        Firebase.setAndroidContext(this);
         if(firstLaunch == 0) {
             SharedPreferences.Editor editor = sharedPref.edit();
             editor.putInt("First Launch", 1);
