@@ -1,13 +1,13 @@
 package com.example.tom.moble;
 
-import java.util.ArrayList;
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+
+import java.util.ArrayList;
 
 /**
  * Created by Tom on 5/28/2016.
@@ -17,7 +17,7 @@ public class DatabaseHandler  extends SQLiteOpenHelper {
 
     // All Static variables
     // Database Version
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 4; //?
 
     // Database Name
     private static final String DATABASE_NAME = "wordDatabase";
@@ -30,8 +30,10 @@ public class DatabaseHandler  extends SQLiteOpenHelper {
     private static final String KEY_CATEGORY = "category";
     private static final String KEY_ENGLISH= "english";
     private static final String KEY_PORTUGUESE = "portuguese";
-
+    private static final String KEY_ENTRYTEST = "entry test";
+    private static final String KEY_FINALTEST = "final test";
     private final ArrayList<DatabaseEntry> word_list = new ArrayList<DatabaseEntry>();
+    private final ArrayList<DatabaseEntry> id_list = new ArrayList<DatabaseEntry>();
 
     public DatabaseHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -42,7 +44,8 @@ public class DatabaseHandler  extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         String CREATE_CONTACTS_TABLE = "CREATE TABLE " + TABLE_WORDS + "("
                 + KEY_ID + " INTEGER PRIMARY KEY," + KEY_CATEGORY + " TEXT,"
-                + KEY_ENGLISH + " TEXT," + KEY_PORTUGUESE + " TEXT" + ")";
+                + KEY_ENGLISH + " TEXT," + KEY_PORTUGUESE + " TEXT," + KEY_ENTRYTEST
+                + "TEXT," + KEY_FINALTEST + "TEXT" +")";
         db.execSQL(CREATE_CONTACTS_TABLE);
     }
 
@@ -77,7 +80,7 @@ public class DatabaseHandler  extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.query(TABLE_WORDS, new String[] { KEY_ID,
-                        KEY_CATEGORY, KEY_ENGLISH, KEY_PORTUGUESE }, KEY_ID + "=?",
+                        KEY_CATEGORY, KEY_ENGLISH, KEY_PORTUGUESE,KEY_ENTRYTEST,KEY_FINALTEST }, KEY_ID + "=?",
                 new String[] { String.valueOf(id) }, null, null, null, null);
         if (cursor != null)
             cursor.moveToFirst();
@@ -113,6 +116,8 @@ public class DatabaseHandler  extends SQLiteOpenHelper {
                     databaseEntry.setCategory(cursor.getString(1));
                     databaseEntry.setEnglish(cursor.getString(2));
                     databaseEntry.setPortuguese(cursor.getString(3));
+                    databaseEntry.setEntryTest(cursor.getString(4));
+                    databaseEntry.setFinalTest(cursor.getString(5));
                     // Adding contact to list
                     word_list.add(databaseEntry);
                 } while (cursor.moveToNext());
@@ -130,6 +135,48 @@ public class DatabaseHandler  extends SQLiteOpenHelper {
         return word_list;
     }
 
+
+
+    public ArrayList<DatabaseEntry> getAllIdByCategory(String category) {
+        try {
+            id_list.clear();
+
+            // Select All Query
+            String selectQuery = "SELECT  * FROM " + TABLE_WORDS+" WHERE KEY_CATEGORY ="+ category;
+
+            SQLiteDatabase db = this.getWritableDatabase();
+            Cursor cursor = db.rawQuery(selectQuery, null);
+
+            // looping through all rows and adding to list
+            if (cursor.moveToFirst()) {
+                do {
+                    DatabaseEntry databaseEntry = new DatabaseEntry();
+                    databaseEntry.setID(Integer.parseInt(cursor.getString(0)));
+//                    databaseEntry.setCategory(cursor.getString(1));
+//                    databaseEntry.setEnglish(cursor.getString(2));
+//                    databaseEntry.setPortuguese(cursor.getString(3));
+//                    databaseEntry.setEntryTest(cursor.getString(4));
+//                    databaseEntry.setFinalTest(cursor.getString(5));
+                    // Adding contact to list
+                    id_list.add(databaseEntry);
+                } while (cursor.moveToNext());
+            }
+
+            // return contact list
+            cursor.close();
+            db.close();
+            return id_list;
+        } catch (Exception e) {
+            // TODO: handle exception
+            Log.e("all_contact", "" + e);
+        }
+
+        return id_list;
+    }
+
+
+
+
     // Updating single entry
     public int updateEntry(DatabaseEntry databaseEntry) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -138,6 +185,8 @@ public class DatabaseHandler  extends SQLiteOpenHelper {
         values.put(KEY_CATEGORY, databaseEntry.getCategory());
         values.put(KEY_ENGLISH, databaseEntry.getEnglish());
         values.put(KEY_PORTUGUESE, databaseEntry.getPortuguese());
+        values.put(KEY_ENTRYTEST, databaseEntry.getPortuguese());
+        values.put(KEY_FINALTEST, databaseEntry.getPortuguese());
 
         // updating row
         return db.update(TABLE_WORDS, values, KEY_ID + " = ?",

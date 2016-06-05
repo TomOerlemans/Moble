@@ -1,16 +1,17 @@
 package com.example.tom.moble;
 
-import android.content.Context;
+
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.firebase.client.Firebase;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -21,8 +22,8 @@ public class QuizActivity extends AppCompatActivity {
 
 
     final int DATABASESIZE = 7;
-    final private int QUIZLENGTH = 1;
-    final private int LENGTH_TRAINING_DAYS = 3;
+    final private int QUIZLENGTH = 3;
+    final private int LENGTH_TRAINING_DAYS = 1;
     DatabaseHandler db;
     TextView quizQuestion;
     TextView quizRound;
@@ -39,7 +40,9 @@ public class QuizActivity extends AppCompatActivity {
     int score;
     int round;
     boolean lock;
+    boolean entryTest;
     ArrayList takenIndices;
+    ArrayList alreadyAsked;
 
     public SharedPreferences finalTestDatePref;
 
@@ -60,18 +63,32 @@ public class QuizActivity extends AppCompatActivity {
         six = (Button) findViewById(R.id.multipleChoiceAnswer6Button);
         rgen = new Random();
         takenIndices = new ArrayList();
-
-        setNewQuestion();
+        alreadyAsked = new ArrayList();
         score = 0;
         round =1;
 
-
+        //check if this is the entry test or final test
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String finalTestDayString = sharedPreferences.getString("Final Test Date", null);
+        entryTest = finalTestDayString == null;
+        setNewQuestion();
     }
 
     public void setNewQuestion(){
         lock = false;
 
-        correctAnswerDB = rgen.nextInt(DATABASESIZE) + 1; // see above for alternative implementation
+        //
+
+
+
+
+        while (true){
+            correctAnswerDB = rgen.nextInt(DATABASESIZE) + 1; // see above for alternative implementation
+
+            if (alreadyAsked.contains(correctAnswerDB)){
+                break;
+            }
+        }
 
 
         correctAnswerButton = rgen.nextInt(5) + 1;
@@ -153,31 +170,55 @@ public class QuizActivity extends AppCompatActivity {
                     case R.id.multipleChoiceAnswer1Button:
                         if (correctAnswerButton == 1) {
                             score++;
+                            writeToDB("correct");
+                        }
+                        else{
+                            writeToDB("wrong");
                         }
                         break;
                     case R.id.multipleChoiceAnswer2Button:
                         if (correctAnswerButton == 2) {
                             score++;
+                            writeToDB("correct");
+                        }
+                        else{
+                            writeToDB("wrong");
                         }
                         break;
                     case R.id.multipleChoiceAnswer3Button:
                         if (correctAnswerButton == 3) {
                             score++;
+                            writeToDB("correct");
+                        }
+                        else{
+                            writeToDB("wrong");
                         }
                         break;
                     case R.id.multipleChoiceAnswer4Button:
                         if (correctAnswerButton == 4) {
                             score++;
+                            writeToDB("correct");
+                        }
+                        else{
+                            writeToDB("wrong");
                         }
                         break;
                     case R.id.multipleChoiceAnswer5Button:
                         if (correctAnswerButton == 5) {
                             score++;
+                            writeToDB("correct");
+                        }
+                        else{
+                            writeToDB("wrong");
                         }
                         break;
                     case R.id.multipleChoiceAnswer6Button:
                         if (correctAnswerButton == 6) {
                             score++;
+                            writeToDB("correct");
+                        }
+                        else{
+                            writeToDB("wrong");
                         }
                         break;
                     default:
@@ -189,12 +230,25 @@ public class QuizActivity extends AppCompatActivity {
                 if(round >= QUIZLENGTH){
                     Button nextButton = (Button) findViewById(R.id.nextButton);
                     nextButton.setText("SEE RESULTS");
+
                 }
             }
     }
 
+    public void writeToDB(String s){
+
+            if (entryTest == true) {
+                db.getEntry(correctAnswerDB).setEntryTest(s);
+            }
+            else{
+                db.getEntry(correctAnswerDB).setFinalTest(s);
+            }
+
+
+    }
+
     public void nextButtonClick(View view){
-        if(round >= QUIZLENGTH){
+        if(round >= QUIZLENGTH && entryTest==true) {
 
             setContentView(R.layout.post_quiz);
 
@@ -208,15 +262,52 @@ public class QuizActivity extends AppCompatActivity {
             cal.add(Calendar.DATE, LENGTH_TRAINING_DAYS);
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MMM/yyyy");
             String finalTestDateString = dateFormat.format(cal.getTime());
-//            Toast.makeText(this, finalTestDateString,
-//            Toast.LENGTH_LONG).show();
 
-
-
+            // save datein shared pref
             SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putString("Final Test Date", finalTestDateString);
             editor.apply();
+        }
+        else if(round >= QUIZLENGTH && entryTest==false){
+            // save  shared pref
+            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putBoolean("Final Test Done", true);
+            editor.apply();
+
+
+
+
+            //upload everything to db
+
+
+            Firebase.setAndroidContext(this);
+            Firebase myFirebaseRef = new Firebase("https://moble.firebaseio.com/");
+            String id = android.os.Build.SERIAL;
+            String categoryCSV = "";
+            String englishCSV = "";
+            String portugueseCSV = "";
+            String entrytestCSV = "";
+            String finaltestCSV = "";
+
+            Random rgen = new Random();
+
+            Firebase user = myFirebaseRef.child(Integer.toString(rgen.nextInt(1000)));
+
+            for (int i = 1; i < db.getEntryCount() - 1; i++){
+                categoryCSV = db.getEntry(i).getCategory() + " , " + categoryCSV;
+                englishCSV = db.getEntry(i).getEnglish() + " , " + englishCSV;
+                portugueseCSV = db.getEntry(i).getPortuguese() + " , " + portugueseCSV;
+                entrytestCSV = db.getEntry(i).getEntryTest() + " , " + entrytestCSV;
+                finaltestCSV = db.getEntry(i).getFinalTest() + " , " + finaltestCSV;
+            }
+
+            user.child("Category").setValue(categoryCSV);
+            user.child("English").setValue(englishCSV);
+            user.child("Portuguese").setValue(portugueseCSV);
+            user.child("Entry Test").setValue(entrytestCSV);
+            user.child("Final Test").setValue(finaltestCSV);
 
         }else{
             if (lock == true) {

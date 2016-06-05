@@ -58,7 +58,8 @@
         android:backgroundTint="@color/colorPrimary"
         android:textColor="@android:color/white"
         android:textSize="22sp"
-        android:textAllCaps="false"/>
+        android:textAllCaps="false"
+        android:onClick="finalTestButtonClick"/>
 
     <Button
         android:layout_width="220sp"

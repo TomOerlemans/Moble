@@ -9,6 +9,9 @@ public class DatabaseEntry {
     public String _category;
     public String _english;
     public String _portuguese;
+    public String _entrytest;
+    public String _finaltest;
+
 
     public DatabaseEntry() {
     }
@@ -19,6 +22,7 @@ public class DatabaseEntry {
         this._category = _category;
         this._english = _english;
         this._portuguese = _portuguese;
+
 
     }
 
@@ -65,8 +69,28 @@ public class DatabaseEntry {
     }
 
     // setting portuguese
-    public void setPortuguese(String portuguese) {
-        this._portuguese = portuguese;
+    public void setPortuguese(String _portuguese) {
+        this._portuguese = _portuguese;
+    }
+
+    // getting enrty test
+    public String getEntryTest() {
+        return this._entrytest;
+    }
+
+    // setting portuguese
+    public void setEntryTest(String _entrytest) {
+        this._entrytest = _entrytest;
+    }
+
+    // getting portuguese
+    public String getFinalTest() {
+        return this._finaltest;
+    }
+
+    // setting portuguese
+    public void setFinalTest(String _finaltest) {
+        this._finaltest = _finaltest;
     }
 
 }

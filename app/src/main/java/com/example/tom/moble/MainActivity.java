@@ -1,21 +1,17 @@
 package com.example.tom.moble;
 
 import android.Manifest;
-import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -25,13 +21,10 @@ import android.widget.Toast;
 
 import com.firebase.client.Firebase;
 
-import org.w3c.dom.Text;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Random;
 import java.util.Date;
+import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
     TextView topText;
@@ -90,12 +83,20 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
+        firebaseStuff();
+
+
+    }
+    public void firebaseStuff(){
+
         Firebase.setAndroidContext(this);
         Firebase myFirebaseRef = new Firebase("https://moble.firebaseio.com/");
         String id = android.os.Build.SERIAL;
         String categoryCSV = "";
         String englishCSV = "";
         String portugueseCSV = "";
+        String entrytestCSV = "";
+        String finaltestCSV = "";
 
         Random rgen = new Random();
 
@@ -105,14 +106,15 @@ public class MainActivity extends AppCompatActivity {
             categoryCSV = db.getEntry(i).getCategory() + " , " + categoryCSV;
             englishCSV = db.getEntry(i).getEnglish() + " , " + englishCSV;
             portugueseCSV = db.getEntry(i).getPortuguese() + " , " + portugueseCSV;
+            entrytestCSV = db.getEntry(i).getEntryTest() + " , " + entrytestCSV;
+            finaltestCSV = db.getEntry(i).getFinalTest() + " , " + finaltestCSV;
         }
 
         user.child("Category").setValue(categoryCSV);
         user.child("English").setValue(englishCSV);
         user.child("Portuguese").setValue(portugueseCSV);
-
-
-
+        user.child("Entry Test").setValue(entrytestCSV);
+        user.child("Final Test").setValue(finaltestCSV);
     }
 
 
@@ -165,19 +167,27 @@ public class MainActivity extends AppCompatActivity {
     public Boolean finalTestAvailable() throws ParseException {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         String finalTestDayString = sharedPreferences.getString("Final Test Date", null);
+
         if( finalTestDayString!=null){
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MMM/yyyy");
             Date strDate = sdf.parse(finalTestDayString);
-            return new Date().after(strDate);
+            return (new Date().after(strDate));
         }
         else{return false;}
     }
     public void finalTestButtonClick(View view) throws ParseException {
-        if (finalTestAvailable()){
-            Toast.makeText(this, "final test READY",
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        Boolean finalTestDone = sharedPreferences.getBoolean("Final Test Done", false);
+        if (finalTestAvailable()==true && finalTestDone == false){
+            // final test ready
+            Intent intent = new Intent(this, QuizActivity.class);
+            startActivity(intent);
+        }else if(finalTestAvailable()==true && finalTestDone == true){
+            Toast.makeText(this, "final test already taken",
                     Toast.LENGTH_LONG).show();
-        }else{
-            Toast.makeText(this, "final test not ready yet",
+        }
+        else{
+            Toast.makeText(this, "final test will be available at"+ sharedPreferences.getString("Final Test Date", null),
                     Toast.LENGTH_LONG).show();
         }
     }
@@ -237,12 +247,15 @@ public class MainActivity extends AppCompatActivity {
 
     public void entryTestButtonClick(View view){
 
+
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
         if( sharedPreferences.contains("Final Test Date")){
             Toast.makeText(this, "Already completed entry test",
                     Toast.LENGTH_LONG).show();
         }
         else {
+            System.out.println(sharedPreferences.toString());
             Intent intent = new Intent(this, QuizActivity.class);
             startActivity(intent);
         }
@@ -261,6 +274,16 @@ public class MainActivity extends AppCompatActivity {
         alarm.cancelAlarm(this);
         Toast.makeText(this, "stopped notifications",
                 Toast.LENGTH_LONG).show();
+        deleteHistory();
+    }
+
+
+
+    public void deleteHistory(){
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.remove("Final Test Date");
+        editor.commit();
     }
 
     public void populateDataBase(){
