@@ -1,6 +1,7 @@
 package com.example.tom.moble;
 
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -65,12 +66,17 @@ public class QuizActivity extends AppCompatActivity {
         takenIndices = new ArrayList();
         alreadyAsked = new ArrayList();
         score = 0;
-        round =1;
+        round = 1;
 
         //check if this is the entry test or final test
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        String finalTestDayString = sharedPreferences.getString("Final Test Date", null);
-        entryTest = finalTestDayString == null;
+        SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
+        String finalTestDayString = sharedPref.getString("Final Test Date", null);
+        if (finalTestDayString != null){
+            entryTest = false;
+        }else{
+            entryTest = true;
+        }
+
         setNewQuestion();
     }
 
@@ -78,9 +84,6 @@ public class QuizActivity extends AppCompatActivity {
         lock = false;
 
         //
-
-
-
 
         while (true){
             correctAnswerDB = rgen.nextInt(DATABASESIZE) + 1; // see above for alternative implementation
