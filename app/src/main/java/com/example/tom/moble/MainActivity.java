@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
-        firebaseStuff();
+       // firebaseStuff();
 
 
     }
@@ -187,7 +187,7 @@ public class MainActivity extends AppCompatActivity {
                     Toast.LENGTH_LONG).show();
         }
         else{
-            Toast.makeText(this, "final test will be available at"+ sharedPreferences.getString("Final Test Date", null),
+            Toast.makeText(this, "final test will not available",
                     Toast.LENGTH_LONG).show();
         }
     }
@@ -255,7 +255,6 @@ public class MainActivity extends AppCompatActivity {
                     Toast.LENGTH_LONG).show();
         }
         else {
-            System.out.println(sharedPreferences.toString());
             Intent intent = new Intent(this, QuizActivity.class);
             startActivity(intent);
         }
