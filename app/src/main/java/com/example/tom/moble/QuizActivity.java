@@ -85,17 +85,11 @@ public class QuizActivity extends AppCompatActivity {
 
         //
 
-        while (true){
+        while (true) {
             correctAnswerDB = rgen.nextInt(DATABASESIZE) + 1; // see above for alternative implementation
-            if(entryTest==true){
-                if(db.getEntry(correctAnswerDB).getEntryTest()==null){
-                    break;
-                }
-                else{
-                    if(db.getEntry(correctAnswerDB).getFinalTest()==null){
-                        break;
-                    }
-                }
+            if ((entryTest == true && db.getEntry(correctAnswerDB).getEntryTest() == null) || (entryTest == false && db.getEntry(correctAnswerDB).getFinalTest() == null)) {
+                break;
+            }
         }
 
         correctAnswerButton = rgen.nextInt(5) + 1;
