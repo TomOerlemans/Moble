@@ -71,20 +71,16 @@ public class QuizActivity extends AppCompatActivity {
         //check if this is the entry test or final test
         SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
         String finalTestDayString = sharedPref.getString("Final Test Date", null);
-        if (finalTestDayString != null){
-            entryTest = false;
-        }else{
+        if (finalTestDayString == null){
             entryTest = true;
+        }else{
+            entryTest = false;
         }
-
         setNewQuestion();
     }
 
     public void setNewQuestion(){
         lock = false;
-
-        //
-
         while (true) {
             correctAnswerDB = rgen.nextInt(DATABASESIZE) + 1; // see above for alternative implementation
             if ((entryTest == true && db.getEntry(correctAnswerDB).getEntryTest() == null) || (entryTest == false && db.getEntry(correctAnswerDB).getFinalTest() == null)) {
@@ -93,7 +89,6 @@ public class QuizActivity extends AppCompatActivity {
         }
 
         correctAnswerButton = rgen.nextInt(5) + 1;
-
         quizQuestion.setText(db.getEntry(correctAnswerDB).getEnglish());
 
         one.setBackgroundColor(Color.parseColor("#6AB344"));
@@ -124,7 +119,6 @@ public class QuizActivity extends AppCompatActivity {
     }
 
     public int excludeRandom(){
-
         int x = rgen.nextInt(DATABASESIZE) + 1;
         while(takenIndices.contains(x)){
             x = rgen.nextInt(DATABASESIZE) + 1;
@@ -134,7 +128,6 @@ public class QuizActivity extends AppCompatActivity {
     }
 
     public void quizAnswerButtonClick(View view){
-
             if (lock == false) {
                 one.setBackgroundColor(Color.parseColor("#d1332e"));
                 two.setBackgroundColor(Color.parseColor("#d1332e"));
@@ -240,6 +233,7 @@ public class QuizActivity extends AppCompatActivity {
 
             if (entryTest == true) {
                 db.getEntry(correctAnswerDB).setEntryTest(s);
+                db.updateEntry(db.getEntry(correctAnswerDB));
             }
             else{
                 db.getEntry(correctAnswerDB).setFinalTest(s);
@@ -265,12 +259,11 @@ public class QuizActivity extends AppCompatActivity {
             String finalTestDateString = dateFormat.format(cal.getTime());
 
             // save datein shared pref
-            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-            SharedPreferences.Editor editor = sharedPreferences.edit();
+            SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPref.edit();
             editor.putString("Final Test Date", finalTestDateString);
             editor.apply();
-        }
-        else if(round >= QUIZLENGTH && entryTest==false){
+        }else if(round >= QUIZLENGTH && entryTest==false){
             // save  shared pref
             SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
             SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -278,7 +271,7 @@ public class QuizActivity extends AppCompatActivity {
             editor.apply();
 
 
-
+            Log.v("temp", "-------------");
 
             //upload everything to db
 
