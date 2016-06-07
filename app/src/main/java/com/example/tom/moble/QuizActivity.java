@@ -42,6 +42,7 @@ public class QuizActivity extends AppCompatActivity {
     int round;
     boolean lock;
     boolean entryTest;
+    boolean dbSpamBlock;
     ArrayList takenIndices;
     ArrayList alreadyAsked;
 
@@ -67,20 +68,26 @@ public class QuizActivity extends AppCompatActivity {
         alreadyAsked = new ArrayList();
         score = 0;
         round = 1;
-
+        dbSpamBlock = false;
         //check if this is the entry test or final test
-        SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
-        String finalTestDayString = sharedPref.getString("Final Test Date", null);
-        if (finalTestDayString == null){
-            entryTest = true;
-        }else{
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String finalTestDayString = sharedPreferences.getString("Final Test Date", null);
+//        System.out.println(finalTestDayString);
+//        System.out.println("==================================================");
+        if (finalTestDayString != null){
             entryTest = false;
+        }else{
+            entryTest = true;
         }
+//        System.out.println("entryTest = "+ entryTest);
         setNewQuestion();
     }
 
     public void setNewQuestion(){
         lock = false;
+//        System.out.println("~~~~~~~~~~~~~~~~   new question  ``````````````````");
+        //
+//        correctAnswerDB = rgen.nextInt(DATABASESIZE) + 1; // see above for alternative implementation
         while (true) {
             correctAnswerDB = rgen.nextInt(DATABASESIZE) + 1; // see above for alternative implementation
             if ((entryTest == true && db.getEntry(correctAnswerDB).getEntryTest() == null) || (entryTest == false && db.getEntry(correctAnswerDB).getFinalTest() == null)) {
@@ -89,8 +96,9 @@ public class QuizActivity extends AppCompatActivity {
         }
 
         correctAnswerButton = rgen.nextInt(5) + 1;
+//        System.out.println("~~~~~~~~~~~~~~~~   before  ``````````````````");
         quizQuestion.setText(db.getEntry(correctAnswerDB).getEnglish());
-
+//        System.out.println("~~~~~~~~~~~~~~~~   after  ``````````````````");
         one.setBackgroundColor(Color.parseColor("#6AB344"));
         two.setBackgroundColor(Color.parseColor("#6AB344"));
         three.setBackgroundColor(Color.parseColor("#6AB344"));
@@ -119,6 +127,7 @@ public class QuizActivity extends AppCompatActivity {
     }
 
     public int excludeRandom(){
+
         int x = rgen.nextInt(DATABASESIZE) + 1;
         while(takenIndices.contains(x)){
             x = rgen.nextInt(DATABASESIZE) + 1;
@@ -128,6 +137,7 @@ public class QuizActivity extends AppCompatActivity {
     }
 
     public void quizAnswerButtonClick(View view){
+
             if (lock == false) {
                 one.setBackgroundColor(Color.parseColor("#d1332e"));
                 two.setBackgroundColor(Color.parseColor("#d1332e"));
@@ -232,84 +242,100 @@ public class QuizActivity extends AppCompatActivity {
     public void writeToDB(String s){
 
             if (entryTest == true) {
-                db.getEntry(correctAnswerDB).setEntryTest(s);
-                db.updateEntry(db.getEntry(correctAnswerDB));
+                DatabaseEntry dbe = db.getEntry(correctAnswerDB);
+                dbe.setEntryTest(s);
+                db.updateEntry(dbe);
             }
             else{
-                db.getEntry(correctAnswerDB).setFinalTest(s);
+                DatabaseEntry dbe = db.getEntry(correctAnswerDB);
+                dbe.setFinalTest(s);
+                db.updateEntry(dbe);
             }
 
 
     }
 
-    public void nextButtonClick(View view){
-        if(round >= QUIZLENGTH && entryTest==true) {
+    public void nextButtonClick(View view) {
 
-            setContentView(R.layout.post_quiz);
+        if (dbSpamBlock = false) {
+            if (round >= QUIZLENGTH && entryTest == true) {
+//            System.out.println("great! finally in end");
 
-            TextView postQuizTextView = (TextView) findViewById(R.id.postQuizText);
-            String postQuizeString = getString(R.string.post_entry_quiz, score, round);
-            postQuizTextView.setText(postQuizeString);
+                setContentView(R.layout.post_quiz);
 
-            // create date when ready
-            Calendar cal = Calendar.getInstance();
-            cal.getTime();
-            cal.add(Calendar.DATE, LENGTH_TRAINING_DAYS);
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MMM/yyyy");
-            String finalTestDateString = dateFormat.format(cal.getTime());
+                TextView postQuizTextView = (TextView) findViewById(R.id.postQuizText);
+                String postQuizeString = getString(R.string.post_entry_quiz, score, round);
+                postQuizTextView.setText(postQuizeString);
 
-            // save datein shared pref
-            SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = sharedPref.edit();
-            editor.putString("Final Test Date", finalTestDateString);
-            editor.apply();
-        }else if(round >= QUIZLENGTH && entryTest==false){
-            // save  shared pref
-            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putBoolean("Final Test Done", true);
-            editor.apply();
+                // create date when ready
+                Calendar cal = Calendar.getInstance();
+                cal.getTime();
+                cal.add(Calendar.DATE, LENGTH_TRAINING_DAYS);
+                SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MMM/yyyy");
+                String finalTestDateString = dateFormat.format(cal.getTime());
 
-
-            Log.v("temp", "-------------");
-
-            //upload everything to db
+                // save datein shared pref
+                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("Final Test Date", finalTestDateString);
+                editor.apply();
+            } else if (round >= QUIZLENGTH && entryTest == false) {
+//            System.out.println("great! finally in end");
 
 
-            Firebase.setAndroidContext(this);
-            Firebase myFirebaseRef = new Firebase("https://moble.firebaseio.com/");
-            String id = android.os.Build.SERIAL;
-            String categoryCSV = "";
-            String englishCSV = "";
-            String portugueseCSV = "";
-            String entrytestCSV = "";
-            String finaltestCSV = "";
+                setContentView(R.layout.post_quiz);
 
-            Random rgen = new Random();
+                TextView postQuizTextView = (TextView) findViewById(R.id.postQuizText);
+                String postQuizeString = getString(R.string.post_entry_quiz, score, round);
+                postQuizTextView.setText(postQuizeString);
 
-            Firebase user = myFirebaseRef.child(Integer.toString(rgen.nextInt(1000)));
+                // save  shared pref
+                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putBoolean("Final Test Done", true);
+                editor.apply();
 
-            for (int i = 1; i < db.getEntryCount() - 1; i++){
-                categoryCSV = db.getEntry(i).getCategory() + " , " + categoryCSV;
-                englishCSV = db.getEntry(i).getEnglish() + " , " + englishCSV;
-                portugueseCSV = db.getEntry(i).getPortuguese() + " , " + portugueseCSV;
-                entrytestCSV = db.getEntry(i).getEntryTest() + " , " + entrytestCSV;
-                finaltestCSV = db.getEntry(i).getFinalTest() + " , " + finaltestCSV;
-            }
 
-            user.child("Category").setValue(categoryCSV);
-            user.child("English").setValue(englishCSV);
-            user.child("Portuguese").setValue(portugueseCSV);
-            user.child("Entry Test").setValue(entrytestCSV);
-            user.child("Final Test").setValue(finaltestCSV);
+                //upload everything to db
 
-        }else{
-            if (lock == true) {
-                round++;
-                quizRound.setText("Round: " + Integer.toString(round));
-                setNewQuestion();
+
+                Firebase.setAndroidContext(this);
+                Firebase myFirebaseRef = new Firebase("https://moble.firebaseio.com/");
+                String id = android.os.Build.SERIAL;
+                String categoryCSV = "";
+                String englishCSV = "";
+                String portugueseCSV = "";
+                String entrytestCSV = "";
+                String finaltestCSV = "";
+
+                Random rgen = new Random();
+
+                Firebase user = myFirebaseRef.child(Integer.toString(rgen.nextInt(1000)));
+
+                for (int i = 1; i < db.getEntryCount() - 1; i++) {
+                    categoryCSV = db.getEntry(i).getCategory() + " , " + categoryCSV;
+                    englishCSV = db.getEntry(i).getEnglish() + " , " + englishCSV;
+                    portugueseCSV = db.getEntry(i).getPortuguese() + " , " + portugueseCSV;
+                    entrytestCSV = db.getEntry(i).getEntryTest() + " , " + entrytestCSV;
+                    finaltestCSV = db.getEntry(i).getFinalTest() + " , " + finaltestCSV;
+                }
+
+                user.child("Category").setValue(categoryCSV);
+                user.child("English").setValue(englishCSV);
+                user.child("Portuguese").setValue(portugueseCSV);
+                user.child("Entry Test").setValue(entrytestCSV);
+                user.child("Final Test").setValue(finaltestCSV);
+
+            } else {
+                if (lock == true) {
+                    round++;
+                    quizRound.setText("Round: " + Integer.toString(round));
+                    setNewQuestion();
+                }
             }
         }
+        dbSpamBlock =true; // protects against spamming see results button
+
     }
 
     public void endQuiz(View view){

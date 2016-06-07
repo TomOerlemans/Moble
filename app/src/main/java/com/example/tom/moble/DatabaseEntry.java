@@ -17,20 +17,36 @@ public class DatabaseEntry {
     }
 
     // constructor
-    public DatabaseEntry(int id, String _category, String _english, String _portuguese) {
+    public DatabaseEntry(String _category, String _english, String _portuguese) {
+
+        this._category = _category;
+        this._english = _english;
+        this._portuguese = _portuguese;
+        this._entrytest="";
+        this._finaltest="";
+
+    }
+
+
+
+
+    public DatabaseEntry(int id, String _category, String _english, String _portuguese, String _entrytest, String _finaltest) {
         this._id = id;
         this._category = _category;
         this._english = _english;
         this._portuguese = _portuguese;
-
+        this._entrytest=_entrytest;
+        this._finaltest=_finaltest;
 
     }
 
     // constructor
-    public DatabaseEntry(String _category, String _english, String _portuguese) {
+    public DatabaseEntry(String _category, String _english, String _portuguese, String _entrytest, String _finaltest) {
         this._category = _category;
         this._english = _english;
         this._portuguese = _portuguese;
+        this._entrytest=_entrytest;
+        this._finaltest=_finaltest;
     }
 
     // getting ID
