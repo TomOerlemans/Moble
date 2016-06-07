@@ -17,7 +17,7 @@ public class DatabaseHandler  extends SQLiteOpenHelper {
 
     // All Static variables
     // Database Version
-    private static final int DATABASE_VERSION = 4; //?
+    private static final int DATABASE_VERSION = 5; //?
 
     // Database Name
     private static final String DATABASE_NAME = "wordDatabase";
@@ -30,8 +30,8 @@ public class DatabaseHandler  extends SQLiteOpenHelper {
     private static final String KEY_CATEGORY = "category";
     private static final String KEY_ENGLISH= "english";
     private static final String KEY_PORTUGUESE = "portuguese";
-    private static final String KEY_ENTRYTEST = "entry test";
-    private static final String KEY_FINALTEST = "final test";
+    private static final String KEY_ENTRYTEST = "entrytest";
+    private static final String KEY_FINALTEST = "finaltest";
     private final ArrayList<DatabaseEntry> word_list = new ArrayList<DatabaseEntry>();
     private final ArrayList<DatabaseEntry> id_list = new ArrayList<DatabaseEntry>();
 
@@ -42,11 +42,23 @@ public class DatabaseHandler  extends SQLiteOpenHelper {
     // Creating Tables
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String CREATE_CONTACTS_TABLE = "CREATE TABLE " + TABLE_WORDS + "("
-                + KEY_ID + " INTEGER PRIMARY KEY," + KEY_CATEGORY + " TEXT,"
-                + KEY_ENGLISH + " TEXT," + KEY_PORTUGUESE + " TEXT," + KEY_ENTRYTEST
-                + "TEXT," + KEY_FINALTEST + "TEXT" +")";
+//        String CREATE_CONTACTS_TABLE = "CREATE TABLE " + TABLE_WORDS + "("
+//                + KEY_ID + " INTEGER PRIMARY KEY, " + KEY_CATEGORY + " TEXT,"
+//                + KEY_ENGLISH + " TEXT," + KEY_PORTUGUESE + " TEXT," + KEY_ENTRYTEST
+//                + " TEXT," + KEY_FINALTEST + " TEXT" +" );";
+//        db.execSQL(CREATE_CONTACTS_TABLE);
+
+        String CREATE_CONTACTS_TABLE = "CREATE TABLE " + TABLE_WORDS + "(" +
+                KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                KEY_CATEGORY + " TEXT," +
+                KEY_ENGLISH + " TEXT," +
+                KEY_PORTUGUESE + " TEXT," +
+                KEY_ENTRYTEST + " TEXT," +
+                KEY_FINALTEST + " TEXT" + ");";
         db.execSQL(CREATE_CONTACTS_TABLE);
+
+
+
     }
 
     // Upgrading database
@@ -67,9 +79,12 @@ public class DatabaseHandler  extends SQLiteOpenHelper {
     public void addEntry(DatabaseEntry databaseEntry) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
+//        System.out.println("@ addNtry: "+ values.toString());
         values.put(KEY_CATEGORY, databaseEntry.getCategory());
         values.put(KEY_ENGLISH, databaseEntry.getEnglish());
         values.put(KEY_PORTUGUESE, databaseEntry.getPortuguese());
+        values.put(KEY_ENTRYTEST, databaseEntry.getEntryTest());
+        values.put(KEY_FINALTEST, databaseEntry.getFinalTest());
         // Inserting Row
         db.insert(TABLE_WORDS, null, values);
         db.close(); // Closing database connection
@@ -80,14 +95,24 @@ public class DatabaseHandler  extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.query(TABLE_WORDS, new String[] { KEY_ID,
-                        KEY_CATEGORY, KEY_ENGLISH, KEY_PORTUGUESE,KEY_ENTRYTEST,KEY_FINALTEST }, KEY_ID + "=?",
+                        KEY_CATEGORY, KEY_ENGLISH, KEY_PORTUGUESE, KEY_ENTRYTEST, KEY_FINALTEST }, KEY_ID + "=?",
                 new String[] { String.valueOf(id) }, null, null, null, null);
         if (cursor != null)
             cursor.moveToFirst();
-
+//        System.out.println("~~~~~~~~~~~~~~~~   WHITHIN DBH.JAVA  ``````````````````");
+//        System.out.println(String.valueOf(id));
+//        System.out.println(cursor.getColumnCount());
+//        System.out.println(cursor.getColumnName(cursor.getColumnCount()));
+//        System.out.println(cursor.getColumnName(cursor.getColumnCount()-1));
+//        System.out.println(String.valueOf(getAllEntries().size()));
+//        System.out.println(cursor.getString(3));
+//        System.out.println(cursor.getString(4));
+//        System.out.println(cursor.getString(5));
+//        System.out.println(cursor.getClass());
         DatabaseEntry databaseEntry = new DatabaseEntry(Integer.parseInt(cursor.getString(0)),
-                cursor.getString(1), cursor.getString(2), cursor.getString(3));
+                cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5));
         // return entry
+//        System.out.println("~~~~~~~~~~~~~~~~   WHITHIN DBH.JAVA2  ``````````````````");
         cursor.close();
         db.close();
         return databaseEntry;
@@ -152,12 +177,12 @@ public class DatabaseHandler  extends SQLiteOpenHelper {
                 do {
                     DatabaseEntry databaseEntry = new DatabaseEntry();
                     databaseEntry.setID(Integer.parseInt(cursor.getString(0)));
-//                    databaseEntry.setCategory(cursor.getString(1));
-//                    databaseEntry.setEnglish(cursor.getString(2));
-//                    databaseEntry.setPortuguese(cursor.getString(3));
-//                    databaseEntry.setEntryTest(cursor.getString(4));
-//                    databaseEntry.setFinalTest(cursor.getString(5));
-                    // Adding contact to list
+                    databaseEntry.setCategory(cursor.getString(1));
+                    databaseEntry.setEnglish(cursor.getString(2));
+                    databaseEntry.setPortuguese(cursor.getString(3));
+                    databaseEntry.setEntryTest(cursor.getString(4));
+                    databaseEntry.setFinalTest(cursor.getString(5));
+//                     Adding contact to list
                     id_list.add(databaseEntry);
                 } while (cursor.moveToNext());
             }
