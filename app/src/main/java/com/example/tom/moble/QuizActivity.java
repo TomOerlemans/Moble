@@ -260,7 +260,7 @@ public class QuizActivity extends AppCompatActivity {
         if (dbSpamBlock = false) {
             if (round >= QUIZLENGTH && entryTest == true) {
 //            System.out.println("great! finally in end");
-
+                dbSpamBlock =true; // protects against spamming see results button
                 setContentView(R.layout.post_quiz);
 
                 TextView postQuizTextView = (TextView) findViewById(R.id.postQuizText);
@@ -279,9 +279,10 @@ public class QuizActivity extends AppCompatActivity {
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString("Final Test Date", finalTestDateString);
                 editor.apply();
+
             } else if (round >= QUIZLENGTH && entryTest == false) {
 //            System.out.println("great! finally in end");
-
+                dbSpamBlock =true; // protects against spamming see results button
 
                 setContentView(R.layout.post_quiz);
 
@@ -334,7 +335,7 @@ public class QuizActivity extends AppCompatActivity {
                 }
             }
         }
-        dbSpamBlock =true; // protects against spamming see results button
+
 
     }
 
