@@ -193,14 +193,15 @@ public class MainActivity extends AppCompatActivity {
                     Toast.LENGTH_LONG).show();
         }
         else{
+            System.out.println("err");
             // if  sharedPreferences.getString("Final Test Done", null) == null: please do entry test first otherwise: "final test avail at:sharedPreferences.getString("Final Test Done", null)"
-            if(sharedPreferences.getString("Final Test Done",null)==null){
-                Toast.makeText(this, "You need to complete the Entry Test first",
-                        Toast.LENGTH_SHORT).show();
-            }else {
-                Toast.makeText(this, "final test will be available at " + sharedPreferences.getString("Final Test Done", null),
-                        Toast.LENGTH_LONG).show();
-            }
+//            if(sharedPreferences.getString("Final Test Done",null)==null){
+//                Toast.makeText(this, "You need to complete the Entry Test first",
+//                        Toast.LENGTH_SHORT).show();
+//            }else {
+//                Toast.makeText(this, "final test will be available at " + sharedPreferences.getString("Final Test Done", null),
+//                        Toast.LENGTH_LONG).show();
+//            }
         }
     }
 

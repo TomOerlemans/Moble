@@ -257,7 +257,7 @@ public class QuizActivity extends AppCompatActivity {
 
     public void nextButtonClick(View view) {
 
-        if (dbSpamBlock = false) {
+        if (dbSpamBlock == false) {
             if (round >= QUIZLENGTH && entryTest == true) {
 //            System.out.println("great! finally in end");
                 dbSpamBlock =true; // protects against spamming see results button
