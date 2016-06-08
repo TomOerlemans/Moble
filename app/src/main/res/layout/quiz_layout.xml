@@ -32,7 +32,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Entry test"
+
             android:textColor="#103903"
             android:id="@+id/quizTitle"
             android:layout_weight="0.3"

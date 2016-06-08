@@ -29,6 +29,7 @@ public class QuizActivity extends AppCompatActivity {
     TextView quizQuestion;
     TextView quizRound;
     TextView quizScore;
+    TextView quizTitle;
     Button one;
     Button two;
     Button three;
@@ -74,10 +75,15 @@ public class QuizActivity extends AppCompatActivity {
         String finalTestDayString = sharedPreferences.getString("Final Test Date", null);
 //        System.out.println(finalTestDayString);
 //        System.out.println("==================================================");
-        if (finalTestDayString != null){
-            entryTest = false;
-        }else{
+        quizTitle = (TextView) findViewById(R.id.quizTitle);
+
+        if (finalTestDayString == null){
             entryTest = true;
+            quizTitle.setText("Entry Test");
+
+        }else{
+            entryTest = false;
+            quizTitle.setText("Final Test");
         }
 //        System.out.println("entryTest = "+ entryTest);
         setNewQuestion();
@@ -90,6 +96,11 @@ public class QuizActivity extends AppCompatActivity {
 //        correctAnswerDB = rgen.nextInt(DATABASESIZE) + 1; // see above for alternative implementation
         while (true) {
             correctAnswerDB = rgen.nextInt(DATABASESIZE) + 1; // see above for alternative implementation
+//            System.out.println(String.valueOf(correctAnswerDB));
+//            System.out.println(db.getEntry(correctAnswerDB)._entrytest);
+//            System.out.println(db.getEntry(correctAnswerDB)._finaltest);
+//
+//            System.out.println(db.getEntry(correctAnswerDB).toString());
             if ((entryTest == true && db.getEntry(correctAnswerDB).getEntryTest() == null) || (entryTest == false && db.getEntry(correctAnswerDB).getFinalTest() == null)) {
                 break;
             }
@@ -241,16 +252,30 @@ public class QuizActivity extends AppCompatActivity {
 
     public void writeToDB(String s){
 
+//        System.out.println("*******************************************************");
+//        System.out.println("***                    writeToDB                    ***");
+//        System.out.println("String s: "+s);
+        DatabaseEntry dbe = db.getEntry(correctAnswerDB);
+//        System.out.println("dbe: "+ dbe.getEnglish().toString());
+//        System.out.println("dbe: "+ dbe.getEntryTest()==null);
+//        System.out.println("dbe: "+ dbe.getFinalTest()==null);
+//        System.out.println("boolean entryTest ="+entryTest);
             if (entryTest == true) {
-                DatabaseEntry dbe = db.getEntry(correctAnswerDB);
+
                 dbe.setEntryTest(s);
+
+
                 db.updateEntry(dbe);
             }
             else{
-                DatabaseEntry dbe = db.getEntry(correctAnswerDB);
+//                DatabaseEntry dbe = db.getEntry(correctAnswerDB);
                 dbe.setFinalTest(s);
                 db.updateEntry(dbe);
             }
+//        System.out.println("dbe: "+ dbe.getEntryTest()==null);
+//        System.out.println("dbe: "+ dbe.getFinalTest()==null);
+//        System.out.println("***                                                 ***");
+//        System.out.println("*******************************************************");
 
 
     }

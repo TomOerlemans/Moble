@@ -210,8 +210,8 @@ public class DatabaseHandler  extends SQLiteOpenHelper {
         values.put(KEY_CATEGORY, databaseEntry.getCategory());
         values.put(KEY_ENGLISH, databaseEntry.getEnglish());
         values.put(KEY_PORTUGUESE, databaseEntry.getPortuguese());
-        values.put(KEY_ENTRYTEST, databaseEntry.getPortuguese());
-        values.put(KEY_FINALTEST, databaseEntry.getPortuguese());
+        values.put(KEY_ENTRYTEST, databaseEntry.getEntryTest());
+        values.put(KEY_FINALTEST, databaseEntry.getFinalTest());
 
         // updating row
         return db.update(TABLE_WORDS, values, KEY_ID + " = ?",
