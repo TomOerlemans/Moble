@@ -298,6 +298,10 @@ public class MainActivity extends AppCompatActivity {
         alarm.cancelAlarm(this);
         Toast.makeText(this, "stopped notifications",
                 Toast.LENGTH_LONG).show();
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        sharedPreferences.edit().remove("Final Test Date").commit();
+        sharedPreferences.edit().remove("Final Test Done").commit();
+
 //        deleteHistory();
 //        DatabaseEntry dbe = new DatabaseEntry(265,"city","station","estação", null, null);
 //        System.out.println(dbe.getClass().toString());
