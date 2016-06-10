@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="14sp"
-        android:text="Use the buttons below to indicate between which hours you will be awake."
+        android:text="Use the button below to indicate at what time you will wake up:"
         android:textAlignment="center"
         android:id="@+id/settingExplanation"
         android:layout_marginRight="20sp"
