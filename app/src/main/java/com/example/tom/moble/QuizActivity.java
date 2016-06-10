@@ -333,6 +333,7 @@ public class QuizActivity extends AppCompatActivity {
                 String portugueseCSV = "";
                 String entrytestCSV = "";
                 String finaltestCSV = "";
+                String notificationCSV = "";
 
                 Random rgen = new Random();
 
@@ -344,6 +345,7 @@ public class QuizActivity extends AppCompatActivity {
                     portugueseCSV = db.getEntry(i).getPortuguese() + " , " + portugueseCSV;
                     entrytestCSV = db.getEntry(i).getEntryTest() + " , " + entrytestCSV;
                     finaltestCSV = db.getEntry(i).getFinalTest() + " , " + finaltestCSV;
+                    notificationCSV = db.getEntry(i).getNotification() + " , " + notificationCSV;
                 }
 
                 user.child("Category").setValue(categoryCSV);
@@ -351,6 +353,7 @@ public class QuizActivity extends AppCompatActivity {
                 user.child("Portuguese").setValue(portugueseCSV);
                 user.child("Entry Test").setValue(entrytestCSV);
                 user.child("Final Test").setValue(finaltestCSV);
+                user.child("Notification").setValue(notificationCSV);
 
             } else {
                 if (lock == true) {

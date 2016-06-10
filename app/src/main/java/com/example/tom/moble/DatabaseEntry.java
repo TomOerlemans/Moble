@@ -11,6 +11,7 @@ public class DatabaseEntry {
     public String _portuguese;
     public String _entrytest;
     public String _finaltest;
+    public String _notification;
 
 
     public DatabaseEntry() {
@@ -24,29 +25,32 @@ public class DatabaseEntry {
         this._portuguese = _portuguese;
         this._entrytest="";
         this._finaltest="";
+        this._notification="";
 
     }
 
 
 
 
-    public DatabaseEntry(int id, String _category, String _english, String _portuguese, String _entrytest, String _finaltest) {
+    public DatabaseEntry(int id, String _category, String _english, String _portuguese, String _entrytest, String _finaltest, String _notification) {
         this._id = id;
         this._category = _category;
         this._english = _english;
         this._portuguese = _portuguese;
         this._entrytest=_entrytest;
         this._finaltest=_finaltest;
+        this._notification=_notification;
 
     }
 
     // constructor
-    public DatabaseEntry(String _category, String _english, String _portuguese, String _entrytest, String _finaltest) {
+    public DatabaseEntry(String _category, String _english, String _portuguese, String _entrytest, String _finaltest, String _notification) {
         this._category = _category;
         this._english = _english;
         this._portuguese = _portuguese;
         this._entrytest=_entrytest;
         this._finaltest=_finaltest;
+        this._notification=_notification;
     }
 
     // getting ID
@@ -89,24 +93,32 @@ public class DatabaseEntry {
         this._portuguese = _portuguese;
     }
 
-    // getting enrty test
+    // getting entry test
     public String getEntryTest() {
         return this._entrytest;
     }
 
-    // setting portuguese
-    public void setEntryTest(String _entrytest) {
-        this._entrytest = _entrytest;
-    }
+    // setting entry test
+    public void setEntryTest(String _entrytest) { this._entrytest = _entrytest; }
 
-    // getting portuguese
+    // getting final test
     public String getFinalTest() {
         return this._finaltest;
     }
 
-    // setting portuguese
+    // setting final test
     public void setFinalTest(String _finaltest) {
         this._finaltest = _finaltest;
+    }
+
+    // getting notification
+    public String getNotification() {
+        return this._notification;
+    }
+
+    // setting notification
+    public void setNotification(String _notification) {
+        this._notification = _notification;
     }
 
 }
