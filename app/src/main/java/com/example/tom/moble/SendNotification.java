@@ -41,30 +41,47 @@ public class SendNotification extends IntentService {
     String ITEM_KEY = "key";
     DatabaseHandler db;
     String contextTrigger = "";
+    Calendar calender;
+    final String randomWord = "Context and Random";
 
     private NotificationManager mNotificationManager;
     NotificationCompat.Builder builder;
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        db = new DatabaseHandler(this);
-        db.getEntry(5).getPortuguese();
-
-        contextTrigger = "";
-
-        int contextCue = getNotificationWord(true);
-        sendNotification(db.getEntry(contextCue).getPortuguese() + " = " + db.getEntry(contextCue).getEnglish());
-
-        DatabaseEntry updatedEntry = db.getEntry(contextCue);
-        updatedEntry.setNotification(contextTrigger);
-        db.updateEntry(updatedEntry);
-
-
+        calender = Calendar.getInstance();
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        SharedPreferences.Editor editor = preferences.edit();
+        int currentHour = calender.get(Calendar.HOUR_OF_DAY);
+        int currentMinute = calender.get(Calendar.MINUTE);
+        int previousScan = (preferences.getInt("hourNotification", 0) * 60) + preferences.getInt("minuteNotification", 0);
+        int currentTime  = (currentHour * 60) +  currentMinute;
 
-
-
+        if(currentTime >= previousScan + 60) {
+            db = new DatabaseHandler(this);
+            contextTrigger = "";
+            int contextCue = getNotificationWord(true);
+            if (contextTrigger.equals(randomWord)) {
+                if(currentTime >= previousScan + 120) {
+                    sendNotification(db.getEntry(contextCue).getPortuguese() + " = " + db.getEntry(contextCue).getEnglish());
+                    DatabaseEntry updatedEntry = db.getEntry(contextCue);
+                    updatedEntry.setNotification(contextTrigger);
+                    db.updateEntry(updatedEntry);
+                    SharedPreferences.Editor editor = preferences.edit();
+                    editor.putInt("hourNotification", currentHour);
+                    editor.putInt("minuteNotification", currentMinute);
+                    editor.commit();
+                }
+            }else{
+                sendNotification(db.getEntry(contextCue).getPortuguese() + " = " + db.getEntry(contextCue).getEnglish());
+                DatabaseEntry updatedEntry = db.getEntry(contextCue);
+                updatedEntry.setNotification(contextTrigger);
+                db.updateEntry(updatedEntry);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putInt("hourNotification", currentHour);
+                editor.putInt("minuteNotification", currentMinute);
+                editor.commit();
+            }
+        }
         // Release the wake lock provided by the BroadcastReceiver.
         AlarmReceiver.completeWakefulIntent(intent);
         // END_INCLUDE(service_onhandle)
@@ -115,8 +132,7 @@ public class SendNotification extends IntentService {
                 wifi.setWifiEnabled(false);
             }
             //Get context cue
-            Calendar c = Calendar.getInstance();
-            int timeCue = c.get(Calendar.HOUR_OF_DAY);
+            int timeCue = calender.get(Calendar.HOUR_OF_DAY);
 
             String[] cueArray = {"ns internet", "bus internet", "huis internet", "supermarkt", "edurom"};
             int locationCue = 1000;
@@ -147,7 +163,7 @@ public class SendNotification extends IntentService {
             }
 
             if (notificationWord == 1000){
-                contextTrigger = Integer.toString(c.get(Calendar.HOUR_OF_DAY));
+                contextTrigger = Integer.toString(calender.get(Calendar.HOUR_OF_DAY));
                 if (timeCue > 8 && timeCue < 12){
                     notificationWord = findWordWithinRange(10, 50);          // AANVULLEN ALS WOORDEN ER ZIJN..
                 }else if(timeCue > 12 && timeCue < 17){
@@ -160,7 +176,7 @@ public class SendNotification extends IntentService {
             }
 
             if (notificationWord == 1000){
-                contextTrigger = "Random";
+                contextTrigger = randomWord;
                 notificationWord = findWordWithinRange(3, 300);
             }
 

@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     DatabaseHandler db;
     AlarmReceiver alarm;
     private static final int PERMISSION_REQUEST_COARSE_LOCATION = 1;
+    Button nextButton;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
         }
+
 
        // firebaseStuff();
 
@@ -214,53 +216,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void settingsButtonClick(View view){
-        setContentView(R.layout.settings);
+        Intent intent = new Intent(this, SettingsActivity.class);
+        startActivity(intent);
     }
 
-    public void doneButtonClick(View view){
-        setContentView(R.layout.menu);
-    }
-
-    public void startTimeButtonClick(View view){
-        final TextView startTimeTextView = (TextView) findViewById(R.id.startTimeTextView);
-
-        TimePickerDialog tpd = new TimePickerDialog(this,
-                new TimePickerDialog.OnTimeSetListener() {
-
-                    @Override
-                    public void onTimeSet(TimePicker view, int hourOfDay,
-                                          int minute) {
-                        if (hourOfDay < 12){
-                            startTimeTextView.setText(String.format("%02d:%02d", hourOfDay, minute) + " AM");
-                        }else{
-                            startTimeTextView.setText(String.format("%02d:%02d", hourOfDay, minute)+ " PM");
-                        }
-
-                    }
-                }, 9, 0, false);
-        tpd.show();
-    }
-
-
-
-    public void endTimeButtonClick(View view){
-        final TextView endTimeTextView = (TextView) findViewById(R.id.endTimeTextView);
-
-        TimePickerDialog tpd = new TimePickerDialog(this,
-                new TimePickerDialog.OnTimeSetListener() {
-
-                    @Override
-                    public void onTimeSet(TimePicker view, int hourOfDay,
-                                          int minute) {
-                        if (hourOfDay < 12){
-                            endTimeTextView.setText(String.format("%02d:%02d", hourOfDay, minute) + " AM");
-                        }else{
-                            endTimeTextView.setText(String.format("%02d:%02d", hourOfDay, minute)+ " PM");
-                        }
-                    }
-                }, 21, 0, false);
-        tpd.show();
-    }
 
     public void entryTestButtonClick(View view){
 

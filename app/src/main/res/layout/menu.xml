@@ -10,7 +10,7 @@
         android:id="@+id/button3"
         android:layout_gravity="center_horizontal"
         android:width="180sp"
-        android:layout_marginTop="90sp"
+        android:layout_marginTop="120sp"
         android:onClick="infoButtonClick"
         android:backgroundTint="@color/colorPrimary"
         android:textColor="@android:color/white"
@@ -28,20 +28,6 @@
         android:width="180sp"
         android:layout_marginTop="20sp"
         android:onClick="entryTestButtonClick"
-        android:backgroundTint="@color/colorPrimary"
-        android:textColor="@android:color/white"
-        android:textSize="22sp"
-        android:textAllCaps="false"/>
-
-
-    <Button
-        android:layout_width="220sp"
-        android:layout_height="55sp"
-        android:text="Daily test"
-        android:id="@+id/button5"
-        android:layout_gravity="center_horizontal"
-        android:width="180sp"
-        android:layout_marginTop="20sp"
         android:backgroundTint="@color/colorPrimary"
         android:textColor="@android:color/white"
         android:textSize="22sp"

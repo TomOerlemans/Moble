@@ -69,7 +69,7 @@
         android:layout_marginTop="30sp"
         android:layout_width="match_parent"
         android:layout_height="130dp"
-        android:id="@+id/listView" />
+        android:id="@+id/wifiList"/>
 
     <TextView
         android:layout_width="match_parent"
@@ -78,20 +78,20 @@
         android:textColor="@android:color/black"
         android:text="No nework selected"
         android:gravity="center"
-        android:layout_marginTop="30sp"/>
+        android:layout_marginTop="30sp"
+        android:id="@+id/selectedNetwork"/>
 
     <Button
         android:layout_width="160sp"
         android:layout_height="wrap_content"
         android:text="Done"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="40sp"
+        android:layout_marginTop="50sp"
         android:onClick="doneButtonClick"
         android:backgroundTint="@color/colorPrimary"
         android:textColor="@android:color/white"
         android:textSize="18sp"
         android:textAllCaps="false"
-
         />
 
 
