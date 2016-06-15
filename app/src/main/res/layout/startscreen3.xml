@@ -71,7 +71,6 @@
             android:layout_height="wrap_content"
             android:text="Previous"
             android:id="@+id/previousButton"
-            android:backgroundTint="@color/colorPrimary"
             android:textColor="@android:color/white"
             android:layout_weight="0.5"
             android:textSize="18sp"

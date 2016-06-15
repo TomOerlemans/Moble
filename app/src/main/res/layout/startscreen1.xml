@@ -57,7 +57,6 @@
             android:text="Next"
             android:id="@+id/nextButton"
             android:onClick="nextButtonClick"
-            android:backgroundTint="@color/colorPrimary"
             android:textColor="@android:color/white"
             android:textSize="18sp"
             android:textAllCaps="false"

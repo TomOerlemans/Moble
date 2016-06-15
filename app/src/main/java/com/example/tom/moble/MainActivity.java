@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -30,13 +31,18 @@ import java.util.Random;
 public class MainActivity extends AppCompatActivity {
     TextView topText;
     TextView bottomText;
-    Button previousButton;
     int page = 0;
     int firstLaunch;
     DatabaseHandler db;
     AlarmReceiver alarm;
     private static final int PERMISSION_REQUEST_COARSE_LOCATION = 1;
     Button nextButton;
+    Button previousButton;
+    Button MenuInfo;
+    Button MenuEntryTest;
+    Button MenuFinalTest;
+    Button MenuSettings;
+
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,13 +64,10 @@ public class MainActivity extends AppCompatActivity {
         }else{
             setContentView(R.layout.menu);
         }
-
-
         topText = (TextView) findViewById(R.id.topText);
         bottomText = (TextView) findViewById(R.id.bottomText);
         previousButton = (Button) findViewById(R.id.previousButton);
         alarm = new AlarmReceiver();
-
 
         if (android.os.Build.VERSION.SDK_INT >= 23) {
             // Android M Permission check
@@ -84,12 +87,26 @@ public class MainActivity extends AppCompatActivity {
             }
 
         }
-
-
        // firebaseStuff();
-
-
     }
+
+    public void onResume(){
+        super.onResume();
+
+        nextButton = (Button) findViewById(R.id.nextButton);
+        nextButton = (Button) findViewById(R.id.previousButton);
+        MenuInfo = (Button) findViewById(R.id.MenuInfo);
+        MenuEntryTest = (Button) findViewById(R.id.MenuEntryTest);
+        MenuFinalTest = (Button) findViewById(R.id.MenuFinalTest);
+        MenuSettings = (Button) findViewById(R.id.MenuSettings);
+
+        MenuInfo.setBackgroundColor(Color.parseColor("#6AB344"));
+        MenuEntryTest.setBackgroundColor(Color.parseColor("#6AB344"));
+        MenuFinalTest.setBackgroundColor(Color.parseColor("#6AB344"));
+        MenuSettings.setBackgroundColor(Color.parseColor("#6AB344"));
+    }
+
+
     public void firebaseStuff(){
 
         Firebase.setAndroidContext(this);
