@@ -2,6 +2,7 @@ package com.example.tom.moble;
 
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.graphics.Color;
 import android.net.Uri;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
@@ -33,6 +34,8 @@ public class SettingsActivity extends AppCompatActivity {
     int size = 0;
     List<ScanResult> results;
     TextView selectedWifi;
+    Button startTimeButton;
+    Button settingsDoneButton;
 
     String ITEM_KEY = "key";
     ArrayList<HashMap<String, String>> arraylist = new ArrayList<HashMap<String, String>>();
@@ -47,10 +50,15 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings);
+        startTimeButton = (Button) findViewById(R.id.startTimeButton);
+        settingsDoneButton = (Button) findViewById(R.id.settingsDoneButton);
+        startTimeButton.setBackgroundColor(Color.parseColor("#6AB344"));
+        settingsDoneButton.setBackgroundColor(Color.parseColor("#6AB344"));
+
+
+
         lv = (ListView) findViewById(R.id.wifiList);
         selectedWifi = (TextView) findViewById(R.id.selectedNetwork);
-
-
         wifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
         if (wifi.isWifiEnabled() == false) {
             Toast.makeText(getApplicationContext(), "wifi is disabled..making it enabled", Toast.LENGTH_LONG).show();

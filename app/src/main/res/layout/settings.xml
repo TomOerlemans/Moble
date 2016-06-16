@@ -36,7 +36,6 @@
             android:id="@+id/startTimeButton"
             android:layout_gravity="center_horizontal"
             android:onClick="startTimeButtonClick"
-            android:backgroundTint="@color/colorPrimary"
             android:textColor="@android:color/white"
             android:textSize="18sp"
             android:textAllCaps="false"
@@ -88,10 +87,10 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="50sp"
         android:onClick="doneButtonClick"
-        android:backgroundTint="@color/colorPrimary"
         android:textColor="@android:color/white"
         android:textSize="18sp"
         android:textAllCaps="false"
+        android:id="@+id/settingsDoneButton"
         />
 
 

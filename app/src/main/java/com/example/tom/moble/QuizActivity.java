@@ -36,6 +36,7 @@ public class QuizActivity extends AppCompatActivity {
     Button four;
     Button five;
     Button six;
+    Button nextButton;
     Random rgen;
     int correctAnswerDB;
     int correctAnswerButton;
@@ -54,6 +55,8 @@ public class QuizActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.quiz_layout);
+        nextButton = (Button) findViewById(R.id.nextButton);
+        nextButton.setBackgroundColor(Color.parseColor("#6AB344"));
         db = new DatabaseHandler(this);
         quizRound = (TextView) findViewById(R.id.quizRound);
         quizScore = (TextView) findViewById(R.id.quizScore);

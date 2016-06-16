@@ -3,59 +3,70 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <Button
-        android:layout_width="220sp"
-        android:layout_height="55sp"
-        android:text="Info"
-        android:id="@+id/MenuInfo"
-        android:layout_gravity="center_horizontal"
-        android:width="180sp"
-        android:layout_marginTop="120sp"
-        android:onClick="infoButtonClick"
-        android:textColor="@android:color/white"
-        android:textSize="22sp"
-        android:textAllCaps="false"
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center_vertical|center_horizontal">
 
-        />
+        <Button
+            android:layout_width="220sp"
+            android:layout_height="55sp"
+            android:text="Info"
+            android:id="@+id/MenuInfo"
+            android:layout_gravity="center_horizontal"
+            android:width="180sp"
+            android:layout_marginTop="120sp"
+            android:onClick="infoButtonClick"
+            android:textColor="@android:color/white"
+            android:textSize="22sp"
+            android:textAllCaps="false"
 
-    <Button
-        android:layout_width="220sp"
-        android:layout_height="55sp"
-        android:text="Entry test"
-        android:id="@+id/MenuEntryTest"
-        android:layout_gravity="center_horizontal"
-        android:width="180sp"
-        android:layout_marginTop="20sp"
-        android:onClick="entryTestButtonClick"
-        android:textColor="@android:color/white"
-        android:textSize="22sp"
-        android:textAllCaps="false"/>
+            />
 
-    <Button
-        android:layout_width="220sp"
-        android:layout_height="55sp"
-        android:text="Final test"
-        android:id="@+id/MenuFinalTest"
-        android:layout_gravity="center_horizontal"
-        android:width="180sp"
-        android:layout_marginTop="20sp"
-        android:textColor="@android:color/white"
-        android:textSize="22sp"
-        android:textAllCaps="false"
-        android:onClick="finalTestButtonClick"/>
+        <Button
+            android:layout_width="220sp"
+            android:layout_height="55sp"
+            android:text="Entry test"
+            android:id="@+id/MenuEntryTest"
+            android:layout_gravity="center_horizontal"
+            android:width="180sp"
+            android:layout_marginTop="30sp"
+            android:onClick="entryTestButtonClick"
+            android:textColor="@android:color/white"
+            android:textSize="22sp"
+            android:textAllCaps="false"/>
 
-    <Button
-        android:layout_width="220sp"
-        android:layout_height="55sp"
-        android:text="Settings"
-        android:id="@+id/MenuSettings"
-        android:layout_gravity="center_horizontal"
-        android:width="180sp"
-        android:layout_marginTop="20sp"
-        android:onClick="settingsButtonClick"
-        android:textColor="@android:color/white"
-        android:textSize="22sp"
-        android:textAllCaps="false"/>
+        <Button
+            android:layout_width="220sp"
+            android:layout_height="55sp"
+            android:text="Final test"
+            android:id="@+id/MenuFinalTest"
+            android:layout_gravity="center_horizontal"
+            android:width="180sp"
+            android:layout_marginTop="30sp"
+            android:textColor="@android:color/white"
+            android:textSize="22sp"
+            android:textAllCaps="false"
+            android:onClick="finalTestButtonClick"/>
+
+        <Button
+            android:layout_width="220sp"
+            android:layout_height="55sp"
+            android:text="Settings"
+            android:id="@+id/MenuSettings"
+            android:layout_gravity="center_horizontal"
+            android:width="180sp"
+            android:layout_marginTop="30sp"
+            android:onClick="settingsButtonClick"
+            android:textColor="@android:color/white"
+            android:textSize="22sp"
+            android:textAllCaps="false"/>
+
+
+    </LinearLayout>
+
+
 
     <LinearLayout
         android:layout_width="wrap_content"

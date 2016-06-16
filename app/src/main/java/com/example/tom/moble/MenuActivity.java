@@ -28,7 +28,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
 
-public class MainActivity extends AppCompatActivity {
+public class MenuActivity extends AppCompatActivity {
     TextView topText;
     TextView bottomText;
     int page = 0;
@@ -54,13 +54,14 @@ public class MainActivity extends AppCompatActivity {
             SharedPreferences.Editor editor = sharedPref.edit();
             editor.putInt("First Launch", 1);
             editor.commit();
-            setContentView(R.layout.startscreen1);
             AsyncTask.execute(new Runnable() {
                 @Override
                 public void run() {
                     populateDataBase();
                 }
             });
+            Intent intent = new Intent(this, InfoActivity.class);
+            startActivity(intent);
         }else{
             setContentView(R.layout.menu);
         }
@@ -88,18 +89,15 @@ public class MainActivity extends AppCompatActivity {
 
         }
        // firebaseStuff();
+
     }
 
     public void onResume(){
         super.onResume();
-
-        nextButton = (Button) findViewById(R.id.nextButton);
-        nextButton = (Button) findViewById(R.id.previousButton);
         MenuInfo = (Button) findViewById(R.id.MenuInfo);
         MenuEntryTest = (Button) findViewById(R.id.MenuEntryTest);
         MenuFinalTest = (Button) findViewById(R.id.MenuFinalTest);
         MenuSettings = (Button) findViewById(R.id.MenuSettings);
-
         MenuInfo.setBackgroundColor(Color.parseColor("#6AB344"));
         MenuEntryTest.setBackgroundColor(Color.parseColor("#6AB344"));
         MenuFinalTest.setBackgroundColor(Color.parseColor("#6AB344"));
@@ -229,7 +227,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void infoButtonClick(View view){
-        setContentView(R.layout.startscreen1);
+        Intent intent = new Intent(this, InfoActivity.class);
+        startActivity(intent);
     }
 
     public void settingsButtonClick(View view){
