@@ -55,6 +55,8 @@ public class QuizActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.quiz_layout);
+
+        //Initialize views, database and variables
         nextButton = (Button) findViewById(R.id.nextButton);
         nextButton.setBackgroundColor(Color.parseColor("#6AB344"));
         db = new DatabaseHandler(this);
@@ -67,19 +69,17 @@ public class QuizActivity extends AppCompatActivity {
         four = (Button) findViewById(R.id.multipleChoiceAnswer4Button);
         five = (Button) findViewById(R.id.multipleChoiceAnswer5Button);
         six = (Button) findViewById(R.id.multipleChoiceAnswer6Button);
+        quizTitle = (TextView) findViewById(R.id.quizTitle);
         rgen = new Random();
         takenIndices = new ArrayList();
         alreadyAsked = new ArrayList();
         score = 0;
         round = 1;
         dbSpamBlock = false;
-        //check if this is the entry test or final test
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         String finalTestDayString = sharedPreferences.getString("Final Test Date", null);
-//        System.out.println(finalTestDayString);
-//        System.out.println("==================================================");
-        quizTitle = (TextView) findViewById(R.id.quizTitle);
 
+        //Check whether we're starting the entry test or the final test
         if (finalTestDayString == null){
             entryTest = true;
             quizTitle.setText("Entry Test");
@@ -88,31 +88,29 @@ public class QuizActivity extends AppCompatActivity {
             entryTest = false;
             quizTitle.setText("Final Test");
         }
-//        System.out.println("entryTest = "+ entryTest);
+
+        //Start setting questions
         setNewQuestion();
     }
 
     public void setNewQuestion(){
+
+        //Enable the answer buttons
         lock = false;
-//        System.out.println("~~~~~~~~~~~~~~~~   new question  ``````````````````");
-        //
-//        correctAnswerDB = rgen.nextInt(DATABASESIZE) + 1; // see above for alternative implementation
+
+        //Find a correct translation which hasn't been used yet
         while (true) {
-            correctAnswerDB = rgen.nextInt(DATABASESIZE) + 1; // see above for alternative implementation
-//            System.out.println(String.valueOf(correctAnswerDB));
-//            System.out.println(db.getEntry(correctAnswerDB)._entrytest);
-//            System.out.println(db.getEntry(correctAnswerDB)._finaltest);
-//
-//            System.out.println(db.getEntry(correctAnswerDB).toString());
+            correctAnswerDB = rgen.nextInt(DATABASESIZE) + 1;
             if ((entryTest == true && db.getEntry(correctAnswerDB).getEntryTest() == null) || (entryTest == false && db.getEntry(correctAnswerDB).getFinalTest() == null)) {
                 break;
             }
         }
 
+        //Assign a button which will hold the correct answer and set the quiz question
         correctAnswerButton = rgen.nextInt(5) + 1;
-//        System.out.println("~~~~~~~~~~~~~~~~   before  ``````````````````");
         quizQuestion.setText(db.getEntry(correctAnswerDB).getEnglish());
-//        System.out.println("~~~~~~~~~~~~~~~~   after  ``````````````````");
+
+        //Colour all buttons green
         one.setBackgroundColor(Color.parseColor("#6AB344"));
         two.setBackgroundColor(Color.parseColor("#6AB344"));
         three.setBackgroundColor(Color.parseColor("#6AB344"));
@@ -120,6 +118,7 @@ public class QuizActivity extends AppCompatActivity {
         five.setBackgroundColor(Color.parseColor("#6AB344"));
         six.setBackgroundColor(Color.parseColor("#6AB344"));
 
+        //Set the other buttons with random Portuguese words while making sure they are not the same as the correct translation
         takenIndices.clear();
         takenIndices.add(correctAnswerDB);
         one.setText(db.getEntry(excludeRandom()).getPortuguese());
@@ -129,6 +128,7 @@ public class QuizActivity extends AppCompatActivity {
         five.setText(db.getEntry(excludeRandom()).getPortuguese());
         six.setText(db.getEntry(excludeRandom()).getPortuguese());
 
+        //Set the correct answer behind the herefor selected answer button
         switch (correctAnswerButton){
             case 1: one.setText(db.getEntry(correctAnswerDB).getPortuguese()); break;
             case 2: two.setText(db.getEntry(correctAnswerDB).getPortuguese()); break;
@@ -140,8 +140,8 @@ public class QuizActivity extends AppCompatActivity {
         }
     }
 
+    //Method which helps to set the false answers, making sure they are dissimilar to the correct answer
     public int excludeRandom(){
-
         int x = rgen.nextInt(DATABASESIZE) + 1;
         while(takenIndices.contains(x)){
             x = rgen.nextInt(DATABASESIZE) + 1;
@@ -150,9 +150,12 @@ public class QuizActivity extends AppCompatActivity {
         return x;
     }
 
+    //Process the selected answer
     public void quizAnswerButtonClick(View view){
 
+            //Lock makes sure that you cannot select an answer multiple times
             if (lock == false) {
+                //Make all buttons red
                 one.setBackgroundColor(Color.parseColor("#d1332e"));
                 two.setBackgroundColor(Color.parseColor("#d1332e"));
                 three.setBackgroundColor(Color.parseColor("#d1332e"));
@@ -160,6 +163,7 @@ public class QuizActivity extends AppCompatActivity {
                 five.setBackgroundColor(Color.parseColor("#d1332e"));
                 six.setBackgroundColor(Color.parseColor("#d1332e"));
 
+                //Make the correct answer green
                 switch (correctAnswerButton) {
                     case 1:
                         one.setBackgroundColor(Color.parseColor("#89d771"));
@@ -184,6 +188,7 @@ public class QuizActivity extends AppCompatActivity {
                         break;
                 }
 
+                //Count your score and write to the database whether your answer was wrong or correct
                 switch (view.getId()) {
                     case R.id.multipleChoiceAnswer1Button:
                         if (correctAnswerButton == 1) {
@@ -243,8 +248,14 @@ public class QuizActivity extends AppCompatActivity {
                         Log.v("QUIZ ACTIVITY", "Problem at the scoring switch!!");
                         break;
                 }
+
+                //Disable the answer buttons
                 lock = true;
+
+                //Display your new score
                 quizScore.setText("Score: " + Integer.toString(score));
+
+                //If the round limit is reached change the button's text to go to the result page
                 if(round >= QUIZLENGTH){
                     Button nextButton = (Button) findViewById(R.id.nextButton);
                     nextButton.setText("SEE RESULTS");
@@ -253,81 +264,58 @@ public class QuizActivity extends AppCompatActivity {
             }
     }
 
-    public void writeToDB(String s){
-
-//        System.out.println("*******************************************************");
-//        System.out.println("***                    writeToDB                    ***");
-//        System.out.println("String s: "+s);
+    //Helps write to the database whether an answer was correct or wrong
+    public void writeToDB(String falseOrCorrect){
         DatabaseEntry dbe = db.getEntry(correctAnswerDB);
-//        System.out.println("dbe: "+ dbe.getEnglish().toString());
-//        System.out.println("dbe: "+ dbe.getEntryTest()==null);
-//        System.out.println("dbe: "+ dbe.getFinalTest()==null);
-//        System.out.println("boolean entryTest ="+entryTest);
             if (entryTest == true) {
-
-                dbe.setEntryTest(s);
-
-
+                dbe.setEntryTest(falseOrCorrect);
                 db.updateEntry(dbe);
             }
             else{
-//                DatabaseEntry dbe = db.getEntry(correctAnswerDB);
-                dbe.setFinalTest(s);
+                dbe.setFinalTest(falseOrCorrect);
                 db.updateEntry(dbe);
             }
-//        System.out.println("dbe: "+ dbe.getEntryTest()==null);
-//        System.out.println("dbe: "+ dbe.getFinalTest()==null);
-//        System.out.println("***                                                 ***");
-//        System.out.println("*******************************************************");
-
-
     }
 
+    //Code which is executed after clicking the next button
     public void nextButtonClick(View view) {
 
+        //Makes sure the database isn't spammed by uploads
         if (dbSpamBlock == false) {
+            //Checks whether we're at the end of the entry test
             if (round >= QUIZLENGTH && entryTest == true) {
-//            System.out.println("great! finally in end");
-                dbSpamBlock =true; // protects against spamming see results button
+                //Protects against spamming the database
+                dbSpamBlock = true;
+                //Set the post quiz layout
                 setContentView(R.layout.post_quiz);
-
                 TextView postQuizTextView = (TextView) findViewById(R.id.postQuizText);
                 String postQuizeString = getString(R.string.post_entry_quiz, score, round);
                 postQuizTextView.setText(postQuizeString);
-
-                // create date when ready
+                // Create a timestamp of when the entry test was completed and put this is in sharedpreference "Final Test Date"
                 Calendar cal = Calendar.getInstance();
                 cal.getTime();
                 cal.add(Calendar.DATE, LENGTH_TRAINING_DAYS);
                 SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MMM/yyyy");
                 String finalTestDateString = dateFormat.format(cal.getTime());
-
-                // save datein shared pref
                 SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString("Final Test Date", finalTestDateString);
                 editor.apply();
-
+            //Checks whether we're at the end of the final test
             } else if (round >= QUIZLENGTH && entryTest == false) {
-//            System.out.println("great! finally in end");
-                dbSpamBlock =true; // protects against spamming see results button
-
+                //Protects against spamming the database
+                dbSpamBlock = true;
+                //Set the post quiz layout
                 setContentView(R.layout.post_quiz);
-
                 TextView postQuizTextView = (TextView) findViewById(R.id.postQuizText);
                 String postQuizeString = getString(R.string.post_entry_quiz, score, round);
                 postQuizTextView.setText(postQuizeString);
-
-                // save  shared pref
+                //Edit the sharedpreference to state that the quizes have been completed
                 SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putBoolean("Final Test Done", true);
                 editor.apply();
-
-
-                //upload everything to db
-
-
+                //Upload results to the database
                 Firebase.setAndroidContext(this);
                 Firebase myFirebaseRef = new Firebase("https://moble.firebaseio.com/");
                 String id = android.os.Build.SERIAL;
@@ -337,11 +325,8 @@ public class QuizActivity extends AppCompatActivity {
                 String entrytestCSV = "";
                 String finaltestCSV = "";
                 String notificationCSV = "";
-
                 Random rgen = new Random();
-
-                Firebase user = myFirebaseRef.child(Integer.toString(rgen.nextInt(1000)));
-
+                Firebase user = myFirebaseRef.child(Integer.toString(rgen.nextInt(10000)));
                 for (int i = 1; i < db.getEntryCount() - 1; i++) {
                     categoryCSV = db.getEntry(i).getCategory() + " , " + categoryCSV;
                     englishCSV = db.getEntry(i).getEnglish() + " , " + englishCSV;
@@ -350,27 +335,28 @@ public class QuizActivity extends AppCompatActivity {
                     finaltestCSV = db.getEntry(i).getFinalTest() + " , " + finaltestCSV;
                     notificationCSV = db.getEntry(i).getNotification() + " , " + notificationCSV;
                 }
-
                 user.child("Category").setValue(categoryCSV);
                 user.child("English").setValue(englishCSV);
                 user.child("Portuguese").setValue(portugueseCSV);
                 user.child("Entry Test").setValue(entrytestCSV);
                 user.child("Final Test").setValue(finaltestCSV);
                 user.child("Notification").setValue(notificationCSV);
-
             } else {
+                //If we're not at the end of the quiz rounds, go to the next round
                 if (lock == true) {
+                    //Add to the round counter and display this to the screen
                     round++;
                     quizRound.setText("Round: " + Integer.toString(round));
+                    //Set new questions
                     setNewQuestion();
                 }
             }
         }
-
-
     }
 
+    //When the quiz is done
     public void endQuiz(View view){
+        //End the quiz activity
         finish();
     }
 }

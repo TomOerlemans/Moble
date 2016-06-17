@@ -64,6 +64,14 @@ public class MenuActivity extends AppCompatActivity {
             startActivity(intent);
         }else{
             setContentView(R.layout.menu);
+            MenuInfo = (Button) findViewById(R.id.MenuInfo);
+            MenuEntryTest = (Button) findViewById(R.id.MenuEntryTest);
+            MenuFinalTest = (Button) findViewById(R.id.MenuFinalTest);
+            MenuSettings = (Button) findViewById(R.id.MenuSettings);
+            MenuInfo.setBackgroundColor(Color.parseColor("#6AB344"));
+            MenuEntryTest.setBackgroundColor(Color.parseColor("#6AB344"));
+            MenuFinalTest.setBackgroundColor(Color.parseColor("#6AB344"));
+            MenuSettings.setBackgroundColor(Color.parseColor("#6AB344"));
         }
         topText = (TextView) findViewById(R.id.topText);
         bottomText = (TextView) findViewById(R.id.bottomText);
@@ -94,14 +102,7 @@ public class MenuActivity extends AppCompatActivity {
 
     public void onResume(){
         super.onResume();
-        MenuInfo = (Button) findViewById(R.id.MenuInfo);
-        MenuEntryTest = (Button) findViewById(R.id.MenuEntryTest);
-        MenuFinalTest = (Button) findViewById(R.id.MenuFinalTest);
-        MenuSettings = (Button) findViewById(R.id.MenuSettings);
-        MenuInfo.setBackgroundColor(Color.parseColor("#6AB344"));
-        MenuEntryTest.setBackgroundColor(Color.parseColor("#6AB344"));
-        MenuFinalTest.setBackgroundColor(Color.parseColor("#6AB344"));
-        MenuSettings.setBackgroundColor(Color.parseColor("#6AB344"));
+
     }
 
 

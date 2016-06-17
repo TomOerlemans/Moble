@@ -48,7 +48,8 @@
 
         <activity android:name=".QuizActivity" />
         <activity android:name=".SettingsActivity" />
-        <activity android:name=".InfoActivity"></activity>
+        <activity android:name=".InfoActivity" />
+        <activity android:name=".Questionnaire"></activity>
     </application>
 
 </manifest>
