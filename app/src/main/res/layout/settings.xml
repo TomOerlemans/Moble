@@ -76,15 +76,7 @@
             android:layout_height="130dp"
             android:id="@+id/wifiList"/>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="14sp"
-            android:textColor="@android:color/black"
-            android:text="No nework selected"
-            android:gravity="center"
-            android:layout_marginTop="30sp"
-            android:id="@+id/selectedNetwork"/>
+
 
     </LinearLayout>
 

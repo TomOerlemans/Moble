@@ -61,7 +61,6 @@ public class SettingsActivity extends AppCompatActivity {
 
 
         lv = (ListView) findViewById(R.id.wifiList);
-        selectedWifi = (TextView) findViewById(R.id.selectedNetwork);
         wifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
         if (wifi.isWifiEnabled() == false) {
             Toast.makeText(getApplicationContext(), "wifi is disabled..making it enabled", Toast.LENGTH_LONG).show();
@@ -74,6 +73,14 @@ public class SettingsActivity extends AppCompatActivity {
         arraylist.clear();
         results = wifi.getScanResults();
         size = results.size();
+
+        if (size == 0) {
+            HashMap<String, String> item = new HashMap<String, String>();
+            item.put(ITEM_KEY, "No networks detected");
+            arraylist.add(item);
+            adapter.notifyDataSetChanged();
+
+        }
 
         try {
             size = size - 1;
@@ -92,12 +99,13 @@ public class SettingsActivity extends AppCompatActivity {
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
+                String selectedNetwork = lv.getItemAtPosition(position).toString().replace("{key=", "").replace("}","");
                 Context ctx = getApplicationContext();
                 SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(ctx);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                selectedWifi.setText(lv.getItemAtPosition(position).toString());
-                editor.putString("Home Wifi", lv.getItemAtPosition(position).toString());
+                editor.putString("Home Wifi", selectedNetwork);
                 editor.apply();
+                Toast.makeText(getApplicationContext(), selectedNetwork + " selected", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -120,6 +128,11 @@ public class SettingsActivity extends AppCompatActivity {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay,
                                           int minute) {
+                        Context ctx = getApplicationContext();
+                        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(ctx);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putInt("startTimeNotifications", hourOfDay);
+                        editor.apply();
                         if (hourOfDay < 12) {
                             startTimeTextView.setText(String.format("%02d:%02d", hourOfDay, minute) + " AM");
                         } else {

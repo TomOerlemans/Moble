@@ -47,7 +47,6 @@ public class MenuActivity extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        sharedPref = this.getPreferences(Context.MODE_PRIVATE);
         db = new DatabaseHandler(this);
         if (android.os.Build.VERSION.SDK_INT >= 23) {
             // Android M Permission check
@@ -67,6 +66,8 @@ public class MenuActivity extends AppCompatActivity {
             }
 
         }
+        sharedPref = this.getPreferences(Context.MODE_PRIVATE);
+        firstLaunch = sharedPref.getInt("First Launch", 0);
         if(firstLaunch == 0) {
             SharedPreferences.Editor editor = sharedPref.edit();
             editor.putInt("First Launch", 1);

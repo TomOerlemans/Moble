@@ -11,6 +11,7 @@ import android.net.wifi.WifiManager;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -33,46 +34,54 @@ public class SendNotification extends IntentService {
     int size = 0;
     String ITEM_KEY = "key";
     DatabaseHandler db;
-    String contextTrigger = "";
     Calendar calender;
-    final String randomWord = "Context and Random";
 
     private NotificationManager mNotificationManager;
     NotificationCompat.Builder builder;
+
+
+
+    String contextCue;
+    int dbWordLocation;
 
     @Override
     protected void onHandleIntent(Intent intent) {
         calender = Calendar.getInstance();
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         int currentHour = calender.get(Calendar.HOUR_OF_DAY);
-        int currentMinute = calender.get(Calendar.MINUTE);
-        int previousScan = (preferences.getInt("hourNotification", 0) * 60) + preferences.getInt("minuteNotification", 0);
-        int currentTime  = (currentHour * 60) +  currentMinute;
+        int startTime = preferences.getInt("startTimeNotifications",  9);
 
-        if(currentTime >= previousScan + 60) {
-            db = new DatabaseHandler(this);
-            contextTrigger = "";
-            int contextCue = getNotificationWord(true);
-            if (contextTrigger.equals(randomWord)) {
-                if(currentTime >= previousScan + 120) {
-                    sendNotification(db.getEntry(contextCue).getPortuguese() + " = " + db.getEntry(contextCue).getEnglish());
-                    DatabaseEntry updatedEntry = db.getEntry(contextCue);
-                    updatedEntry.setNotification(contextTrigger);
+        Log.v("Start time", Integer.toString(startTime));
+
+        if(currentHour >= startTime &&  currentHour <= (startTime + 12)) {
+            int currentMinute = calender.get(Calendar.MINUTE);
+            int previousScan = (preferences.getInt("hourNotification", 0) * 60) + preferences.getInt("minuteNotification", 0);
+            int currentTime = (currentHour * 60) + currentMinute;
+
+            if (currentTime >= previousScan + 60) {
+                db = new DatabaseHandler(this);
+                getNotificationWord(true);
+                if (contextCue.equals("Unintentional random")) {
+                    if (currentTime >= previousScan + 120) {
+                        sendNotification(db.getEntry(dbWordLocation).getPortuguese() + " = " + db.getEntry(dbWordLocation).getEnglish());
+                        DatabaseEntry updatedEntry = db.getEntry(dbWordLocation);
+                        updatedEntry.setNotification(contextCue);
+                        db.updateEntry(updatedEntry);
+                        SharedPreferences.Editor editor = preferences.edit();
+                        editor.putInt("hourNotification", currentHour);
+                        editor.putInt("minuteNotification", currentMinute);
+                        editor.commit();
+                    }
+                } else {
+                    sendNotification(db.getEntry(dbWordLocation).getPortuguese() + " = " + db.getEntry(dbWordLocation).getEnglish());
+                    DatabaseEntry updatedEntry = db.getEntry(dbWordLocation);
+                    updatedEntry.setNotification(contextCue);
                     db.updateEntry(updatedEntry);
                     SharedPreferences.Editor editor = preferences.edit();
                     editor.putInt("hourNotification", currentHour);
                     editor.putInt("minuteNotification", currentMinute);
                     editor.commit();
                 }
-            }else{
-                sendNotification(db.getEntry(contextCue).getPortuguese() + " = " + db.getEntry(contextCue).getEnglish());
-                DatabaseEntry updatedEntry = db.getEntry(contextCue);
-                updatedEntry.setNotification(contextTrigger);
-                db.updateEntry(updatedEntry);
-                SharedPreferences.Editor editor = preferences.edit();
-                editor.putInt("hourNotification", currentHour);
-                editor.putInt("minuteNotification", currentMinute);
-                editor.commit();
             }
         }
         // Release the wake lock provided by the BroadcastReceiver.
@@ -107,8 +116,7 @@ public class SendNotification extends IntentService {
 
 
 
-    public int getNotificationWord(boolean context){
-        int notificationWord = 1000;
+    public void getNotificationWord(boolean context){
 
         if (context) {
             //Get wifi names
@@ -120,75 +128,120 @@ public class SendNotification extends IntentService {
             }
             results = wifi.getScanResults();
             size = results.size();
-
             if (wifi.isWifiEnabled() == true && wifiWasDisabled == true) {
                 wifi.setWifiEnabled(false);
             }
             //Get context cue
-            int timeCue = calender.get(Calendar.HOUR_OF_DAY);
-
-            String[] cueArray = {"ns internet", "bus internet", "huis internet", "supermarkt", "edurom"};
-            int locationCue = 1000;
-            for (int i = 0; i < size; i++) {
-                for (int z = 0; i < cueArray.length; z++){
-                    if (results.get(i).SSID.contains(cueArray[z])) {
-                        contextTrigger = results.get(i).SSID;
-                        locationCue = z;
-                    }
-                }
+            //Try to find a location cue and a word that matches it
+            boolean foundLocationCue = getLocationCue();
+            boolean foundLocationWord = false;
+            boolean foundTimeWord = false;
+            if(foundLocationCue == true){
+                foundLocationWord = findWordWithinRange(81, 156);
             }
 
-            Random rgen = new Random();
-            int lowRange;
-            int highRange;
-            if (locationCue != 1000){
-                switch(locationCue){
-                    case 1:
-                        //lowRange = rgen.nextInt((max - min) + 1) + min;
-                        lowRange = rgen.nextInt((10 - 1) + 1) + 1;
-                        highRange = rgen.nextInt((20 - 10) + 1) + 10;
-                        break;
-                    default:
-                        lowRange = 1;
-                        highRange = 50;
-                }
-                notificationWord = findWordWithinRange(lowRange, highRange);
+            if(foundLocationWord == false){
+                foundTimeWord = getTimeCue();
             }
 
-            if (notificationWord == 1000){
-                contextTrigger = Integer.toString(calender.get(Calendar.HOUR_OF_DAY));
-                if (timeCue > 8 && timeCue < 12){
-                    notificationWord = findWordWithinRange(10, 50);          // AANVULLEN ALS WOORDEN ER ZIJN..
-                }else if(timeCue > 12 && timeCue < 17){
-
-                }else if (timeCue > 17 && timeCue < 20){
-
-                }else if(timeCue > 20 && timeCue < 24){
-
-                }
+            if(foundTimeWord == false){
+                contextCue = "Unintentional random";
+                findWordWithinRange(1,205);
             }
 
-            if (notificationWord == 1000){
-                contextTrigger = randomWord;
-                notificationWord = findWordWithinRange(3, 300);
-            }
-
+        }else{
+            contextCue = "Intentional random";
+            findWordWithinRange(1,205);
         }
 
 
-        return notificationWord;
+    }
+
+    public boolean findWordWithinRange(int low, int high){
+        for (int i = low; i <= high; i++){
+            if (db.getEntry(i).getNotification() == null){
+                dbWordLocation = i;
+                return true;
+            }
+        }
+        return false;
     }
 
 
-    public int findWordWithinRange(int low, int high){
-        int returnString = 1000;
-            for (int i = low; i <= high; i++){
-                if (db.getEntry(i).getNotification() == null){  //KLOPT DIT? -- MOET VERANDEREN NAAR ==!!!!!
-                    returnString = i;
-                    break;
+
+    public boolean getTimeCue(){
+        int timeCue = calender.get(Calendar.HOUR_OF_DAY);
+        if (timeCue > 8 && timeCue < 12){
+            if(findWordWithinRange(194, 195)){
+                contextCue = "morning";
+                return true;
+            }
+        }else if(timeCue > 12 && timeCue < 17){
+            if(findWordWithinRange(196, 197)){
+                contextCue = "afternoon";
+                return true;
+            }
+        }else if (timeCue > 17 && timeCue < 20){
+            if(findWordWithinRange(204, 205)){
+                contextCue = "dinner time";
+                return true;
+            }
+        }else if(timeCue > 20 && timeCue < 24){
+            if(findWordWithinRange(198, 203)){
+                contextCue = "evening";
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    public boolean getLocationCue(){
+        //Check whether we're at home
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String homeWifi = preferences.getString("Home Wifi", "Not found");
+
+        if(!homeWifi.equals("Not found")){
+            homeWifi = homeWifi.toLowerCase();
+            for (int i = 0; i < size; i++) {
+                if (results.get(i).SSID.toLowerCase().contains(homeWifi)) {
+                    contextCue = "home";
+                    return true;
+                }
+
+            }
+        }
+        //Check whether we're using public transport
+        String[] publictransportArray = new String[]{"trein", "ret"};
+        for (int i = 0; i < size; i++) {
+            for (int z = 0; i < publictransportArray.length; z++) {
+                if (results.get(i).SSID.toLowerCase().contains(publictransportArray[z])) {
+                    contextCue = "public transport";
+                    return true;
                 }
             }
-        return returnString;
+        }
+        //Check whether we're at a supermarket
+        String[] supermarktArray = new String[]{"albert heijn", "jumbo", "lidl", "aldi", "coop", "spar", "plus", "hoogvliet", "vomar", "dirk"};
+        for (int i = 0; i < size; i++) {
+            for (int z = 0; i < supermarktArray.length; z++){
+                if (results.get(i).SSID.toLowerCase().contains(supermarktArray[z])) {
+                    contextCue = "supermarkt";
+                    return true;
+                }
+            }
+        }
+        //Check whether we're using public transport
+        for (int i = 0; i < size; i++) {
+                if (results.get(i).SSID.toLowerCase().contains("eduroam")) {
+                    contextCue = "library";
+                    return true;
+                }
+
+        }
+
+        //Nothing is found
+        return false;
     }
 
 
