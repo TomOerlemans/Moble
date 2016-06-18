@@ -53,6 +53,7 @@ public class QuizActivity extends AppCompatActivity {
     String ratebarOneValue;
     String ratebarTwoValue;
     String ratebarThreeValue;
+    AlarmReceiver alarm;
 
 
     @Override
@@ -83,6 +84,7 @@ public class QuizActivity extends AppCompatActivity {
         dbSpamBlock2 = false;
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         String finalTestDayString = sharedPreferences.getString("Final Test Date", null);
+        alarm = new AlarmReceiver();
 
         //Check whether we're starting the entry test or the final test
         if (finalTestDayString == null){
@@ -331,9 +333,11 @@ public class QuizActivity extends AppCompatActivity {
     //When the quiz is done
     public void endQuiz(View view){
         if (round >= QUIZLENGTH && entryTest == true) {
+            alarm.setAlarm(this);
             finish();
         }else{
             //Start the questionnaire
+            alarm.cancelAlarm(this);
             setContentView(R.layout.questionnaire);
             questionnaireSendResults = (Button) findViewById(R.id.questionnaireSendResults);
             questionnaireSendResults.setBackgroundColor(Color.parseColor("#6AB344"));

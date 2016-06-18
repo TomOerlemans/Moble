@@ -35,7 +35,7 @@ public class SettingsActivity extends AppCompatActivity {
     Button buttonScan;
     int size = 0;
     List<ScanResult> results;
-    TextView selectedWifi;
+    TextView startTimeTextView;
     Button startTimeButton;
     Button settingsDoneButton;
 
@@ -56,9 +56,25 @@ public class SettingsActivity extends AppCompatActivity {
         settingsDoneButton = (Button) findViewById(R.id.settingsDoneButton);
         startTimeButton.setBackgroundColor(Color.parseColor("#6AB344"));
         settingsDoneButton.setBackgroundColor(Color.parseColor("#6AB344"));
+        startTimeTextView = (TextView) findViewById(R.id.startTimeTextView);
+
+        Context ctx = getApplicationContext();
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(ctx);
+        int time = sharedPreferences.getInt("startTimeNotifications", 0);
+        int timeMinute = sharedPreferences.getInt("startTimeNotificationsMinute", 0);
+
+        if(time == 0){
+            startTimeTextView.setText("(9:00 AM");
+        }else{
+            if (time < 12) {
+                startTimeTextView.setText(String.format("%02d:%02d", time, timeMinute) + " AM");
+            } else {
+                startTimeTextView.setText(String.format("%02d:%02d", time, timeMinute) + " PM");
+            }
+        }
 
 
-
+        //startTimeTextView.setText("(9:00 AM");
 
         lv = (ListView) findViewById(R.id.wifiList);
         wifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
@@ -86,7 +102,10 @@ public class SettingsActivity extends AppCompatActivity {
             size = size - 1;
             while (size >= 0) {
                 HashMap<String, String> item = new HashMap<String, String>();
-                item.put(ITEM_KEY, results.get(size).SSID + "  " + results.get(size).capabilities);
+
+
+
+                item.put(ITEM_KEY, results.get(size).SSID);
 
                 arraylist.add(item);
                 size--;
@@ -132,6 +151,7 @@ public class SettingsActivity extends AppCompatActivity {
                         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(ctx);
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putInt("startTimeNotifications", hourOfDay);
+                        editor.putInt("startTimeNotificationsMinute", minute);
                         editor.apply();
                         if (hourOfDay < 12) {
                             startTimeTextView.setText(String.format("%02d:%02d", hourOfDay, minute) + " AM");

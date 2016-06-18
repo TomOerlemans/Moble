@@ -52,7 +52,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="09:00 AM"
                 android:id="@+id/startTimeTextView"
                 android:layout_gravity="right"
                 android:gravity="center_vertical"
