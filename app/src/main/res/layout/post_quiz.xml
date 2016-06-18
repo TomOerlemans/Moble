@@ -37,9 +37,10 @@
             android:onClick="endQuiz"
             android:layout_gravity="right"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="END QUIZ"
+            android:text="End Quiz"
+
             android:background="@color/stdButton"
-            />
+            android:textColor="#ffffff" />
     </LinearLayout>
 
 

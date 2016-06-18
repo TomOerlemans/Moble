@@ -8,8 +8,6 @@
                                      (3) A final test, to evaluate how much you\' ve learned.</string>
     <string name="quiz_title">Quiz</string>
     <string name="quiz_question">What is the correct translation of @string/some_test_word ?</string>
-    <string name="some_test_word">ola</string>
     <string name="answers">Answers:</string>
-    <string name="post_entry_quiz">This was the entry test, you answered %1$d questions correctly from a total of %2$d questions. In the three upcoming days you will receive some notifications to help you learn the language.
-        After this period you will be able to take the final test and measure your improvement! You will be notified when the final test is available. </string>
+    <string name="post_entry_quiz">You answered %1$d questions correctly from a total of %2$d questions! </string>
 </resources>

@@ -2,10 +2,12 @@ package com.example.tom.moble;
 
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -57,6 +59,7 @@ public class SettingsActivity extends AppCompatActivity {
 
 
 
+
         lv = (ListView) findViewById(R.id.wifiList);
         selectedWifi = (TextView) findViewById(R.id.selectedNetwork);
         wifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
@@ -89,7 +92,12 @@ public class SettingsActivity extends AppCompatActivity {
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
+                Context ctx = getApplicationContext();
+                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(ctx);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
                 selectedWifi.setText(lv.getItemAtPosition(position).toString());
+                editor.putString("Home Wifi", lv.getItemAtPosition(position).toString());
+                editor.apply();
             }
         });
 

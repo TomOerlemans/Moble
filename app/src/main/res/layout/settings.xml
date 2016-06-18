@@ -1,97 +1,112 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="14sp"
-        android:text="Use the button below to indicate at what time you will wake up:"
-        android:textAlignment="center"
-        android:id="@+id/settingExplanation"
-        android:layout_marginRight="20sp"
-        android:layout_marginTop="20sp"
-        android:textColor="@android:color/black"/>
-
-
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="30sp"
-        android:layout_marginLeft="30sp">
-
-        <Button
-            android:layout_width="180sp"
-            android:layout_height="wrap_content"
-            android:text="Change start time"
-            android:id="@+id/startTimeButton"
-            android:layout_gravity="center_horizontal"
-            android:onClick="startTimeButtonClick"
-            android:textColor="@android:color/white"
-            android:textSize="18sp"
-            android:textAllCaps="false"
-            />
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:orientation="vertical">
 
         <TextView
-            android:layout_marginLeft="20sp"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="09:00 AM"
-            android:id="@+id/startTimeTextView"
-            android:layout_gravity="right"
-            android:gravity="center_vertical"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:text="Use the button below to indicate at what time you will wake up:"
+            android:textAlignment="center"
+            android:id="@+id/settingExplanation"
             android:layout_marginRight="20sp"
+            android:layout_marginTop="20sp"
             android:textColor="@android:color/black"/>
+
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="30sp"
+            android:layout_marginLeft="30sp">
+
+            <Button
+                android:layout_width="180sp"
+                android:layout_height="wrap_content"
+                android:text="Change start time"
+                android:id="@+id/startTimeButton"
+                android:layout_gravity="center_horizontal"
+                android:onClick="startTimeButtonClick"
+                android:textColor="@android:color/white"
+                android:textSize="18sp"
+                android:textAllCaps="false"
+                />
+
+            <TextView
+                android:layout_marginLeft="20sp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="09:00 AM"
+                android:id="@+id/startTimeTextView"
+                android:layout_gravity="right"
+                android:gravity="center_vertical"
+                android:layout_marginRight="20sp"
+                android:textColor="@android:color/black"/>
+        </LinearLayout>
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Select your home wifi network from the list below:"
+            android:layout_marginTop="30sp"
+            android:textSize="14sp"
+            android:textColor="@android:color/black"
+            android:gravity="center"/>
+
+        <ListView
+            android:layout_marginTop="30sp"
+            android:layout_width="match_parent"
+            android:layout_height="130dp"
+            android:id="@+id/wifiList"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="@android:color/black"
+            android:text="No nework selected"
+            android:gravity="center"
+            android:layout_marginTop="30sp"
+            android:id="@+id/selectedNetwork"/>
+
     </LinearLayout>
-
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Select your home wifi network from the list below:"
-        android:layout_marginTop="30sp"
-        android:textSize="14sp"
-        android:textColor="@android:color/black"
-        android:gravity="center"/>
-
-    <ListView
-        android:layout_marginTop="30sp"
-        android:layout_width="match_parent"
-        android:layout_height="130dp"
-        android:id="@+id/wifiList"/>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="14sp"
-        android:textColor="@android:color/black"
-        android:text="No nework selected"
-        android:gravity="center"
-        android:layout_marginTop="30sp"
-        android:id="@+id/selectedNetwork"/>
 
     <Button
         android:layout_width="160sp"
         android:layout_height="wrap_content"
         android:text="Done"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="50sp"
         android:onClick="doneButtonClick"
         android:textColor="@android:color/white"
         android:textSize="18sp"
         android:textAllCaps="false"
         android:id="@+id/settingsDoneButton"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20sp"
+
         />
 
 
-</LinearLayout>
+
+
+</RelativeLayout>
+
+

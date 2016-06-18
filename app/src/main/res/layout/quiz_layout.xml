@@ -93,7 +93,8 @@
             android:id="@+id/multipleChoiceAnswer1Button"
             android:onClick="quizAnswerButtonClick"
             android:layout_weight=".16"
-            android:layout_marginBottom="15sp"/>
+            android:layout_marginBottom="15sp"
+            android:textColor="#ffffff" />
         <Button
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -102,7 +103,8 @@
             android:layout_gravity="right"
             android:onClick="quizAnswerButtonClick"
             android:layout_weight=".16"
-            android:layout_marginBottom="15sp"/>
+            android:layout_marginBottom="15sp"
+            android:textColor="#ffffff" />
         <Button
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -111,7 +113,8 @@
             android:layout_gravity="right"
             android:onClick="quizAnswerButtonClick"
             android:layout_weight=".16"
-            android:layout_marginBottom="15sp"/>
+            android:layout_marginBottom="15sp"
+            android:textColor="#ffffff" />
         <Button
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -120,7 +123,8 @@
             android:layout_gravity="right"
             android:onClick="quizAnswerButtonClick"
             android:layout_weight=".16"
-            android:layout_marginBottom="15sp"/>
+            android:layout_marginBottom="15sp"
+            android:textColor="#ffffff" />
         <Button
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -129,7 +133,8 @@
             android:layout_gravity="right"
             android:onClick="quizAnswerButtonClick"
             android:layout_weight=".16"
-            android:layout_marginBottom="15sp"/>
+            android:layout_marginBottom="15sp"
+            android:textColor="#ffffff" />
         <Button
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -139,7 +144,7 @@
             android:onClick="quizAnswerButtonClick"
             android:layout_weight=".16"
             android:layout_marginBottom="15sp"
-            />
+            android:textColor="#ffffff" />
 
 
     </LinearLayout>
@@ -172,7 +177,8 @@
             android:backgroundTint="@color/stdButton"
             android:layout_weight="0.5"
             android:textSize="18sp"
-            android:textAllCaps="false"/>
+            android:textAllCaps="false"
+            android:textColor="#ffffff" />
 
     </LinearLayout>
 

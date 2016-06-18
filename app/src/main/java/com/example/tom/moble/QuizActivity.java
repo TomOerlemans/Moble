@@ -1,7 +1,6 @@
 package com.example.tom.moble;
 
 
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -10,7 +9,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.client.Firebase;
 
@@ -37,6 +38,7 @@ public class QuizActivity extends AppCompatActivity {
     Button five;
     Button six;
     Button nextButton;
+    Button questionnaireSendResults;
     Random rgen;
     int correctAnswerDB;
     int correctAnswerButton;
@@ -45,10 +47,12 @@ public class QuizActivity extends AppCompatActivity {
     boolean lock;
     boolean entryTest;
     boolean dbSpamBlock;
+    boolean dbSpamBlock2;
     ArrayList takenIndices;
     ArrayList alreadyAsked;
-
-    public SharedPreferences finalTestDatePref;
+    String ratebarOneValue;
+    String ratebarTwoValue;
+    String ratebarThreeValue;
 
 
     @Override
@@ -76,6 +80,7 @@ public class QuizActivity extends AppCompatActivity {
         score = 0;
         round = 1;
         dbSpamBlock = false;
+        dbSpamBlock2 = false;
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         String finalTestDayString = sharedPreferences.getString("Final Test Date", null);
 
@@ -310,6 +315,50 @@ public class QuizActivity extends AppCompatActivity {
                 TextView postQuizTextView = (TextView) findViewById(R.id.postQuizText);
                 String postQuizeString = getString(R.string.post_entry_quiz, score, round);
                 postQuizTextView.setText(postQuizeString);
+            } else {
+                //If we're not at the end of the quiz rounds, go to the next round
+                if (lock == true) {
+                    //Add to the round counter and display this to the screen
+                    round++;
+                    quizRound.setText("Round: " + Integer.toString(round));
+                    //Set new questions
+                    setNewQuestion();
+                }
+            }
+        }
+    }
+
+    //When the quiz is done
+    public void endQuiz(View view){
+        if (round >= QUIZLENGTH && entryTest == true) {
+            finish();
+        }else{
+            //Start the questionnaire
+            setContentView(R.layout.questionnaire);
+            questionnaireSendResults = (Button) findViewById(R.id.questionnaireSendResults);
+            questionnaireSendResults.setBackgroundColor(Color.parseColor("#6AB344"));
+        }
+
+    }
+
+    public void questionnairreRate(View view){
+        RatingBar bar = (RatingBar) view;
+        switch(view.getId()){
+            case R.id.ratingBar1: ratebarOneValue = Float.toString(bar.getRating()); break;
+            case R.id.ratingBar2: ratebarTwoValue = Float.toString(bar.getRating()); break;
+            case R.id.ratingBar3: ratebarThreeValue = Float.toString(bar.getRating()); break;
+        }
+
+        Log.v("rating", ratebarOneValue);
+
+    }
+
+    public void sendResults(View view){
+            if (dbSpamBlock2 == false) {
+                dbSpamBlock2 = true;
+                Toast toast = Toast.makeText(this, "Uploading data..", Toast.LENGTH_LONG);
+                toast.show();
+
                 //Edit the sharedpreference to state that the quizes have been completed
                 SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -341,22 +390,12 @@ public class QuizActivity extends AppCompatActivity {
                 user.child("Entry Test").setValue(entrytestCSV);
                 user.child("Final Test").setValue(finaltestCSV);
                 user.child("Notification").setValue(notificationCSV);
-            } else {
-                //If we're not at the end of the quiz rounds, go to the next round
-                if (lock == true) {
-                    //Add to the round counter and display this to the screen
-                    round++;
-                    quizRound.setText("Round: " + Integer.toString(round));
-                    //Set new questions
-                    setNewQuestion();
-                }
+                user.child("RatebarOne").setValue(ratebarOneValue);
+                user.child("RatebarTwo").setValue(ratebarTwoValue);
+                user.child("RatebarThree").setValue(ratebarThreeValue);
+                finish();
             }
-        }
     }
 
-    //When the quiz is done
-    public void endQuiz(View view){
-        //End the quiz activity
-        finish();
-    }
+
 }
