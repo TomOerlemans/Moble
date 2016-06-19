@@ -114,7 +114,7 @@ public class QuizActivity extends AppCompatActivity {
         }
 
         //Assign a button which will hold the correct answer and set the quiz question
-        correctAnswerButton = rgen.nextInt(5) + 1;
+        correctAnswerButton = rgen.nextInt(6) + 1;
         quizQuestion.setText(db.getEntry(correctAnswerDB).getEnglish());
 
         //Colour all buttons green
@@ -300,12 +300,17 @@ public class QuizActivity extends AppCompatActivity {
                 postQuizTextView.setText(postQuizeString);
                 // Create a timestamp of when the entry test was completed and put this is in sharedpreference "Final Test Date"
                 Calendar cal = Calendar.getInstance();
+                Calendar cal2 = Calendar.getInstance();
                 cal.getTime();
+                cal2.getTime();
                 cal.add(Calendar.DATE, LENGTH_TRAINING_DAYS);
+                cal2.add(Calendar.DATE, 1);
                 SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MMM/yyyy");
                 String finalTestDateString = dateFormat.format(cal.getTime());
+                String finalFrequencyString = dateFormat.format(cal2.getTime());
                 SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("Change Frequency Date", finalFrequencyString);
                 editor.putString("Final Test Date", finalTestDateString);
                 editor.apply();
             //Checks whether we're at the end of the final test
@@ -400,6 +405,4 @@ public class QuizActivity extends AppCompatActivity {
                 finish();
             }
     }
-
-
 }

@@ -14,8 +14,11 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
@@ -42,9 +45,7 @@ public class SendNotification extends IntentService {
 
     int beginRange;
     int endRange;
-
-
-
+    int notificationCounter;
     String contextCue;
     int dbWordLocation;
 
@@ -54,37 +55,65 @@ public class SendNotification extends IntentService {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         int currentHour = calender.get(Calendar.HOUR_OF_DAY);
         int startTime = preferences.getInt("startTimeNotifications",  9);
-
-        Log.v("Start time", Integer.toString(startTime));
-
         if(currentHour >= startTime &&  currentHour <= (startTime + 12)) {
-            int currentMinute = calender.get(Calendar.MINUTE);
-            int previousScan = (preferences.getInt("hourNotification", 0) * 60) + preferences.getInt("minuteNotification", 0);
-            int currentTime = (currentHour * 60) + currentMinute;
+            notificationCounter = preferences.getInt("NotificationCounter", 0);
+            String changeFrequency = preferences.getString("Change Frequency Date", null);
+            int maxNotifications = 12;
+            int amountOfWords = 2;
+            boolean notificationWord = true;
+            int day = 1;
 
-            if (currentTime >= previousScan + 60) {
-                db = new DatabaseHandler(this);
-                getNotificationWord(true);
-                if (contextCue.equals("Unintentional random")) {
-                    if (currentTime >= previousScan + 120) {
-                        sendNotification(db.getEntry(dbWordLocation).getPortuguese() + " = " + db.getEntry(dbWordLocation).getEnglish());
-                        DatabaseEntry updatedEntry = db.getEntry(dbWordLocation);
-                        updatedEntry.setNotification(contextCue);
-                        db.updateEntry(updatedEntry);
-                        SharedPreferences.Editor editor = preferences.edit();
-                        editor.putInt("hourNotification", currentHour);
-                        editor.putInt("minuteNotification", currentMinute);
-                        editor.commit();
+            if (changeFrequency != null) {
+                if (tryParse(changeFrequency) != null) {
+                    if (new Date().after(tryParse(changeFrequency)) == true) {
+                        maxNotifications = 4;
+                        amountOfWords = 3;
+                        notificationWord = false;
+                        day = 2;
                     }
-                } else {
-                    sendNotification(db.getEntry(dbWordLocation).getPortuguese() + " = " + db.getEntry(dbWordLocation).getEnglish());
-                    DatabaseEntry updatedEntry = db.getEntry(dbWordLocation);
-                    updatedEntry.setNotification(contextCue);
-                    db.updateEntry(updatedEntry);
-                    SharedPreferences.Editor editor = preferences.edit();
-                    editor.putInt("hourNotification", currentHour);
-                    editor.putInt("minuteNotification", currentMinute);
-                    editor.commit();
+                }
+            }
+
+            if (notificationCounter < (maxNotifications * day)) {
+
+                int currentMinute = calender.get(Calendar.MINUTE);
+                int previousScan = (preferences.getInt("hourNotification", 0) * 60) + preferences.getInt("minuteNotification", 0);
+                int currentTime = (currentHour * 60) + currentMinute;
+
+                if (currentTime >= previousScan + 60) {
+                    db = new DatabaseHandler(this);
+                    getNotificationWord(notificationWord);
+                    if (contextCue.equals("Unintentional random")) {
+                        if (currentTime >= previousScan + 120) {
+                            for (int i = 0; i < amountOfWords; i ++) {
+                                if(i > 0){
+                                    getNotificationWord(notificationWord);
+                                }
+                                sendNotification(db.getEntry(dbWordLocation).getPortuguese() + " = " + db.getEntry(dbWordLocation).getEnglish());
+                                DatabaseEntry updatedEntry = db.getEntry(dbWordLocation);
+                                updatedEntry.setNotification(contextCue);
+                                db.updateEntry(updatedEntry);
+                                SharedPreferences.Editor editor = preferences.edit();
+                                editor.putInt("hourNotification", currentHour);
+                                editor.putInt("minuteNotification", currentMinute);
+                                editor.commit();
+                            }
+                        }
+                    } else {
+                        for(int i = 0; i < amountOfWords; i++) {
+                            if(i > 0){
+                                getNotificationWord(notificationWord);
+                            }
+                            sendNotification(db.getEntry(dbWordLocation).getPortuguese() + " = " + db.getEntry(dbWordLocation).getEnglish());
+                            DatabaseEntry updatedEntry = db.getEntry(dbWordLocation);
+                            updatedEntry.setNotification(contextCue);
+                            db.updateEntry(updatedEntry);
+                            SharedPreferences.Editor editor = preferences.edit();
+                            editor.putInt("hourNotification", currentHour);
+                            editor.putInt("minuteNotification", currentMinute);
+                            editor.commit();
+                        }
+                    }
                 }
             }
         }
@@ -120,6 +149,13 @@ public class SendNotification extends IntentService {
         Random random = new Random();
         int m = random.nextInt(9999 - 1000) + 1000;
         mNotificationManager.notify(m, mBuilder.build());
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        int counter = preferences.getInt("NotificationCounter",  0);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt("NotificationCounter", (counter + 1));
+        editor.commit();
+
     }
 
 
@@ -261,6 +297,15 @@ public class SendNotification extends IntentService {
 
         //Nothing is found
         return false;
+    }
+
+    public static Date tryParse(String text) {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MMM/yyyy");
+        try {
+            return sdf.parse(text);
+        } catch (ParseException e) {
+            return null;
+        }
     }
 
 

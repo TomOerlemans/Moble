@@ -69,8 +69,10 @@ public class MenuActivity extends AppCompatActivity {
         sharedPref = this.getPreferences(Context.MODE_PRIVATE);
         firstLaunch = sharedPref.getInt("First Launch", 0);
         if(firstLaunch == 0) {
+            Random rgen = new Random();
             SharedPreferences.Editor editor = sharedPref.edit();
             editor.putInt("First Launch", 1);
+            editor.putInt("NotificationCounter", 0);
             editor.commit();
             AsyncTask.execute(new Runnable() {
                 @Override
