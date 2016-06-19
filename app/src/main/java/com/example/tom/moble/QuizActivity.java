@@ -23,9 +23,9 @@ import java.util.Random;
 public class QuizActivity extends AppCompatActivity {
 
 
-    final int DATABASESIZE = 7;
-    final private int QUIZLENGTH = 3;
-    final private int LENGTH_TRAINING_DAYS = 1;
+    final int DATABASESIZE = 205;
+    final private int QUIZLENGTH = 20;
+    final private int LENGTH_TRAINING_DAYS = 2;
     DatabaseHandler db;
     TextView quizQuestion;
     TextView quizRound;
@@ -89,11 +89,11 @@ public class QuizActivity extends AppCompatActivity {
         //Check whether we're starting the entry test or the final test
         if (finalTestDayString == null){
             entryTest = true;
-            quizTitle.setText("Entry Test");
+            setTitle("MobLe - Entry Test");
 
         }else{
             entryTest = false;
-            quizTitle.setText("Final Test");
+            setTitle("MobLe - Final Test");
         }
 
         //Start setting questions
@@ -322,7 +322,7 @@ public class QuizActivity extends AppCompatActivity {
                 if (lock == true) {
                     //Add to the round counter and display this to the screen
                     round++;
-                    quizRound.setText("Round: " + Integer.toString(round));
+                    quizRound.setText("Round: " + Integer.toString(round) + "/20");
                     //Set new questions
                     setNewQuestion();
                 }

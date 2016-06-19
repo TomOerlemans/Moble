@@ -16,6 +16,7 @@ public class InfoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_info);
+        setTitle("MobLe - Info");
         MenuButton = (Button) findViewById(R.id.MenuButton);
         MenuButton.setBackgroundColor(Color.parseColor("#6AB344"));
     }

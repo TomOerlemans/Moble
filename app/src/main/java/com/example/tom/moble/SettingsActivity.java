@@ -57,6 +57,7 @@ public class SettingsActivity extends AppCompatActivity {
         startTimeButton.setBackgroundColor(Color.parseColor("#6AB344"));
         settingsDoneButton.setBackgroundColor(Color.parseColor("#6AB344"));
         startTimeTextView = (TextView) findViewById(R.id.startTimeTextView);
+        setTitle("MobLe - Settings");
 
         Context ctx = getApplicationContext();
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(ctx);

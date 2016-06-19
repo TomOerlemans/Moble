@@ -194,8 +194,8 @@ public class MenuActivity extends AppCompatActivity {
             Toast.makeText(this, "Final test already taken",
                     Toast.LENGTH_LONG).show();
         }
-        else{
-            System.out.println("err");
+        else if (finalTestAvailable() == false){
+            Toast.makeText(this, "Final test not available yet", Toast.LENGTH_LONG).show();
             // if  sharedPreferences.getString("Final Test Done", null) == null: please do entry test first otherwise: "final test avail at:sharedPreferences.getString("Final Test Done", null)"
 //            if(sharedPreferences.getString("Final Test Done",null)==null){
 //                Toast.makeText(this, "You need to complete the Entry Test first",
