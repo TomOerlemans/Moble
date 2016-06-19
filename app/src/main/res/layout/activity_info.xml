@@ -11,12 +11,87 @@
 
     <LinearLayout
         android:layout_width="match_parent"
+
         android:layout_height="match_parent"
-        android:orientation="vertical"
+        android:orientation="vertical">
+
+    <TextView
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/welcome_text1"
+        android:textColor="@android:color/black"
+
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="10dp"
+        android:textAlignment="center"/>
+
+        <TextView
+            android:layout_width="320dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/welcome_text2"
+            android:textColor="@android:color/black"
+
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+
+            android:textAlignment="center"/>
+
+        <TextView
+            android:layout_width="320dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/welcome_text3"
+            android:textColor="@android:color/black"
+
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+
+            android:textAlignment="center"/>
 
 
+        <TextView
+            android:layout_width="320dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/explanation_text1"
+            android:textColor="@android:color/black"
 
-        ></LinearLayout>
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="0dp"
+
+            android:textAlignment="center"/>
+        <TextView
+            android:layout_width="320dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/explanation_text2"
+            android:textColor="@android:color/black"
+
+
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="30dp"
+             />
+
+        <TextView
+            android:layout_width="320dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/start_entry_test"
+            android:textColor="@android:color/black"
+
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+
+            android:textAlignment="center"/>
+    </LinearLayout>
 
 
     <Button
@@ -25,7 +100,7 @@
         android:text="Menu"
         android:id="@+id/MenuButton"
         android:textAllCaps="false"
-        android:layout_marginBottom="7sp"
+        android:layout_marginBottom="7dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:textColor="#ffffff"

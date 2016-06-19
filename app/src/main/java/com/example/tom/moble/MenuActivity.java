@@ -196,16 +196,15 @@ public class MenuActivity extends AppCompatActivity {
             Toast.makeText(this, "Final test already taken",
                     Toast.LENGTH_LONG).show();
         }
-        else if (finalTestAvailable() == false){
-            Toast.makeText(this, "Final test not available yet", Toast.LENGTH_LONG).show();
-            // if  sharedPreferences.getString("Final Test Done", null) == null: please do entry test first otherwise: "final test avail at:sharedPreferences.getString("Final Test Done", null)"
-//            if(sharedPreferences.getString("Final Test Done",null)==null){
-//                Toast.makeText(this, "You need to complete the Entry Test first",
-//                        Toast.LENGTH_SHORT).show();
-//            }else {
-//                Toast.makeText(this, "final test will be available at " + sharedPreferences.getString("Final Test Done", null),
-//                        Toast.LENGTH_LONG).show();
-//            }
+        else if (finalTestAvailable() == false) {
+
+
+            if (sharedPreferences.getString("Final Test Date", null) == null) {
+                Toast.makeText(this, "Please finish the entry test first", Toast.LENGTH_LONG).show();
+            } else {
+
+                Toast.makeText(this, "Final test available at " + sharedPreferences.getString("Final Test Date", null), Toast.LENGTH_LONG).show();
+            }
         }
     }
 
@@ -213,6 +212,8 @@ public class MenuActivity extends AppCompatActivity {
         Intent intent = new Intent(this, InfoActivity.class);
         startActivity(intent);
     }
+
+
 
     public void settingsButtonClick(View view){
         Intent intent = new Intent(this, SettingsActivity.class);

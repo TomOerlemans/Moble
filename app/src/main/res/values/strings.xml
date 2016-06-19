@@ -1,13 +1,15 @@
 <resources>
     <string name="app_name">MobLe</string>
-    <string name="welcome_text1">Welcome to the Moble learning app!</string>
-    <string name="welcome_text2">With this app you will start learning the Portuguese language.</string>
-    <string name="explanation_text1">This app consists out of three parts:</string>
-    <string name="explanation_text2">(1) An entry test, to evaluate your current level of understanding of the Portuese language. \n \n
-                                     (2) A learning period of 7 days. During which you will receive reminders throughout the day of Portuguese words, and will be asked to take a short quize at the end of each day. \n \n
-                                     (3) A final test, to evaluate how much you\' ve learned.</string>
+    <string name="welcome_text1">Welcome to Moble, \nthe mobile learning app!</string>
+    <string name="welcome_text2">With this app you will start learning \nthe Portuguese language.</string>
+    <string name="welcome_text3">Notifications will be send throughout the day with new words.</string>
+
+    <string name="explanation_text1">This app consists of three parts:</string>
+    <string name="explanation_text2">1. An entry test \n2. 2 days of training \n3. A final test.</string>
+    <string name="goto_settings">Please go to settings \nto setup the notifications: </string>
+    <string name="start_entry_test">Go to the menu to start the entry test.</string>
     <string name="quiz_title">Quiz</string>
     <string name="quiz_question">What is the correct translation of @string/some_test_word ?</string>
-    <string name="answers">Answers:</string>
+
     <string name="post_entry_quiz">You answered %1$d questions correctly from a total of %2$d questions! </string>
 </resources>
