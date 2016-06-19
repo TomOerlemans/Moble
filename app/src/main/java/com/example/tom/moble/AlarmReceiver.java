@@ -31,7 +31,7 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
         alarmMgr = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(context, AlarmReceiver.class);
         alarmIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
-        alarmMgr.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, 0, 5000, alarmIntent);
+        alarmMgr.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, 0, 1000 * 60 * 15, alarmIntent);
 
         // Enable {@code SampleBootReceiver} to automatically restart the alarm when the
         // device is rebooted.

@@ -39,6 +39,9 @@ public class SendNotification extends IntentService {
     private NotificationManager mNotificationManager;
     NotificationCompat.Builder builder;
 
+    int beginRange;
+    int endRange;
+
 
 
     String contextCue;
@@ -119,6 +122,7 @@ public class SendNotification extends IntentService {
     public void getNotificationWord(boolean context){
 
         if (context) {
+            Log.v("one", "one");
             //Get wifi names
             boolean wifiWasDisabled = false;
             wifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
@@ -137,7 +141,8 @@ public class SendNotification extends IntentService {
             boolean foundLocationWord = false;
             boolean foundTimeWord = false;
             if(foundLocationCue == true){
-                foundLocationWord = findWordWithinRange(81, 156);
+                Log.v("two", "two");
+                foundLocationWord = findWordWithinRange(beginRange, endRange);
             }
 
             if(foundLocationWord == false){
@@ -158,9 +163,11 @@ public class SendNotification extends IntentService {
     }
 
     public boolean findWordWithinRange(int low, int high){
+        Log.v("highandlow", Integer.toString(low) + "" + Integer.toString(high));
         for (int i = low; i <= high; i++){
             if (db.getEntry(i).getNotification() == null){
                 dbWordLocation = i;
+                Log.v("selected location", Integer.toString(i));
                 return true;
             }
         }
@@ -200,12 +207,13 @@ public class SendNotification extends IntentService {
         //Check whether we're at home
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         String homeWifi = preferences.getString("Home Wifi", "Not found");
-
         if(!homeWifi.equals("Not found")){
             homeWifi = homeWifi.toLowerCase();
             for (int i = 0; i < size; i++) {
                 if (results.get(i).SSID.toLowerCase().contains(homeWifi)) {
                     contextCue = "home";
+                    beginRange = 6;
+                    endRange = 32;
                     return true;
                 }
 
@@ -214,9 +222,11 @@ public class SendNotification extends IntentService {
         //Check whether we're using public transport
         String[] publictransportArray = new String[]{"trein", "ret"};
         for (int i = 0; i < size; i++) {
-            for (int z = 0; i < publictransportArray.length; z++) {
+            for (int z = 0; z < publictransportArray.length; z++) {
                 if (results.get(i).SSID.toLowerCase().contains(publictransportArray[z])) {
                     contextCue = "public transport";
+                    beginRange = 33;
+                    endRange = 80;
                     return true;
                 }
             }
@@ -224,20 +234,24 @@ public class SendNotification extends IntentService {
         //Check whether we're at a supermarket
         String[] supermarktArray = new String[]{"albert heijn", "jumbo", "lidl", "aldi", "coop", "spar", "plus", "hoogvliet", "vomar", "dirk"};
         for (int i = 0; i < size; i++) {
-            for (int z = 0; i < supermarktArray.length; z++){
+            for (int z = 0; z < supermarktArray.length; z++){
                 if (results.get(i).SSID.toLowerCase().contains(supermarktArray[z])) {
                     contextCue = "supermarkt";
+                    beginRange = 81;
+                    endRange = 156;
                     return true;
                 }
             }
         }
-        //Check whether we're using public transport
+        //Check whether we're at the university/library
         for (int i = 0; i < size; i++) {
                 if (results.get(i).SSID.toLowerCase().contains("eduroam")) {
                     contextCue = "library";
+                    Log.v("four", "four");
+                    beginRange = 157;
+                    endRange = 193;
                     return true;
                 }
-
         }
 
         //Nothing is found
