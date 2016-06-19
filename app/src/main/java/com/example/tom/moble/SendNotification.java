@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.AudioManager;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
 import android.os.Vibrator;
@@ -108,8 +109,12 @@ public class SendNotification extends IntentService {
                                 .bigText(msg))
                         .setContentText(msg);
 
-        Vibrator vibrator = (Vibrator)getSystemService(VIBRATOR_SERVICE);
-        vibrator.vibrate(2000);
+        AudioManager am = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
+
+        if(am.getRingerMode() != AudioManager.RINGER_MODE_SILENT) {
+            Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+            vibrator.vibrate(2000);
+        }
 
         mBuilder.setContentIntent(contentIntent);
         Random random = new Random();
@@ -149,7 +154,7 @@ public class SendNotification extends IntentService {
                 foundTimeWord = getTimeCue();
             }
 
-            if(foundTimeWord == false){
+            if(foundTimeWord == false && foundLocationWord == false){
                 contextCue = "Unintentional random";
                 findWordWithinRange(1,205);
             }
