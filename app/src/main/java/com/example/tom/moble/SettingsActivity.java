@@ -74,9 +74,6 @@ public class SettingsActivity extends AppCompatActivity {
             }
         }
 
-
-        //startTimeTextView.setText("(9:00 AM");
-
         lv = (ListView) findViewById(R.id.wifiList);
         wifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
         if (wifi.isWifiEnabled() == false) {

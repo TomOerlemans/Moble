@@ -36,7 +36,6 @@ public class MenuActivity extends AppCompatActivity {
     DatabaseHandler db;
     AlarmReceiver alarm;
     private static final int PERMISSION_REQUEST_COARSE_LOCATION = 1;
-    Button nextButton;
     Button previousButton;
     Button MenuInfo;
     Button MenuEntryTest;
@@ -112,10 +111,6 @@ public class MenuActivity extends AppCompatActivity {
             MenuEntryTest.setBackgroundColor(Color.parseColor("#6AB344"));
             MenuFinalTest.setBackgroundColor(Color.parseColor("#6AB344"));
             MenuSettings.setBackgroundColor(Color.parseColor("#6AB344"));
-
-            topText = (TextView) findViewById(R.id.topText);
-            bottomText = (TextView) findViewById(R.id.bottomText);
-            previousButton = (Button) findViewById(R.id.previousButton);
             alarm = new AlarmReceiver();
         }
 
@@ -147,22 +142,6 @@ public class MenuActivity extends AppCompatActivity {
         }
     }
 
-
-    public void nextButtonClick(View view) {
-        switch(page){
-            case 0: setContentView(R.layout.startscreen2); page = 1; break;
-            case 1: setContentView(R.layout.startscreen3); page = 2; break;
-        }
-
-    }
-
-    public void previousButtonClick(View view) {
-        switch(page){
-            case 1: setContentView(R.layout.startscreen1); page = 0;break;
-            case 2: setContentView(R.layout.startscreen2); page = 1; break;
-        }
-    }
-
     public void menuButtonClick(View view){
         setContentView(R.layout.menu);
         page = 0;
@@ -184,10 +163,6 @@ public class MenuActivity extends AppCompatActivity {
     public void finalTestButtonClick(View view) throws ParseException {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         Boolean finalTestDone = sharedPreferences.getBoolean("Final Test Done", false);
-//        System.out.println("final test button onclick");
-//        System.out.println(finalTestDone);
-//        System.out.println(finalTestAvailable());
-//        System.out.println("___________________________________------_____----__");
         if (finalTestAvailable()==true && finalTestDone == false){
             // final test ready
             Intent intent = new Intent(this, QuizActivity.class);
@@ -225,11 +200,6 @@ public class MenuActivity extends AppCompatActivity {
 
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-
-//        System.out.println("entry test click");
-//        System.out.println(sharedPreferences.toString());
-//        System.out.println("===========================-----=-=-=-=-=-=-=-=-=");
-//        System.out.println(sharedPreferences.getString("Final Test Date",null));
         if( sharedPreferences.contains("Final Test Date")){
             Toast.makeText(this, "Already completed entry test",
                     Toast.LENGTH_LONG).show();
@@ -246,14 +216,6 @@ public class MenuActivity extends AppCompatActivity {
         alarm.setAlarm(this);
         Toast.makeText(this, "started notifcations",
                 Toast.LENGTH_LONG).show();
-//        DatabaseEntry dbe = new DatabaseEntry("city","station","estação",null,null);
-//        dbe.getFinalTest();
-//        db.addEntry(dbe);
-//        Toast.makeText(this, dbe.getEntryTest() + " |  " +dbe.getFinalTest() + " | " + dbe.getEnglish()+ " || " +String.valueOf(db.getAllEntries().size()),
-//                Toast.LENGTH_LONG).show();
-
-
-
     }
 
 
@@ -264,13 +226,6 @@ public class MenuActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         sharedPreferences.edit().remove("Final Test Date").commit();
         sharedPreferences.edit().remove("Final Test Done").commit();
-
-//        deleteHistory();
-//        DatabaseEntry dbe = new DatabaseEntry(265,"city","station","estação", null, null);
-//        System.out.println(dbe.getClass().toString());
-//        System.out.println("++++++++++++++++++     +++++++++  ++++++++++++  +++++++++++           ++++++++");
-//
-//        db.addEntry(new DatabaseEntry(0,"color","black","preto", null, null));
     }
 
 
