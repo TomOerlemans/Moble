@@ -65,7 +65,7 @@ public class SettingsActivity extends AppCompatActivity {
         int timeMinute = sharedPreferences.getInt("startTimeNotificationsMinute", 0);
 
         if(time == 0){
-            startTimeTextView.setText("(9:00 AM");
+            startTimeTextView.setText("9:00 AM");
         }else{
             if (time < 12) {
                 startTimeTextView.setText(String.format("%02d:%02d", time, timeMinute) + " AM");
