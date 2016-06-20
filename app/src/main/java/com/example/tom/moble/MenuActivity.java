@@ -29,14 +29,11 @@ import java.util.Date;
 import java.util.Random;
 
 public class MenuActivity extends AppCompatActivity {
-    TextView topText;
-    TextView bottomText;
     int page = 0;
     int firstLaunch;
     DatabaseHandler db;
     AlarmReceiver alarm;
     private static final int PERMISSION_REQUEST_COARSE_LOCATION = 1;
-    Button previousButton;
     Button MenuInfo;
     Button MenuEntryTest;
     Button MenuFinalTest;
